@@ -1,0 +1,37 @@
+{
+  "app_name": "SAKSHAM",
+  "app_tagline": "MPLADS Intelligence & Risk Monitoring Platform",
+  "statutory_notice": "SAKSHAM is an intelligence, anomaly-detection and decision-support layer. It does not replace e-SAKSHI. All administrative decisions and sanctions remain the responsibility of designated officers.",
+  "navigation": {
+    "dashboard": "Surveillance Overview",
+    "projects": "Project Dossiers",
+    "vendors": "Vendor Risk Registry",
+    "tenders": "Tender Surveillance",
+    "inspections": "Inspection & Geospatial Verification",
+    "investigations": "Active Investigations",
+    "reports": "Statutory Audit Briefings"
+  },
+  "risk_dimensions": {
+    "vendor": "Vendor Risk",
+    "tender": "Tender & Procurement Risk",
+    "project": "Project Execution Risk",
+    "inspection": "Inspection & Geo Risk",
+    "payment": "Payment Velocity Risk",
+    "document": "Document & OCR Integrity"
+  },
+  "severity_levels": {
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High",
+    "critical": "Critical"
+  },
+  "status_labels": {
+    "recommended": "Recommended",
+    "sanctioned": "Administratively Sanctioned",
+    "tendered": "Tender Issued",
+    "in_progress": "Execution In Progress",
+    "inspected": "Inspected",
+    "completed": "Physically Completed",
+    "held": "Under Statutory Inquiry"
+  }
+}

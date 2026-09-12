@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>e-SAKSHAM MPLADS - Fiscal Oversight &amp; Intelligence</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            amber: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+            },
+            emerald: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom styles for micro-interactions & map simulation -->
+<style data-purpose="layout-and-map">
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .geo-grid {
+      background-size: 24px 24px;
+      background-image: 
+        linear-gradient(to right, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-brand-500 selection:text-white">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200/80 px-6 py-3 flex items-center justify-between" data-purpose="global-header">
+<!-- Brand Identity & Emblem -->
+<div class="flex items-center space-x-4">
+<div class="flex items-center space-x-3">
+<img alt="e-SAKSHAM Emblem" class="h-10 w-auto object-contain drop-shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVZfiJIBMxaTdAP8-s4elicZAgzJlTy7_FCLne8-GX0Oh7qqrPEk-t28QL4_kO0exIOhxHS0eh95VMamYntNqi5OD9-xNAnuzid2db4Ji4mlBtbeeH5ruExMeIGS0xUUuOUH3HTnVVlVWaY8MqfpMqJs_Nn0JCA3Bf24egvi0fk7dUa29243fz4rTgrHt0GZMB6iKlpE1Y27q8tCsJlVRSxe3On7ED2fBWnlZopA24r6jykBYzfjnN"/>
+<div class="flex flex-col">
+<div class="flex items-center space-x-2">
+<span class="text-lg font-bold tracking-tight text-slate-900">e-SAKSHAM</span>
+<span class="bg-blue-50 text-brand-600 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-100">MPLADS v4.2</span>
+</div>
+<span class="text-xs text-slate-500 font-medium">Fiscal Oversight &amp; Intelligence System</span>
+</div>
+</div>
+</div>
+<!-- Central Global Search with Shortcut -->
+<div class="flex-1 max-w-xl mx-8">
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="w-full pl-10 pr-12 py-2 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-sm text-slate-800 placeholder-slate-400 border border-slate-200 rounded-xl transition duration-150 ease-in-out focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none" placeholder="Search work ID, sanction number, tender vendor, or cadastral coordinates..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+<kbd class="text-[11px] font-semibold text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded shadow-sm">⌘K</kbd>
+</div>
+</div>
+</div>
+<!-- Header Actions & User Profile -->
+<div class="flex items-center space-x-3">
+<!-- Theme toggle -->
+<button class="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200/60 transition" title="Toggle Theme">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Notifications -->
+<button class="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200/60 transition" title="Fiscal Alerts">
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-500 rounded-full ring-2 ring-white"></span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="h-6 w-[1px] bg-slate-200 mx-1"></div>
+<!-- Official User Badge -->
+<div class="flex items-center space-x-3 pl-1 pr-2 py-1 rounded-xl bg-slate-50 border border-slate-200/80">
+<div class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+          RV
+        </div>
+<div class="flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-900 leading-tight">R. Venkatraman, IAS</span>
+<span class="text-[10px] text-slate-500 font-medium">District Collector &amp; Nodal Officer</span>
+</div>
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- Container for Sidebar + Page Content -->
+<div class="flex flex-1 overflow-hidden">
+<!-- BEGIN: SidebarNavigation -->
+<aside class="w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between shrink-0 p-4" data-purpose="sidebar-nav">
+<div>
+<div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 px-3 mb-3">
+          Fiscal Operations
+        </div>
+<nav class="space-y-1">
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition" href="#">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition" href="#">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Manage Vendors</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition" href="#">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Add / Edit Vendor</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition" href="#">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Vendor Risk Profiles</span>
+</a>
+<!-- Active Item: Work / Project Details -->
+<a aria-current="page" class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold bg-brand-50 text-brand-700 border border-brand-100 shadow-sm" href="#">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Work / Project Details</span>
+</div>
+<span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition" href="#">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Assign &amp; Work Progress</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition" href="#">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Fund Disbursement</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition" href="#">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Risk &amp; Investigation</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footer Status -->
+<div class="pt-4 border-t border-slate-100">
+<div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex items-center space-x-3">
+<div class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-700">NIC Gateway Active</span>
+<span class="text-[10px] text-slate-400">PFMS-SNA API Synchronized</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- END: SidebarNavigation -->
+<!-- BEGIN: MainContentArea -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-8 space-y-6" data-purpose="work-details-view">
+<!-- Top Project Header & Quick Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+<div class="space-y-1.5">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-mono text-xs font-bold bg-slate-900 text-white px-2.5 py-1 rounded-md tracking-wider">#MPL-882</span>
+<span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">Sanction FY 2024-25</span>
+<span class="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200/70 px-2.5 py-1 rounded-md">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+              Tender Evaluation (Bidding Cross-Match Flagged)
+            </span>
+</div>
+<h1 class="text-2xl font-bold text-slate-900 tracking-tight">Construction of Reinforced Stormwater Trunk Drain</h1>
+<div class="flex flex-wrap items-center text-xs text-slate-500 gap-x-4 gap-y-1 pt-1">
+<span class="flex items-center gap-1">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              Sector: <strong>Urban Infrastructure &amp; Sanitation</strong>
+</span>
+<span>•</span>
+<span>Constituency: <strong>Varanasi Cantt</strong></span>
+<span>•</span>
+<span>District: <strong>Varanasi (UP)</strong></span>
+<span>•</span>
+<span>Implementing Agency: <strong>PWD Central Zone (Division-II)</strong></span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center space-x-2 shrink-0">
+<button class="inline-flex items-center space-x-2 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-slate-200 transition shadow-sm">
+<svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Upload Document</span>
+</button>
+<button class="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-semibold rounded-xl border border-red-200 transition shadow-sm">
+<svg class="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Suspend Tender Evaluation</span>
+</button>
+<button class="inline-flex items-center space-x-2 px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-xl shadow-sm transition">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Inspect Tender Bids</span>
+</button>
+</div>
+</div>
+<!-- BEGIN: RiskTriageRow -->
+<!-- 3 Pulse AI Metric Risk Cards -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-5" data-purpose="risk-metric-cards">
+<!-- Card 1 -->
+<div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tender Stage Integrity</span>
+<span class="p-1.5 bg-amber-50 rounded-lg text-amber-600 border border-amber-100">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline space-x-2">
+<span class="text-xl font-bold text-amber-600">MEDIUM RISK</span>
+<span class="text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">Anomaly Flagged</span>
+</div>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Tender Evaluation Stage anomaly identified during e-procurement deduplication. 2 biddings share structural identifiers.
+              </p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+<span>Algorithm: C-Check v2.8</span>
+<span class="font-medium text-slate-700">76% Confidence</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Vendor Entity Risk</span>
+<span class="p-1.5 bg-amber-50 rounded-lg text-amber-600 border border-amber-100">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline space-x-2">
+<span class="text-xl font-bold text-amber-600">MEDIUM RISK</span>
+<span class="text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">Collusion Probability</span>
+</div>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                2 bidding entities share common registered office premises and director lineage in Ministry of Corporate Affairs (MCA) records.
+              </p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+<span>MCA21 Cross-Link</span>
+<span class="font-medium text-red-600 font-mono">PAN: AABCR****K</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Statutory Compliance</span>
+<span class="p-1.5 bg-emerald-50 rounded-lg text-emerald-600 border border-emerald-100">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+</div>
+<div class="mt-3">
+<div class="flex items-baseline space-x-2">
+<span class="text-xl font-bold text-emerald-600">LOW RISK</span>
+<span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">GFR Compliant</span>
+</div>
+<p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Detailed Project Report (DPR) &amp; Administrative Sanction pass digital OCR checks and budget ceiling thresholds under General Financial Rules.
+              </p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+<span>GFR 2017 Audit</span>
+<span class="font-medium text-emerald-600">100% Passed</span>
+</div>
+</div>
+</section>
+<!-- END: RiskTriageRow -->
+<!-- BEGIN: IntelligenceAlertBanner -->
+<section class="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border-l-4 border-amber-500 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm" data-purpose="intelligence-banner">
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<div class="flex items-start space-x-3.5">
+<div class="p-2 bg-amber-500 text-white rounded-xl shadow-sm shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<div class="flex items-center space-x-2">
+<span class="text-sm font-bold text-slate-900">Tender Cross-Bidding Warning - 2 bids in Work #MPL-882 share registered office PAN pattern</span>
+<span class="text-[10px] font-semibold uppercase bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Action Recommended</span>
+</div>
+<p class="text-xs text-slate-600 mt-1">
+                Lineage match between <strong class="text-slate-800">M/s Royal Infra Projects Ltd.</strong> &amp; <strong class="text-slate-800">M/s Shivalik Associates</strong>. Potential cartelization violation under Rule 144(xi) of General Financial Rules.
+              </p>
+<div class="flex items-center gap-4 text-[11px] text-slate-500 mt-2">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                  3 Corroborated Evidence Items
+                </span>
+<span>•</span>
+<span>Automated scan completed 2 hours ago</span>
+<span>•</span>
+<span class="text-amber-700 font-medium">Bid Submission Lock: Active</span>
+</div>
+</div>
+</div>
+<div class="shrink-0">
+<a class="inline-flex items-center space-x-1 text-xs font-bold text-brand-600 hover:text-brand-700 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm transition" href="#">
+<span>Review Evidence Dossier</span>
+<span>→</span>
+</a>
+</div>
+</div>
+</section>
+<!-- END: IntelligenceAlertBanner -->
+<!-- BEGIN: OperationalTwoColumnLayout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Left Wide Column (2 cols) -->
+<div class="lg:col-span-2 space-y-6">
+<!-- 1. Financial Accounting & Allocation Ledger -->
+<section class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-purpose="financial-ledger">
+<div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+<div class="flex items-center space-x-2">
+<div class="p-1.5 bg-blue-50 text-brand-600 rounded-lg">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 class="text-sm font-bold text-slate-900">Financial Accounting &amp; Allocation Ledger</h2>
+</div>
+<span class="text-[11px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded border border-slate-200">SNA-SPARSH PFMS Sync</span>
+</div>
+<!-- Ledger Figures Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+<div class="p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+<span class="text-[11px] font-medium text-slate-500 block">Sanctioned Amount</span>
+<span class="text-lg font-bold text-slate-900 mt-1 block">₹3,45,00,000</span>
+<span class="text-[10px] text-slate-400 block mt-0.5">₹3.45 Cr Total Cost</span>
+</div>
+<div class="p-3.5 bg-blue-50/50 rounded-xl border border-blue-100">
+<span class="text-[11px] font-medium text-brand-700 block">Released Allocation</span>
+<span class="text-lg font-bold text-brand-700 mt-1 block">₹1,20,00,000</span>
+<span class="text-[10px] text-brand-500 block mt-0.5">Tranche 1 (34.78%)</span>
+</div>
+<div class="p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+<span class="text-[11px] font-medium text-slate-500 block">Expenditure Incurred</span>
+<span class="text-lg font-bold text-slate-400 mt-1 block">₹0.00</span>
+<span class="text-[10px] text-slate-400 block mt-0.5">Tender Phase Lock</span>
+</div>
+<div class="p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+<span class="text-[11px] font-medium text-slate-500 block">Unspent Balance</span>
+<span class="text-lg font-bold text-emerald-600 mt-1 block">₹1,20,00,000</span>
+<span class="text-[10px] text-slate-400 block mt-0.5">In Single Nodal A/c</span>
+</div>
+</div>
+<!-- Fund Allocation Progress Bar -->
+<div class="space-y-1.5">
+<div class="flex justify-between text-xs font-semibold text-slate-700">
+<span>Fund Release &amp; Liquidity Status</span>
+<span>34.8% Disbursed to Nodal Agency</span>
+</div>
+<div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden flex">
+<div class="bg-brand-600 h-full rounded-full" style="width: 34.8%" title="Released: 34.8%"></div>
+<div class="bg-amber-400 h-full" style="width: 0%" title="Committed: 0%"></div>
+</div>
+<div class="flex justify-between text-[11px] text-slate-400 pt-1">
+<span>Single Nodal Agency A/c: <strong>SBIN0001428 - PWD-MPLADS</strong></span>
+<span>PFMS Transaction ID: <strong>PFMS24089912C</strong></span>
+</div>
+</div>
+</section>
+<!-- 2. Work Scope & Technical Mandate -->
+<section class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-purpose="work-scope">
+<div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+<div class="flex items-center space-x-2">
+<div class="p-1.5 bg-slate-100 text-slate-700 rounded-lg">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 class="text-sm font-bold text-slate-900">Work Scope &amp; Technical Mandate</h2>
+</div>
+<span class="text-xs text-slate-500 font-medium">Estimated Duration: <strong class="text-slate-800">180 Calendar Days</strong></span>
+</div>
+<div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+<p>
+<strong>Scope of Civil Works:</strong> Construction of 3.2 km underground reinforced cement concrete (RCC) precast box culvert drain (cross-section 1.8m x 2.2m) connecting Assi Nala drainage network to prevent seasonal waterlogging in Ward 14. Project includes 48 RCC inspection manholes, desilting chambers, and telemetry depth sensors.
+              </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+<div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+<span class="text-slate-400 font-medium block text-[11px]">Administrative Sanction Order</span>
+<div class="flex items-center justify-between mt-1">
+<span class="font-mono font-semibold text-slate-800">AS/VNS/2024/7712</span>
+<span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded">Sanction Validated</span>
+</div>
+<span class="text-[10px] text-slate-400 block mt-1">Sanction Date: 12 July 2024</span>
+</div>
+<div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+<span class="text-slate-400 font-medium block text-[11px]">Technical Sanction Order</span>
+<div class="flex items-center justify-between mt-1">
+<span class="font-mono font-semibold text-slate-800">TS-SE-PWD-664</span>
+<span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded">Design Approved</span>
+</div>
+<span class="text-[10px] text-slate-400 block mt-1">Approved by SE, PWD Circle Varanasi</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Geo-Spatial Lock & Site Survey -->
+<section class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-purpose="geospatial-verification">
+<div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+<div class="flex items-center space-x-2">
+<div class="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 class="text-sm font-bold text-slate-900">Location &amp; Geo-Spatial Lock (ISRO Bhuvan Sync)</h2>
+</div>
+<span class="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">GPS Polygon Bound</span>
+</div>
+<div class="relative w-full h-56 rounded-xl bg-slate-800 overflow-hidden border border-slate-200 geo-grid flex items-center justify-center">
+<!-- Simulated map terrain visual -->
+<div class="absolute inset-0 bg-gradient-to-tr from-slate-900 via-slate-800 to-slate-900 opacity-95"></div>
+<!-- Map vector line simulating drain trace -->
+<svg class="absolute inset-0 w-full h-full opacity-60 pointer-events-none" viewbox="0 0 600 220">
+<path d="M 50 180 Q 200 40, 380 120 T 560 60" fill="none" stroke="#10b981" stroke-dasharray="6,6" stroke-width="4"></path>
+<circle cx="50" cy="180" fill="#3b82f6" r="6"></circle>
+<circle cx="380" cy="120" fill="#f59e0b" r="6"></circle>
+<circle cx="560" cy="60" fill="#10b981" r="6"></circle>
+</svg>
+<!-- Map Overlay Badges -->
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg text-[11px] text-slate-800 shadow-sm border border-slate-200">
+<span class="font-bold text-slate-900">Coordinates:</span> 25.2814° N, 82.9942° E
+              </div>
+<div class="absolute bottom-3 left-3 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg text-[11px] text-slate-800 shadow-sm border border-slate-200">
+<span class="font-bold text-slate-900">Linear Asset Geofence:</span> 3,200m (Assi Catchment)
+              </div>
+<div class="absolute top-3 right-3 bg-slate-900/85 backdrop-blur px-3 py-1.5 rounded-lg text-[11px] text-white shadow-sm border border-slate-700">
+<span>🛰️ Cartosat-3 Imagery 0.28m</span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 text-xs text-slate-600">
+<div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+<span class="text-[10px] text-slate-400 uppercase font-semibold">Urban Cadastral Zone</span>
+<p class="font-medium text-slate-800 mt-0.5">Ward 14 - Nagwa</p>
+</div>
+<div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+<span class="text-[10px] text-slate-400 uppercase font-semibold">Baseline Photos</span>
+<p class="font-medium text-slate-800 mt-0.5">6 Geo-tagged logged</p>
+</div>
+<div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+<span class="text-[10px] text-slate-400 uppercase font-semibold">Elevation Gradient</span>
+<p class="font-medium text-slate-800 mt-0.5">1:450 Sloped to Assi</p>
+</div>
+<div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+<span class="text-[10px] text-slate-400 uppercase font-semibold">Environmental Clearance</span>
+<p class="font-medium text-emerald-600 mt-0.5">Category B2 Exempt</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Compact Column (1 col) -->
+<div class="space-y-6">
+<!-- Sanction & Patronage Card -->
+<section class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-purpose="patronage-details">
+<h3 class="text-sm font-bold text-slate-900 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between">
+<span>Sanction &amp; Patronage</span>
+<span class="text-xs font-normal text-slate-400">18th Lok Sabha</span>
+</h3>
+<div class="space-y-3.5 text-xs">
+<div>
+<span class="text-slate-400 block text-[11px]">Recommending Member of Parliament</span>
+<span class="font-semibold text-slate-800 block text-sm mt-0.5">Hon. Member of Parliament</span>
+<span class="text-slate-500 text-[11px]">Varanasi Lok Sabha Parliamentary Constituency</span>
+</div>
+<div class="pt-2 border-t border-slate-100">
+<span class="text-slate-400 block text-[11px]">Nodal District Collector Approval</span>
+<span class="font-semibold text-slate-800 block mt-0.5">Sh. R. Venkatraman, IAS</span>
+<span class="text-emerald-600 text-[11px] font-medium flex items-center gap-1 mt-0.5">
+<svg class="w-3 h-3" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  E-Signed via Aadhaar DSC (12-Jul-2024)
+                </span>
+</div>
+<div class="pt-2 border-t border-slate-100">
+<span class="text-slate-400 block text-[11px]">Implementing Department</span>
+<span class="font-semibold text-slate-800 block mt-0.5">Public Works Department (Central Zone)</span>
+<span class="text-slate-500 text-[11px]">Executive Engineer: Er. S. P. Tiwari</span>
+</div>
+</div>
+</section>
+<!-- Statutory Attachments Card -->
+<section class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-purpose="statutory-attachments">
+<h3 class="text-sm font-bold text-slate-900 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between">
+<span>Statutory Documents</span>
+<span class="text-[11px] font-medium text-brand-600 cursor-pointer hover:underline">Download All (.zip)</span>
+</h3>
+<div class="space-y-2">
+<div class="p-2.5 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200/60 flex items-center justify-between transition cursor-pointer">
+<div class="flex items-center space-x-2.5 overflow-hidden">
+<svg class="w-5 h-5 text-red-500 shrink-0" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" fill-rule="evenodd"></path>
+</svg>
+<div class="truncate">
+<p class="text-xs font-semibold text-slate-800 truncate">Admin_Sanction_Signed.pdf</p>
+<p class="text-[10px] text-slate-400">2.4 MB • Digital Stamp Verified</p>
+</div>
+</div>
+<span class="text-slate-400 hover:text-slate-600 text-xs">↓</span>
+</div>
+<div class="p-2.5 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200/60 flex items-center justify-between transition cursor-pointer">
+<div class="flex items-center space-x-2.5 overflow-hidden">
+<svg class="w-5 h-5 text-red-500 shrink-0" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" fill-rule="evenodd"></path>
+</svg>
+<div class="truncate">
+<p class="text-xs font-semibold text-slate-800 truncate">DPR_Nagwa_Drain_Civil.pdf</p>
+<p class="text-[10px] text-slate-400">18.2 MB • Detailed Engineering</p>
+</div>
+</div>
+<span class="text-slate-400 hover:text-slate-600 text-xs">↓</span>
+</div>
+<div class="p-2.5 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200/60 flex items-center justify-between transition cursor-pointer">
+<div class="flex items-center space-x-2.5 overflow-hidden">
+<svg class="w-5 h-5 text-blue-500 shrink-0" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" fill-rule="evenodd"></path>
+</svg>
+<div class="truncate">
+<p class="text-xs font-semibold text-slate-800 truncate">Technical_Sanction_PWD.pdf</p>
+<p class="text-[10px] text-slate-400">4.1 MB • Structural Drawings</p>
+</div>
+</div>
+<span class="text-slate-400 hover:text-slate-600 text-xs">↓</span>
+</div>
+<div class="p-2.5 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200/60 flex items-center justify-between transition cursor-pointer">
+<div class="flex items-center space-x-2.5 overflow-hidden">
+<svg class="w-5 h-5 text-emerald-500 shrink-0" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" fill-rule="evenodd"></path>
+</svg>
+<div class="truncate">
+<p class="text-xs font-semibold text-slate-800 truncate">Bhuvan_Site_Survey.kmz</p>
+<p class="text-[10px] text-slate-400">860 KB • GIS Layer Data</p>
+</div>
+</div>
+<span class="text-slate-400 hover:text-slate-600 text-xs">↓</span>
+</div>
+</div>
+</section>
+<!-- Oversight & Audit Division -->
+<section class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-purpose="audit-division">
+<h3 class="text-sm font-bold text-slate-900 mb-2">Supervision &amp; Vigilance</h3>
+<div class="text-xs text-slate-500 space-y-2">
+<p>Work assigned to Third-Party Quality Inspection (TPQI): <strong class="text-slate-700">IIT (BHU) Civil Engineering Division</strong>.</p>
+<div class="bg-amber-50/70 border border-amber-200/60 p-3 rounded-xl">
+<span class="font-semibold text-amber-800 block text-[11px]">Audit Observation:</span>
+<span class="text-amber-700 text-[11px] block mt-0.5">Bidding deduplication flagged overlapping contact credentials in technical envelope stage. Investigation file initiated.</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- END: OperationalTwoColumnLayout -->
+<!-- BEGIN: GovernanceMilestoneTrajectory -->
+<section class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)]" data-purpose="governance-milestone-tracker">
+<div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+<div>
+<h2 class="text-sm font-bold text-slate-900">7-Stage Project Milestone &amp; Governance Trajectory</h2>
+<p class="text-xs text-slate-500">Track fiscal movement from MP recommendation to final physical verification</p>
+</div>
+<span class="text-xs font-semibold text-slate-700 bg-slate-100 px-3 py-1 rounded-full">Current Stage: 4 of 7</span>
+</div>
+<!-- 7-Stage Horizontal Stepper -->
+<div class="relative">
+<div class="hidden md:block absolute top-4 left-6 right-6 h-0.5 bg-slate-200 -z-0"></div>
+<div class="grid grid-cols-1 md:grid-cols-7 gap-4 relative z-10">
+<!-- Stage 1 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs ring-4 ring-white shadow">
+                ✓
+              </div>
+<span class="text-xs font-semibold text-slate-800 mt-2">1. MP Recomm.</span>
+<span class="text-[10px] text-slate-400">04 Jun 2024</span>
+<span class="text-[10px] text-emerald-600 font-medium mt-0.5">Approved</span>
+</div>
+<!-- Stage 2 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs ring-4 ring-white shadow">
+                ✓
+              </div>
+<span class="text-xs font-semibold text-slate-800 mt-2">2. Admin Sanction</span>
+<span class="text-[10px] text-slate-400">12 Jul 2024</span>
+<span class="text-[10px] text-emerald-600 font-medium mt-0.5">₹3.45 Cr Issued</span>
+</div>
+<!-- Stage 3 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs ring-4 ring-white shadow">
+                ✓
+              </div>
+<span class="text-xs font-semibold text-slate-800 mt-2">3. Tech Sanction</span>
+<span class="text-[10px] text-slate-400">01 Aug 2024</span>
+<span class="text-[10px] text-emerald-600 font-medium mt-0.5">PWD Approved</span>
+</div>
+<!-- Stage 4 (Active/Flagged) -->
+<div class="flex flex-col items-center text-center">
+<div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xs ring-4 ring-amber-100 shadow animate-pulse">
+                !
+              </div>
+<span class="text-xs font-bold text-amber-700 mt-2">4. Tender / Bids</span>
+<span class="text-[10px] text-slate-400">Under Evaluation</span>
+<span class="text-[10px] text-amber-600 font-semibold mt-0.5 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">2 Bids Flagged</span>
+</div>
+<!-- Stage 5 -->
+<div class="flex flex-col items-center text-center opacity-50">
+<div class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs ring-4 ring-white">
+                5
+              </div>
+<span class="text-xs font-semibold text-slate-700 mt-2">5. Work Order</span>
+<span class="text-[10px] text-slate-400">Pending Clarification</span>
+<span class="text-[10px] text-slate-400 mt-0.5">Upcoming</span>
+</div>
+<!-- Stage 6 -->
+<div class="flex flex-col items-center text-center opacity-50">
+<div class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs ring-4 ring-white">
+                6
+              </div>
+<span class="text-xs font-semibold text-slate-700 mt-2">6. Geo Measurement</span>
+<span class="text-[10px] text-slate-400">ISRO MB Portal</span>
+<span class="text-[10px] text-slate-400 mt-0.5">Upcoming</span>
+</div>
+<!-- Stage 7 -->
+<div class="flex flex-col items-center text-center opacity-50">
+<div class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs ring-4 ring-white">
+                7
+              </div>
+<span class="text-xs font-semibold text-slate-700 mt-2">7. Completion &amp; UC</span>
+<span class="text-[10px] text-slate-400">GFR Form 12-C</span>
+<span class="text-[10px] text-slate-400 mt-0.5">Upcoming</span>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50/80 p-3.5 rounded-xl border border-slate-200/60">
+<div class="flex items-center space-x-2 text-xs text-slate-600">
+<svg class="w-4 h-4 text-amber-500 shrink-0" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" fill-rule="evenodd"></path>
+</svg>
+<span>Guidance: Work orders cannot be generated while Cross-Bidding or Director lineage anomalies remain unadjudicated.</span>
+</div>
+<button class="shrink-0 text-xs font-semibold text-brand-600 hover:text-brand-700 hover:underline">
+            Forward to District Vigilance Officer →
+          </button>
+</div>
+</section>
+<!-- END: GovernanceMilestoneTrajectory -->
+</main>
+<!-- END: MainContentArea -->
+</div>
+</body></html>

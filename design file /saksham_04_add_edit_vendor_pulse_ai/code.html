@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container":"#e5eeff","status-success-text":"#047857","primary-fixed":"#dce1ff","primary":"#0043c4","on-surface":"#0b1c30","error-container":"#ffdad6","surface-container-low":"#eff4ff","status-success-dot":"#10B981","border-strong":"#CBD5E1","surface-bright":"#f8f9ff","surface":"#f8f9ff","error":"#ba1a1a","status-warning-dot":"#F59E0B","primary-fixed-dim":"#b6c4ff","secondary-fixed-dim":"#afc6ff","border-subtle":"#E2E8F0","status-info-bg":"#EFF6FF","on-tertiary-fixed-variant":"#28418f","tertiary-container":"#4c64b3","on-secondary-container":"#fefcff","background":"#f8f9ff","outline":"#737687","status-success-bg":"#ECFDF5","on-tertiary-fixed":"#00164f","text-primary":"#0F172A","on-secondary-fixed":"#001944","secondary-container":"#216fea","inverse-on-surface":"#eaf1ff","on-tertiary":"#ffffff","surface-base":"#F8FAFC","surface-container-high":"#dce9ff","on-secondary-fixed-variant":"#004299","on-error":"#ffffff","primary-container":"#1a5af0","on-primary-container":"#e3e7ff","status-danger-dot":"#EF4444","inverse-primary":"#b6c4ff","surface-subtle":"#EDF2F9","status-danger-text":"#B91C1C","text-muted":"#94A3B8","on-primary-fixed-variant":"#003baf","text-secondary":"#475569","on-primary-fixed":"#00164e","status-info-text":"#1D4ED8","surface-container-highest":"#d3e4fe","secondary-fixed":"#d9e2ff","on-primary":"#ffffff","on-secondary":"#ffffff","on-tertiary-container":"#e4e7ff","status-info-dot":"#3B82F6","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#b6c4ff","inverse-surface":"#213145","status-warning-text":"#B45309","surface-tint":"#004fe4","outline-variant":"#c3c5d8","on-surface-variant":"#434655","tertiary-fixed":"#dce1ff","status-warning-bg":"#FFFBEB","on-error-container":"#93000a","surface-dim":"#cbdbf5","on-background":"#0b1c30","surface-variant":"#d3e4fe","status-danger-bg":"#FEF2F2","secondary":"#0056c3","tertiary":"#334b99","surface-card":"#FFFFFF"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-mobile":"1rem","space-md":"1rem","space-2xl":"3rem","space-xs":"0.25rem","gutter":"1.25rem","space-sm":"0.5rem","space-xl":"2rem","space-lg":"1.5rem","gutter-mobile":"0.75rem","margin":"2rem"},"fontFamily":{"display-lg-mobile":["Geist"],"body-lg":["Geist"],"label-md":["Geist"],"headline-sm":["Geist"],"display-lg":["Geist"],"label-sm":["Geist"],"metric-val":["Geist"],"body-sm":["Geist"],"headline-md":["Geist"],"label-xs":["Geist"],"body-md":["Geist"],"headline-lg":["Geist"]},"fontSize":{"display-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.03em","fontWeight":"600"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.015em","fontWeight":"500"}],"metric-val":["30px",{"lineHeight":"36px","letterSpacing":"-0.025em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-xs":["11px",{"lineHeight":"14px","letterSpacing":"0.025em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface-base font-body-md text-text-primary min-h-screen antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-card z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm bg-surface-card"><img alt="Glossy Tricolour India E-Emblem.png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UBbXezSAuGze2eRu1sT9OzuXuqNkp-GYks9DAHAwupeO30ZwBHD8vzMzhoJrPqD5qsznqUz1T_o680qf3awAD2GHtIsiNCANIMMEahxA6g9Ct7cfPalqm1HGajMARLQQmjdld2hNDu659fsptNJ-X5CP-B3wOXMQgLtEKebT1x2-lVH6DAMotX4LNnChHL9WtLojWcIXXGgoCoJJrfPWvDOBbxFGf_KEUXfVYIzJo72D0J3T7_7B7zGqIdUcFVMfRiX9xDH08q6Q"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight truncate">e-SAKSHAM</span><span class="px-1.5 py-0.2 bg-surface-container text-primary font-label-xs text-label-xs rounded">MPLADS</span></div><span class="font-label-xs text-label-xs text-text-muted truncate">Fiscal Oversight &amp; Intelligence</span></div></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-xs text-label-xs uppercase text-text-muted font-bold tracking-wider">Institutional Control</span></div><nav class="flex flex-col gap-1 px-space-sm" data-active-classes="bg-status-info-bg text-primary font-headline-sm"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="truncate">Dashboard &amp; Risk</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="manage-vendors" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="truncate">Manage Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="add-edit-vendor" href="#"><span class="material-symbols-outlined text-[20px]">person_add</span><span class="truncate">Add / Edit Vendor</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="vendor-risk-profiles" href="#"><span class="material-symbols-outlined text-[20px]">shield_with_heart</span><span class="truncate">Vendor Risk Profiles</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="work-project-details" href="#"><span class="material-symbols-outlined text-[20px]">account_tree</span><span class="truncate">Work / Project Details</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="assign-and-work-progress" href="#"><span class="material-symbols-outlined text-[20px]">published_with_changes</span><span class="truncate">Assign &amp; Work Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="fund-disbursement" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span class="truncate">Fund Disbursement</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="risk-and-investigation" href="#"><span class="material-symbols-outlined text-[20px]">gavel</span><span class="truncate">Risk &amp; Investigation</span></a></nav></div><div class="p-space-sm mb-space-xs"><div class="bg-surface-subtle rounded-xl p-space-sm flex items-center justify-between"><div class="flex items-center gap-space-xs"><div class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-success-dot opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-status-success-dot"></span></div><span class="font-label-sm text-label-sm text-text-primary font-medium">NIC Gateway Active</span></div><span class="material-symbols-outlined text-text-muted text-[18px]">lock</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-card/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-md"><div class="h-16 w-full flex items-center justify-between gap-space-md"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-text-muted text-[18px]">search</span><input class="w-full h-10 pl-9 pr-14 rounded-full bg-surface-base text-text-primary placeholder:text-text-muted font-body-sm text-body-sm focus:outline-none focus:bg-surface-card shadow-[0_1px_3px_rgba(15,23,42,0.04)] transition-all" placeholder="Search Sanction Order, Work ID, Agency, or Geotagged Asset..." type="text"/><span class="absolute right-3 font-label-xs text-label-xs text-text-muted bg-surface-card px-1.5 py-0.5 rounded shadow-[0_1px_2px_rgba(15,23,42,0.05)]">⌘K</span></div></div><div class="flex items-center gap-space-sm"><button class="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><button class="relative w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-status-danger-dot"></span></button><div class="h-6 w-px bg-surface-container mx-space-xs"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_2px_4px_rgba(0,67,196,0.15)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-text-primary font-medium leading-none">R. Venkatraman (IAS)</span><span class="font-label-xs text-label-xs text-text-muted mt-1 leading-none">District Collector &amp; Nodal Officer</span></div></div></div></div></header><main class="w-full pt-16 bg-surface-base min-h-screen px-space-md py-space-md"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Top Breadcrumb & Administrative Header Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs text-text-muted font-label-xs text-label-xs mb-1.5 uppercase tracking-wider">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[15px]">corporate_fare</span>
+          Vendors
+        </a>
+<span class="text-text-muted">/</span>
+<span class="text-text-primary font-medium">New Registration</span>
+<span class="text-text-muted">/</span>
+<span class="text-primary font-medium">VN-2025-0841</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Add / Edit Vendor Registration</h1>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot animate-pulse"></span>
+            PFMS &amp; GSTN LIVE SYNC
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[13px]">cloud_done</span>
+            Draft Autosaved 14:02 IST
+          </span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-1 max-w-3xl">
+        Enter empanelment details, statutory credentials, and compliance documents for MPLADS work tenders and NIC PFMS direct beneficiary ledger integration.
+      </p>
+</div>
+<!-- Quick Telemetry Chips -->
+<div class="flex items-center gap-space-sm self-start md:self-auto shrink-0">
+<div class="bg-surface-card rounded-xl p-space-sm shadow-sm flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">fact_check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-text-muted uppercase font-medium">Audit Readiness</span>
+<span class="font-headline-sm text-headline-sm text-text-primary">82% <span class="text-status-success-text font-label-xs">Passed</span></span>
+</div>
+</div>
+<div class="bg-surface-card rounded-xl p-space-sm shadow-sm flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-status-info-bg flex items-center justify-center text-status-info-text">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-text-muted uppercase font-medium">Class-3 DSC</span>
+<span class="font-headline-sm text-headline-sm text-text-primary">Token Ready</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Progress Bar Step Tracker -->
+<div class="bg-surface-card rounded-2xl p-space-md shadow-sm mb-space-lg">
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-space-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-label-md shrink-0 shadow-sm">01</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-primary font-semibold truncate">Entity Info</span>
+<span class="font-label-xs text-label-xs text-status-success-text flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> GSTN Verified
+          </span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-label-md shrink-0 shadow-sm">02</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-primary font-semibold truncate">Authorized Signatory</span>
+<span class="font-label-xs text-label-xs text-status-success-text flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> OTP Validated
+          </span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-primary flex items-center justify-center font-label-md text-label-md shrink-0">03</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-primary font-semibold truncate">Registered Address</span>
+<span class="font-label-xs text-label-xs text-status-info-text">In Progress</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-subtle text-text-muted flex items-center justify-center font-label-md text-label-md shrink-0">04</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-secondary truncate">Bank &amp; PFMS</span>
+<span class="font-label-xs text-label-xs text-text-muted">Awaiting IFSC</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-subtle text-text-muted flex items-center justify-center font-label-md text-label-md shrink-0">05</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-secondary truncate">Statutory Vault</span>
+<span class="font-label-xs text-label-xs text-text-muted">0/5 Attached</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Multi-Section Form Layout -->
+<form class="flex flex-col gap-space-lg" id="vendorForm" onsubmit="event.preventDefault();">
+<!-- STEP 01: VENDOR INFORMATION -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-md mb-space-md border-b border-border-subtle">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-lg bg-surface-container text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold">
+            01
+          </div>
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary">Vendor Legal &amp; Incorporation Identity</h2>
+<p class="font-body-sm text-body-sm text-text-muted">Primary enterprise registration mapped directly against the MCA-21 &amp; CBIC portal.</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-primary font-label-xs text-label-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">sync_alt</span>
+          MCA-21 Gateway Sync Active
+        </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Trade / Legal Name -->
+<div class="md:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Trade / Legal Entity Name <span class="text-error">*</span></span>
+<span class="font-label-xs text-label-xs text-text-muted">As registered in Certificate of Incorporation</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="e.g. Apex Infra Consortium Pvt. Ltd." required="" type="text" value="Apex Infra Consortium Infrastructure Private Limited"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-status-success-dot text-[20px]">verified</span>
+</div>
+</div>
+<!-- Business Constitution -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Business Constitution <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none appearance-none transition-all shadow-sm">
+<option selected="">Private Limited Company (Pvt Ltd)</option>
+<option>Public Limited Company (Ltd)</option>
+<option>Limited Liability Partnership (LLP)</option>
+<option>Sole Proprietorship</option>
+<option>State PSU / Joint Venture</option>
+<option>Registered Cooperative Society</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- GSTIN Field with Live Verification Trigger -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>GSTIN (Goods &amp; Services Tax) <span class="text-error">*</span></span>
+<span class="text-status-success-text font-label-xs text-label-xs">Active Regular</span>
+</label>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<input class="w-full h-11 px-3.5 bg-surface-subtle uppercase text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" maxlength="15" type="text" value="27AABCU9603R1ZM"/>
+</div>
+<button class="h-11 px-3.5 bg-status-success-bg text-status-success-text rounded-xl font-label-md text-label-md flex items-center gap-1.5 shrink-0 hover:opacity-90 transition-opacity" type="button">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>GSTN Verified</span>
+</button>
+</div>
+</div>
+<!-- Permanent Account Number (PAN) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Corporate PAN <span class="text-error">*</span></span>
+<span class="text-text-muted font-label-xs text-label-xs">CBDT Database</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-subtle uppercase text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" maxlength="10" type="text" value="AABCU9603R"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-status-success-dot text-[20px]">check_circle</span>
+</div>
+</div>
+<!-- GeM Vendor ID -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>GeM Seller / Service ID</span>
+<span class="text-status-info-text font-label-xs text-label-xs">Govt. e-Marketplace</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="e.g. GEM-VND-XXXX-XXXX" type="text" value="GEM-VND-2024-998127"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-primary text-[20px]">link</span>
+</div>
+</div>
+</div>
+</div>
+<!-- STEP 02: PERSONAL DETAILS (AUTHORIZED SIGNATORY) -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-md mb-space-md border-b border-border-subtle">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-lg bg-surface-container text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold">
+            02
+          </div>
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary">Authorized Signatory &amp; Key Contact Person</h2>
+<p class="font-body-sm text-body-sm text-text-muted">Legal liaison responsible for tender signing, financial claims, and statutory affidavits.</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[14px]">smartphone</span> Aadhaar OTP Authenticated
+          </span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Signatory Full Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Signatory Full Name <span class="text-error">*</span>
+</label>
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="Official identity card name" required="" type="text" value="Vikramaditya Shinde"/>
+</div>
+<!-- Designation -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Designation / Authority <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none appearance-none transition-all shadow-sm">
+<option selected="">Managing Director &amp; CEO</option>
+<option>Director / Whole-time Director</option>
+<option>Chief Financial Officer (CFO)</option>
+<option>Authorized Attorney (PoA Holder)</option>
+<option>Partner</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Official Email -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Official Email Address <span class="text-error">*</span></span>
+<span class="text-status-success-text font-label-xs text-label-xs">Domain Valid</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="signatory@domain.com" required="" type="email" value="v.shinde@apexinfra-group.gov.in"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-status-success-dot text-[20px]">mail</span>
+</div>
+</div>
+<!-- Mobile Number with OTP status -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Mobile (Aadhaar linked) <span class="text-error">*</span></span>
+<span class="text-text-muted font-label-xs text-label-xs">+91 Telecom SMS</span>
+</label>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="+91 XXXXX XXXXX" required="" type="tel" value="+91 98201 44520"/>
+</div>
+<div class="h-11 px-3 bg-status-success-bg text-status-success-text rounded-xl font-label-sm text-label-sm flex items-center gap-1 shrink-0 font-medium">
+<span class="material-symbols-outlined text-[16px]">check</span>
+              OTP OK
+            </div>
+</div>
+</div>
+<!-- Identity Proof Type -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Official Identity Proof <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none appearance-none transition-all shadow-sm">
+<option selected="">Aadhaar Card (UIDAI Masked)</option>
+<option>Permanent Account Number (Individual PAN)</option>
+<option>Indian Passport</option>
+<option>Director Identification Number (DIN)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Identity Document Number -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Identity Document Reference <span class="text-error">*</span></span>
+<span class="text-text-muted font-label-xs text-label-xs">Masked / Vaulted</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="XXXX XXXX XXXX" required="" type="text" value="XXXX - XXXX - 4492"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px]">badge</span>
+</div>
+</div>
+</div>
+</div>
+<!-- STEP 03: ADDRESS DETAILS -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-md mb-space-md border-b border-border-subtle">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-lg bg-surface-container text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold">
+            03
+          </div>
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary">Registered Office &amp; Local Operating Site</h2>
+<p class="font-body-sm text-body-sm text-text-muted">Constituency physical verification address for physical site audits and official notices.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-text-muted font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">pin_drop</span>
+          Geo-Fenced to District Ward No. 14
+        </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<!-- Address Line 1 -->
+<div class="md:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Registered Office Address Line 1 <span class="text-error">*</span>
+</label>
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="Premises, building, street address" required="" type="text" value="Unit 402-405, Tower B, Sovereign Industrial Park"/>
+</div>
+<!-- Address Line 2 -->
+<div class="md:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Address Line 2 (Area / Landmark)
+          </label>
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="Sub-district, sector or landmark" type="text" value="Near Outer Ring Road, Chakan Phase-II"/>
+</div>
+<!-- State / UT -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            State / Union Territory <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none appearance-none transition-all shadow-sm">
+<option selected="">Maharashtra (MH - 27)</option>
+<option>Karnataka (KA - 29)</option>
+<option>Tamil Nadu (TN - 33)</option>
+<option>Gujarat (GJ - 24)</option>
+<option>Uttar Pradesh (UP - 09)</option>
+<option>National Capital Territory of Delhi (DL - 07)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- District -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            District / Revenue Collectorate <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none appearance-none transition-all shadow-sm">
+<option selected="">Pune Rural</option>
+<option>Pune Urban</option>
+<option>Satara</option>
+<option>Solapur</option>
+<option>Kolhapur</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- PIN Code -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>PIN Code <span class="text-error">*</span></span>
+<span class="text-status-success-text font-label-xs text-label-xs">Postal Hub Valid</span>
+</label>
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" maxlength="6" placeholder="6 digits PIN" required="" type="text" value="410501"/>
+</div>
+<!-- Local Presence Indicator -->
+<div class="flex flex-col justify-end">
+<label class="flex items-center gap-2.5 h-11 px-3.5 bg-surface-subtle hover:bg-surface-container rounded-xl cursor-pointer transition-colors shadow-sm">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary" type="checkbox"/>
+<span class="font-label-sm text-label-sm text-text-primary font-medium">Maintains local district office in constituency</span>
+</label>
+</div>
+</div>
+</div>
+<!-- STEP 04: BANK DETAILS (PFMS INTEGRATED) -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-md mb-space-md border-b border-border-subtle">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-lg bg-surface-container text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold">
+            04
+          </div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-text-primary">PFMS Integrated Escrow / Operating Bank Account</h2>
+<span class="px-2 py-0.5 rounded bg-status-info-bg text-status-info-text font-label-xs text-label-xs">CNA Portal Mapped</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted">Direct Benefit Transfer (DBT) and contractor milestone settlements are processed through this account.</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-status-success-dot"></span>
+          PFMS Scheme Code: IN-MH-9412
+        </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- IFSC Code with Auto-Resolver -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>IFSC Code <span class="text-error">*</span></span>
+<span class="text-status-success-text font-label-xs text-label-xs">RBI Central Directory</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-subtle uppercase text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" maxlength="11" placeholder="e.g. SBIN000XXXX" required="" type="text" value="SBIN0004123"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-status-success-dot text-[20px]">account_balance</span>
+</div>
+</div>
+<!-- Bank Name (Auto-Populated) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Bank Name</span>
+<span class="font-label-xs text-label-xs text-text-muted">Auto-resolved</span>
+</label>
+<input class="w-full h-11 px-3.5 bg-surface-container-low text-text-primary font-body-md text-body-md rounded-xl cursor-not-allowed shadow-sm font-medium" readonly="" type="text" value="State Bank of India (Public Sector)"/>
+</div>
+<!-- Branch Name & MICR -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Branch Name &amp; MICR</span>
+<span class="font-label-xs text-label-xs text-text-muted">MICR: 411002018</span>
+</label>
+<input class="w-full h-11 px-3.5 bg-surface-container-low text-text-primary font-body-md text-body-md rounded-xl cursor-not-allowed shadow-sm" readonly="" type="text" value="Chakan MIDC Industrial Complex Branch"/>
+</div>
+<!-- Account Number -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Primary Current Account Number <span class="text-error">*</span>
+</label>
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="Enter Bank Account Number" required="" type="password" value="3891004129841"/>
+</div>
+<!-- Confirm Account Number with green match badge -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center justify-between">
+<span>Confirm Account Number <span class="text-error">*</span></span>
+<span class="inline-flex items-center gap-1 text-status-success-text font-label-xs text-label-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Numbers Match
+            </span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md font-mono rounded-xl focus:bg-surface-card focus:outline-none transition-all shadow-sm" placeholder="Re-enter to verify" required="" type="text" value="3891004129841"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-status-success-dot text-[20px]">done_all</span>
+</div>
+</div>
+<!-- Account Type -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary">
+            Account Constitution Type <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3.5 bg-surface-subtle text-text-primary font-body-md text-body-md rounded-xl focus:bg-surface-card focus:outline-none appearance-none transition-all shadow-sm">
+<option selected="">Industrial Current Account (INR)</option>
+<option>Cash Credit / Overdraft Account (CC/OD)</option>
+<option>Dedicated MPLADS Project Escrow</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-muted text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Penny Drop Verification Notice -->
+<div class="mt-space-md p-space-sm rounded-xl bg-surface-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-status-success-bg text-status-success-text flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">price_check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-primary font-medium">PFMS Penny-Drop Pre-Validation Successful</span>
+<span class="font-label-xs text-label-xs text-text-muted">Account Holder Name Match Score: 98.4% (APEX INFRA CONSORTIUM PVT LTD)</span>
+</div>
+</div>
+<button class="text-primary hover:underline font-label-sm text-label-sm font-medium self-start sm:self-auto" type="button">
+          View Raw NPCI Response
+        </button>
+</div>
+</div>
+<!-- STEP 05: STATUTORY COMPLIANCE DOCUMENTS -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-md mb-space-md border-b border-border-subtle">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-lg bg-surface-container text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold">
+            05
+          </div>
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary">Statutory Compliance &amp; Tender Enclosures</h2>
+<p class="font-body-sm text-body-sm text-text-muted">All uploaded records undergo optical OCR recognition and anti-tamper hash generation (SHA-256).</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-xs text-label-xs text-text-muted">Accepted formats: PDF, JPG, PNG (Max 15MB each)</span>
+</div>
+</div>
+<!-- Grid of Upload Tiles -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md mb-space-md">
+<!-- Tile 1: GST Certificate (Uploaded State) -->
+<div class="p-space-md rounded-xl bg-surface-subtle flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-text-primary font-semibold">GST Registration Certificate</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> Verified
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mb-3">Form GST REG-06 with Annexure A &amp; B</p>
+<div class="flex items-center gap-2.5 p-2 bg-surface-card rounded-lg mb-3">
+<span class="material-symbols-outlined text-primary text-[24px]">picture_as_pdf</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-medium">GST_REG06_MH_Apex.pdf</span>
+<span class="font-label-xs text-label-xs text-text-muted">2.4 MB • Hash: 8b7a...d3e1</span>
+</div>
+<button class="w-7 h-7 flex items-center justify-center text-text-muted hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-border-subtle">
+<span class="font-label-xs text-label-xs text-text-muted">Uploaded on 22 Feb 2025</span>
+<button class="font-label-xs text-label-xs text-primary font-medium hover:underline" type="button">Replace File</button>
+</div>
+</div>
+<!-- Tile 2: Corporate PAN (Uploaded State) -->
+<div class="p-space-md rounded-xl bg-surface-subtle flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-text-primary font-semibold">Corporate PAN Card Copy</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> Verified
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mb-3">Clear scan of original PAN allotment card</p>
+<div class="flex items-center gap-2.5 p-2 bg-surface-card rounded-lg mb-3">
+<span class="material-symbols-outlined text-primary text-[24px]">picture_as_pdf</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-medium">Apex_Corporate_PAN_AABCU.pdf</span>
+<span class="font-label-xs text-label-xs text-text-muted">1.1 MB • Hash: c49e...110a</span>
+</div>
+<button class="w-7 h-7 flex items-center justify-center text-text-muted hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-border-subtle">
+<span class="font-label-xs text-label-xs text-text-muted">Uploaded on 22 Feb 2025</span>
+<button class="font-label-xs text-label-xs text-primary font-medium hover:underline" type="button">Replace File</button>
+</div>
+</div>
+<!-- Tile 3: Cancelled Cheque (Ready State) -->
+<div class="p-space-md rounded-xl bg-surface-subtle flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-text-primary font-semibold">Cancelled Cheque / Passbook</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> OCR Matched
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mb-3">Showing Name, Account No &amp; IFSC Code</p>
+<div class="flex items-center gap-2.5 p-2 bg-surface-card rounded-lg mb-3">
+<span class="material-symbols-outlined text-primary text-[24px]">image</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-medium">SBI_Cheque_Scan_4123.png</span>
+<span class="font-label-xs text-label-xs text-text-muted">3.6 MB • Hash: ff12...992a</span>
+</div>
+<button class="w-7 h-7 flex items-center justify-center text-text-muted hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-border-subtle">
+<span class="font-label-xs text-label-xs text-text-muted">Uploaded on 22 Feb 2025</span>
+<button class="font-label-xs text-label-xs text-primary font-medium hover:underline" type="button">Replace File</button>
+</div>
+</div>
+<!-- Tile 4: Past 3 Yrs Audited Balance Sheet (Needs Attention) -->
+<div class="p-space-md rounded-xl bg-surface-subtle flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-text-primary font-semibold">Past 3 Yrs Audited Turnover</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-warning-bg text-status-warning-text font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[13px]">pending</span> Pending CA UDIN
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mb-3">Signed by ICAI registered Chartered Accountant</p>
+<div class="flex items-center gap-2.5 p-2 bg-surface-card rounded-lg mb-3">
+<span class="material-symbols-outlined text-text-secondary text-[24px]">folder_zip</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-medium">Turnover_FY22_24_Consolidated.pdf</span>
+<span class="font-label-xs text-label-xs text-text-muted">8.2 MB • Awaiting UDIN Sync</span>
+</div>
+<button class="w-7 h-7 flex items-center justify-center text-text-muted hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-border-subtle">
+<span class="font-label-xs text-label-xs text-text-muted">CA Memb: 049811</span>
+<button class="font-label-xs text-label-xs text-primary font-medium hover:underline" type="button">Validate UDIN</button>
+</div>
+</div>
+<!-- Tile 5: Non-Blacklisting Affidavit -->
+<div class="p-space-md rounded-xl bg-surface-subtle flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-text-primary font-semibold">Non-Blacklisting Affidavit</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[13px]">verified</span> Notarized
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mb-3">₹500 Non-Judicial Stamp Paper declaration</p>
+<div class="flex items-center gap-2.5 p-2 bg-surface-card rounded-lg mb-3">
+<span class="material-symbols-outlined text-primary text-[24px]">picture_as_pdf</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-medium">Notary_Affidavit_Jan2025.pdf</span>
+<span class="font-label-xs text-label-xs text-text-muted">1.8 MB • Notary Serial #7712</span>
+</div>
+<button class="w-7 h-7 flex items-center justify-center text-text-muted hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-border-subtle">
+<span class="font-label-xs text-label-xs text-text-muted">Valid till Dec 2025</span>
+<button class="font-label-xs text-label-xs text-primary font-medium hover:underline" type="button">Replace File</button>
+</div>
+</div>
+<!-- Tile 6: Addendum / ISO / Factory License (Drag & Drop Zone) -->
+<div class="p-space-md rounded-xl bg-surface-subtle flex flex-col justify-center items-center text-center cursor-pointer hover:bg-surface-container transition-colors shadow-sm min-h-[160px]">
+<div class="w-11 h-11 rounded-full bg-surface-card text-primary flex items-center justify-center mb-2 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<span class="font-label-md text-label-md text-text-primary font-semibold">Upload Additional Certifications</span>
+<p class="font-body-sm text-body-sm text-text-muted mt-0.5 max-w-[220px]">
+            ISO 9001, Quality Rating or MSME / Udyam Certificate
+          </p>
+<span class="mt-2 text-primary font-label-xs text-label-xs font-semibold underline">Browse Computer or Drop here</span>
+</div>
+</div>
+<!-- Additional Vendor Notes & Special Condition Accordion -->
+<div class="p-space-md rounded-xl bg-surface-subtle">
+<label class="font-label-md text-label-md text-text-primary font-semibold block mb-1.5">
+          District Tender Nodal Remarks / Empirical Work Experience Summary
+        </label>
+<textarea class="w-full p-3 bg-surface-card text-text-primary font-body-sm text-body-sm rounded-xl focus:outline-none transition-all shadow-sm" placeholder="Specify prior rural infrastructure experience (e.g. Gram Panchayat Community Halls, Anganwadi Centres, solar mini-grids, or high-density road metalling projects under MPLADS / PMGSY)..." rows="3">Vendor previously executed 14 rural piped drinking water supply works across Pune and Satara districts with 100% geo-tagged asset milestone completion within prescribed completion window. Zero active vigilance or arbitration inquiries on record.</textarea>
+</div>
+</div>
+<!-- STICKY BOTTOM ACTION FOOTER -->
+<div class="sticky bottom-4 z-30 bg-surface-card/95 backdrop-blur-xl rounded-2xl p-space-md shadow-xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+<!-- Left Security Indicator -->
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-status-success-bg text-status-success-text flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-text-primary font-semibold">256-bit NIC e-Gov TLS Encryption</span>
+<span class="px-1.5 py-0.2 bg-status-info-bg text-status-info-text font-label-xs text-label-xs rounded">Audit Monitored</span>
+</div>
+<span class="font-label-xs text-label-xs text-text-muted">Digital Signature (DSC) Class-3 ready • IP Logged: 10.14.92.118</span>
+</div>
+</div>
+<!-- Right Action CTA Group -->
+<div class="flex items-center gap-space-sm w-full md:w-auto justify-end">
+<button class="h-11 px-4 rounded-xl text-text-secondary hover:bg-surface-subtle font-label-md text-label-md transition-colors" onclick="alert('Action cancelled. Redirecting to Vendor Registry.');" type="button">
+          Cancel / Back
+        </button>
+<button class="h-11 px-5 rounded-xl bg-surface-subtle hover:bg-surface-container text-text-primary font-label-md text-label-md font-medium transition-colors flex items-center gap-2 shadow-sm" onclick="alert('Draft progress saved successfully in district nodal cache.');" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+<span>Save as Draft</span>
+</button>
+<button class="h-11 px-6 rounded-xl bg-primary hover:bg-secondary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-md flex items-center gap-2" onclick="handleVendorSubmit()" type="submit">
+<span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+<span>Save &amp; Submit Vendor Registration</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Inline Script for micro-interactions -->
+<script>
+  function handleVendorSubmit() {
+    const btn = event.currentTarget;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Authenticating DSC Token...';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> Registration Empanelled!';
+      btn.classList.remove('bg-primary');
+      btn.classList.add('bg-status-success-dot');
+      
+      setTimeout(() => {
+        alert('Vendor VN-2025-0841 (Apex Infra Consortium Pvt. Ltd.) has been successfully empaneled and routed to District Collector R. Venkatraman (IAS) for formal sanction clearance.');
+        btn.innerHTML = originalText;
+        btn.classList.remove('bg-status-success-dot');
+        btn.classList.add('bg-primary');
+        btn.disabled = false;
+      }, 700);
+    }, 1200);
+  }
+</script></main></div></body></html>

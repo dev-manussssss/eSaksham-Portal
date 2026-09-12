@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overscroll-behavior: none;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #root {
+    height: 100%;
+  }
+}
+
+@layer components {
+  /* Risk badge variants */
+  .risk-badge-low {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-semibold;
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.025em;
+  }
+
+  .risk-badge-medium {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-status-warning-bg text-status-warning-text font-semibold;
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.025em;
+  }
+
+  .risk-badge-high {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-status-danger-bg text-status-danger-text font-semibold;
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.025em;
+  }
+
+  .risk-badge-critical {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-semibold;
+    background-color: #450a0a;
+    color: #fecaca;
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.025em;
+  }
+
+  /* Card base */
+  .saksham-card {
+    @apply bg-surface-card rounded-xl p-space-lg shadow-sm border border-border-subtle;
+  }
+
+  /* Table styles */
+  .saksham-table th {
+    @apply bg-surface-base text-text-secondary uppercase tracking-wider px-4 py-3 text-left border-b border-border-subtle;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .saksham-table td {
+    @apply px-4 py-3 border-b border-border-subtle text-text-primary;
+    font-size: 13px;
+  }
+
+  .saksham-table tr:hover td {
+    @apply bg-surface-base;
+  }
+
+  /* Nav link active */
+  .nav-link-active {
+    @apply bg-status-info-bg text-primary font-semibold;
+  }
+
+  /* Form inputs */
+  .saksham-input {
+    @apply w-full bg-surface-container-low text-text-primary placeholder:text-text-muted px-3 py-2.5 rounded-lg focus:outline-none focus:bg-surface-card border border-border-subtle focus:border-primary-container transition-colors;
+    font-size: 14px;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-container text-on-primary hover:bg-primary shadow-sm transition-all font-medium;
+    font-size: 13px;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface-card text-text-primary hover:bg-surface-subtle shadow-sm transition-all border border-border-subtle font-medium;
+    font-size: 13px;
+  }
+}

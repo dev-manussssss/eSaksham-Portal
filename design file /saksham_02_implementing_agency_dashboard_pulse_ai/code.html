@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container":"#e5eeff","status-success-text":"#047857","primary-fixed":"#dce1ff","primary":"#0043c4","on-surface":"#0b1c30","error-container":"#ffdad6","surface-container-low":"#eff4ff","status-success-dot":"#10B981","border-strong":"#CBD5E1","surface-bright":"#f8f9ff","surface":"#f8f9ff","error":"#ba1a1a","status-warning-dot":"#F59E0B","primary-fixed-dim":"#b6c4ff","secondary-fixed-dim":"#afc6ff","border-subtle":"#E2E8F0","status-info-bg":"#EFF6FF","on-tertiary-fixed-variant":"#28418f","tertiary-container":"#4c64b3","on-secondary-container":"#fefcff","background":"#f8f9ff","outline":"#737687","status-success-bg":"#ECFDF5","on-tertiary-fixed":"#00164f","text-primary":"#0F172A","on-secondary-fixed":"#001944","secondary-container":"#216fea","inverse-on-surface":"#eaf1ff","on-tertiary":"#ffffff","surface-base":"#F8FAFC","surface-container-high":"#dce9ff","on-secondary-fixed-variant":"#004299","on-error":"#ffffff","primary-container":"#1a5af0","on-primary-container":"#e3e7ff","status-danger-dot":"#EF4444","inverse-primary":"#b6c4ff","surface-subtle":"#EDF2F9","status-danger-text":"#B91C1C","text-muted":"#94A3B8","on-primary-fixed-variant":"#003baf","text-secondary":"#475569","on-primary-fixed":"#00164e","status-info-text":"#1D4ED8","surface-container-highest":"#d3e4fe","secondary-fixed":"#d9e2ff","on-primary":"#ffffff","on-secondary":"#ffffff","on-tertiary-container":"#e4e7ff","status-info-dot":"#3B82F6","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#b6c4ff","inverse-surface":"#213145","status-warning-text":"#B45309","surface-tint":"#004fe4","outline-variant":"#c3c5d8","on-surface-variant":"#434655","tertiary-fixed":"#dce1ff","status-warning-bg":"#FFFBEB","on-error-container":"#93000a","surface-dim":"#cbdbf5","on-background":"#0b1c30","surface-variant":"#d3e4fe","status-danger-bg":"#FEF2F2","secondary":"#0056c3","tertiary":"#334b99","surface-card":"#FFFFFF"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-mobile":"1rem","space-md":"1rem","space-2xl":"3rem","space-xs":"0.25rem","gutter":"1.25rem","space-sm":"0.5rem","space-xl":"2rem","space-lg":"1.5rem","gutter-mobile":"0.75rem","margin":"2rem"},"fontFamily":{"display-lg-mobile":["Geist"],"body-lg":["Geist"],"label-md":["Geist"],"headline-sm":["Geist"],"display-lg":["Geist"],"label-sm":["Geist"],"metric-val":["Geist"],"body-sm":["Geist"],"headline-md":["Geist"],"label-xs":["Geist"],"body-md":["Geist"],"headline-lg":["Geist"]},"fontSize":{"display-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.03em","fontWeight":"600"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.015em","fontWeight":"500"}],"metric-val":["30px",{"lineHeight":"36px","letterSpacing":"-0.025em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-xs":["11px",{"lineHeight":"14px","letterSpacing":"0.025em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface-base font-body-md text-text-primary min-h-screen antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-card z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm bg-surface-card"><img alt="Glossy Tricolour India E-Emblem.png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UBbXezSAuGze2eRu1sT9OzuXuqNkp-GYks9DAHAwupeO30ZwBHD8vzMzhoJrPqD5qsznqUz1T_o680qf3awAD2GHtIsiNCANIMMEahxA6g9Ct7cfPalqm1HGajMARLQQmjdld2hNDu659fsptNJ-X5CP-B3wOXMQgLtEKebT1x2-lVH6DAMotX4LNnChHL9WtLojWcIXXGgoCoJJrfPWvDOBbxFGf_KEUXfVYIzJo72D0J3T7_7B7zGqIdUcFVMfRiX9xDH08q6Q"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight truncate">e-SAKSHAM</span><span class="px-1.5 py-0.2 bg-surface-container text-primary font-label-xs text-label-xs rounded">MPLADS</span></div><span class="font-label-xs text-label-xs text-text-muted truncate">Fiscal Oversight &amp; Intelligence</span></div></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-xs text-label-xs uppercase text-text-muted font-bold tracking-wider">Institutional Control</span></div><nav class="flex flex-col gap-1 px-space-sm" data-active-classes="bg-status-info-bg text-primary font-headline-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg transition-colors bg-status-info-bg text-primary font-headline-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="truncate">Dashboard &amp; Risk</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="manage-vendors" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="truncate">Manage Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="add-edit-vendor" href="#"><span class="material-symbols-outlined text-[20px]">person_add</span><span class="truncate">Add / Edit Vendor</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="vendor-risk-profiles" href="#"><span class="material-symbols-outlined text-[20px]">shield_with_heart</span><span class="truncate">Vendor Risk Profiles</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="work-project-details" href="#"><span class="material-symbols-outlined text-[20px]">account_tree</span><span class="truncate">Work / Project Details</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="assign-and-work-progress" href="#"><span class="material-symbols-outlined text-[20px]">published_with_changes</span><span class="truncate">Assign &amp; Work Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="fund-disbursement" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span class="truncate">Fund Disbursement</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="risk-and-investigation" href="#"><span class="material-symbols-outlined text-[20px]">gavel</span><span class="truncate">Risk &amp; Investigation</span></a></nav></div><div class="p-space-sm mb-space-xs"><div class="bg-surface-subtle rounded-xl p-space-sm flex items-center justify-between"><div class="flex items-center gap-space-xs"><div class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-success-dot opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-status-success-dot"></span></div><span class="font-label-sm text-label-sm text-text-primary font-medium">NIC Gateway Active</span></div><span class="material-symbols-outlined text-text-muted text-[18px]">lock</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-card/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-md"><div class="h-16 w-full flex items-center justify-between gap-space-md"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-text-muted text-[18px]">search</span><input class="w-full h-10 pl-9 pr-14 rounded-full bg-surface-base text-text-primary placeholder:text-text-muted font-body-sm text-body-sm focus:outline-none focus:bg-surface-card shadow-[0_1px_3px_rgba(15,23,42,0.04)] transition-all" placeholder="Search Sanction Order, Work ID, Agency, or Geotagged Asset..." type="text"/><span class="absolute right-3 font-label-xs text-label-xs text-text-muted bg-surface-card px-1.5 py-0.5 rounded shadow-[0_1px_2px_rgba(15,23,42,0.05)]">⌘K</span></div></div><div class="flex items-center gap-space-sm"><button class="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><button class="relative w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-status-danger-dot"></span></button><div class="h-6 w-px bg-surface-container mx-space-xs"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_2px_4px_rgba(0,67,196,0.15)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-text-primary font-medium leading-none">R. Venkatraman (IAS)</span><span class="font-label-xs text-label-xs text-text-muted mt-1 leading-none">District Collector &amp; Nodal Officer</span></div></div></div></div></header><main class="w-full pt-16 bg-surface-base min-h-screen px-space-md py-space-md"><div class="flex flex-col w-full gap-space-lg pb-space-2xl">
+<!-- Top Action & View Title Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Implementing Agency Dashboard</h1>
+<span class="px-2 py-0.5 rounded-full bg-status-info-bg text-status-info-text font-label-xs text-label-xs font-semibold">Public Works &amp; Infrastructure</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Live project lifecycle monitoring, geo-tagged measurement billing, and statutory GFR compliance.</p>
+</div>
+<div class="flex items-center gap-space-sm self-start md:self-auto shrink-0">
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface-card text-text-primary hover:bg-surface-subtle shadow-sm transition-all font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">upload_file</span>
+<span>Upload UC</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-container text-on-primary hover:bg-primary shadow-sm transition-all font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Create Work Estimate</span>
+</button>
+</div>
+</div>
+<!-- Top 3 Key Metric Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md">
+<!-- Card 1: Agency Profile -->
+<div class="bg-surface-card rounded-xl p-space-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-text-muted font-semibold">Nodal Execution Unit</span>
+<h2 class="font-headline-md text-headline-md text-text-primary mt-0.5 tracking-tight">PWD Central Zone</h2>
+<div class="flex items-center gap-1 text-text-secondary font-label-xs text-label-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">badge</span>
+<span>Er. S. Narayanan (EE) • Varanasi Div</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-status-info-bg flex items-center justify-center text-status-info-text shrink-0">
+<span class="material-symbols-outlined text-[22px]">apartment</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm">
+<div class="flex items-baseline justify-between">
+<span class="font-metric-val text-metric-val text-text-primary">₹28.10 <span class="font-body-md text-body-md text-text-muted">Cr</span></span>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-semibold">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 66.1%
+          </span>
+</div>
+<div class="w-full bg-surface-subtle h-2 rounded-full mt-2 overflow-hidden flex">
+<div class="bg-primary-container h-full rounded-full transition-all duration-500" style="width: 66.1%"></div>
+</div>
+<div class="flex items-center justify-between mt-2 font-label-xs text-label-xs text-text-muted">
+<span>Sanctioned: ₹42.50 Cr</span>
+<span class="font-medium text-text-secondary">Unutilized: ₹14.40 Cr</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Operational Status Pipeline -->
+<div class="bg-surface-card rounded-xl p-space-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-text-muted font-semibold">Asset Pipeline</span>
+<h2 class="font-headline-md text-headline-md text-text-primary mt-0.5 tracking-tight">48 Schemes Active</h2>
+<div class="flex items-center gap-1 text-text-secondary font-label-xs text-label-xs mt-1">
+<span class="material-symbols-outlined text-[14px] text-status-success-dot">check_circle</span>
+<span>18 Geo-Verified with Bhuvan</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">conversion_path</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm">
+<div class="flex items-baseline justify-between">
+<div class="flex items-baseline gap-1.5">
+<span class="font-metric-val text-metric-val text-text-primary">26</span>
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">In Execution</span>
+</div>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-status-info-bg text-status-info-text font-label-xs text-label-xs font-semibold">
+            54.2% Flow
+          </span>
+</div>
+<div class="w-full h-2 rounded-full mt-2 bg-surface-subtle overflow-hidden flex gap-0.5">
+<div class="bg-primary-container h-full" style="width: 54%" title="Execution (26)"></div>
+<div class="bg-status-success-dot h-full" style="width: 37%" title="Geo-Verified (18)"></div>
+<div class="bg-status-warning-dot h-full" style="width: 9%" title="Estimation (4)"></div>
+</div>
+<div class="grid grid-cols-3 gap-1 mt-2 text-center font-label-xs text-label-xs text-text-muted pt-1">
+<div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>26 Exec</div>
+<div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span>18 Audit OK</div>
+<div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-status-warning-dot"></span>4 Drafting</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Disbursement & UC Watch -->
+<div class="bg-surface-card rounded-xl p-space-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-text-muted font-semibold">Audit &amp; SNA Ledger</span>
+<h2 class="font-headline-md text-headline-md text-text-primary mt-0.5 tracking-tight">Disbursement &amp; UC</h2>
+<div class="flex items-center gap-1 text-status-danger-text font-label-xs text-label-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>4 Utilization Certs Overdue</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-status-warning-bg flex items-center justify-center text-status-warning-text shrink-0">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm">
+<div class="flex items-baseline justify-between">
+<span class="font-metric-val text-metric-val text-text-primary">₹3.85 <span class="font-body-md text-body-md text-text-muted">Cr</span></span>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-status-warning-bg text-status-warning-text font-label-xs text-label-xs font-semibold">
+            5 Invoices Pending
+          </span>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 bg-surface-subtle/60 px-2.5 py-1.5 rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-text-muted leading-tight">Clearance Awaited</span>
+<span class="font-label-sm text-label-sm font-semibold text-text-primary">₹2.40 Cr</span>
+</div>
+<div class="text-right flex flex-col">
+<span class="font-label-xs text-label-xs text-text-muted leading-tight">Next Q-Audit</span>
+<span class="font-label-sm text-label-sm font-semibold text-text-secondary">28 Apr 2025</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Operational Flow Chart & Visual Pulse -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Main Left Graphic Area: Monthly Capital Outlay vs Physical Progress -->
+<div class="lg:col-span-8 bg-surface-card rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Capital Expenditure vs. Physical Completion</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Fiscal Year 2024–25 disbursement trajectory against GFR-2017 targets</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 font-label-xs text-label-xs text-text-secondary">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span> Outlay (₹ Cr)
+          </div>
+<div class="flex items-center gap-1.5 font-label-xs text-label-xs text-text-secondary">
+<span class="w-2.5 h-2.5 rounded-full bg-status-success-dot"></span> Certified MB%
+          </div>
+</div>
+</div>
+<!-- Compact SVG Trend Visualization -->
+<div class="relative w-full h-48 sm:h-56 mt-2">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 700 180">
+<!-- Grid lines -->
+<line class="text-surface-subtle" stroke="currentColor" stroke-dasharray="4,4" stroke-width="1" x1="0" x2="700" y1="30" y2="30"></line>
+<line class="text-surface-subtle" stroke="currentColor" stroke-dasharray="4,4" stroke-width="1" x1="0" x2="700" y1="80" y2="80"></line>
+<line class="text-surface-subtle" stroke="currentColor" stroke-dasharray="4,4" stroke-width="1" x1="0" x2="700" y1="130" y2="130"></line>
+<line class="text-surface-container" stroke="currentColor" stroke-width="1.5" x1="0" x2="700" y1="175" y2="175"></line>
+<!-- Gradient Area for Physical Progress -->
+<defs>
+<lineargradient id="gradSuccess" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#10B981" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#10B981" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="gradPrimary" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#1a5af0" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#1a5af0" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Outlay Trend Curve Area -->
+<path d="M 0,140 Q 90,120 175,100 T 350,75 T 525,45 T 700,35 L 700,175 L 0,175 Z" fill="url(#gradPrimary)"></path>
+<path d="M 0,140 Q 90,120 175,100 T 350,75 T 525,45 T 700,35" fill="none" stroke="#1a5af0" stroke-width="2.5"></path>
+<!-- Physical Geo-Verification Line -->
+<path d="M 0,160 Q 90,145 175,130 T 350,110 T 525,85 T 700,60 L 700,175 L 0,175 Z" fill="url(#gradSuccess)"></path>
+<path d="M 0,160 Q 90,145 175,130 T 350,110 T 525,85 T 700,60" fill="none" stroke="#10B981" stroke-dasharray="3,3" stroke-width="2"></path>
+<!-- Milestone Nodes -->
+<circle cx="175" cy="100" fill="#ffffff" r="4" stroke="#1a5af0" stroke-width="2.5"></circle>
+<circle cx="350" cy="75" fill="#ffffff" r="4" stroke="#1a5af0" stroke-width="2.5"></circle>
+<circle cx="525" cy="45" fill="#ffffff" r="4" stroke="#1a5af0" stroke-width="2.5"></circle>
+<circle cx="700" cy="35" fill="#1a5af0" r="5" stroke="#ffffff" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="flex items-center justify-between pt-2 px-1 font-label-xs text-label-xs text-text-muted">
+<span>Q1 (Apr-Jun)</span>
+<span>Q2 (Jul-Sep)</span>
+<span>Q3 (Oct-Dec)</span>
+<span>Q4 (Jan-Mar)</span>
+<span class="font-semibold text-text-primary">Current Stage</span>
+</div>
+</div>
+<!-- Quick Utilities & Gateway Links -->
+<div class="lg:col-span-4 flex flex-col gap-space-sm">
+<div class="bg-surface-card rounded-xl p-space-md shadow-sm flex flex-col justify-between flex-1">
+<div class="flex items-center justify-between pb-2">
+<span class="font-headline-sm text-headline-sm text-text-primary">Quick Utility Portals</span>
+<span class="material-symbols-outlined text-text-muted text-[18px]">open_in_new</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted leading-relaxed">Direct bridges to central infrastructure repositories and schedule masters.</p>
+<div class="flex flex-col gap-2 mt-3">
+<a class="group flex items-center justify-between p-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-low transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-card flex items-center justify-center text-primary shadow-xs">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-text-primary group-hover:text-primary">Standard Schedule of Rates</span>
+<span class="font-label-xs text-label-xs text-text-muted">CPWD / State DSR 2024</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-low transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-card flex items-center justify-center text-status-success-dot shadow-xs">
+<span class="material-symbols-outlined text-[18px]">satellite_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-text-primary group-hover:text-primary">ISRO Bhuvan Geo-Tag Server</span>
+<span class="font-label-xs text-label-xs text-text-muted">Sync: 12 mins ago</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-2.5 rounded-lg bg-surface-subtle hover:bg-surface-container-low transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-card flex items-center justify-center text-secondary shadow-xs">
+<span class="material-symbols-outlined text-[18px]">sync_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-text-primary group-hover:text-primary">SNA-PFMS Gateway 2.0</span>
+<span class="font-label-xs text-label-xs text-status-success-text font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot inline-block"></span> Treasury Handshake OK
+                </span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Saksham Risk & Integrity Alerts (Compact Pulse AI Notification Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Card 1: Tender Cross-Bidding Alert -->
+<div class="bg-surface-card rounded-xl p-space-md shadow-sm flex items-start gap-space-md relative overflow-hidden">
+<div class="w-1.5 absolute left-0 top-0 bottom-0 bg-status-warning-dot"></div>
+<div class="w-9 h-9 rounded-lg bg-status-warning-bg text-status-warning-text flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-label-xs font-semibold px-2 py-0.2 bg-status-warning-bg text-status-warning-text rounded-full">Medium Risk Alert</span>
+<span class="font-label-xs text-label-xs text-text-muted">Detected today</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-text-primary mt-1">Tender Cross-Bidding Warning</h4>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">2 bids in Work #MPL-882 share registered office PAN pattern and identical GST filing IPs.</p>
+<div class="mt-2.5">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-surface-subtle hover:bg-surface-container text-text-primary font-label-xs text-label-xs font-medium transition-colors" type="button">
+<span>Review Evidence</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Physical Milestone Lag -->
+<div class="bg-surface-card rounded-xl p-space-md shadow-sm flex items-start gap-space-md relative overflow-hidden">
+<div class="w-1.5 absolute left-0 top-0 bottom-0 bg-status-danger-dot"></div>
+<div class="w-9 h-9 rounded-lg bg-status-danger-bg text-status-danger-text flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">hourglass_disabled</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-label-xs font-semibold px-2 py-0.2 bg-status-danger-bg text-status-danger-text rounded-full">High Risk Notice</span>
+<span class="font-label-xs text-label-xs text-text-muted">45d Delay</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-text-primary mt-1">Physical Milestone Lag</h4>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Shivpur Maternity Hospital foundation delayed &gt;45 days against statutory GFR milestone schedule.</p>
+<div class="mt-2.5">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-surface-subtle hover:bg-surface-container text-text-primary font-label-xs text-label-xs font-medium transition-colors" type="button">
+<span>Inspect Geotag Log</span>
+<span class="material-symbols-outlined text-[14px]">satellite</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Active Work Inbox & Scheme Verification Table -->
+<div class="bg-surface-card rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Filter Tabs & Controls Header -->
+<div class="p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-card">
+<div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
+<button class="px-3.5 py-1.5 rounded-lg bg-surface-subtle text-primary font-label-md text-label-md font-semibold shrink-0" type="button">
+          All Works (48)
+        </button>
+<button class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:bg-surface-subtle font-label-md text-label-md transition-colors shrink-0" type="button">
+          Execution (26)
+        </button>
+<button class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:bg-surface-subtle font-label-md text-label-md transition-colors shrink-0 flex items-center gap-1.5" type="button">
+<span>MB Review</span>
+<span class="px-1.5 py-0.2 rounded-full bg-status-info-bg text-status-info-text text-label-xs font-semibold">7</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg text-text-secondary hover:bg-surface-subtle font-label-md text-label-md transition-colors shrink-0" type="button">
+          Delayed (4)
+        </button>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative flex-1 sm:w-64">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-text-muted text-[16px]">filter_list</span>
+<input class="w-full h-8 pl-8 pr-3 text-body-sm font-body-sm bg-surface-subtle rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:bg-surface-card shadow-xs" placeholder="Filter by Scheme or IA..." type="text"/>
+</div>
+<button class="h-8 px-2.5 rounded-lg bg-surface-subtle text-text-secondary hover:text-text-primary flex items-center gap-1 text-label-xs font-label-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Columns</span>
+</button>
+</div>
+</div>
+<!-- Table Canvas -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left text-body-sm font-body-sm">
+<thead class="bg-surface-subtle text-text-secondary font-label-xs text-label-xs uppercase tracking-wider">
+<tr>
+<th class="py-3 px-space-md font-semibold" scope="col">Work ID</th>
+<th class="py-3 px-space-md font-semibold" scope="col">Infrastructure Scheme</th>
+<th class="py-3 px-space-md font-semibold" scope="col">Constituency</th>
+<th class="py-3 px-space-md font-semibold" scope="col">Sanction Value</th>
+<th class="py-3 px-space-md font-semibold" scope="col">Current Stage</th>
+<th class="py-3 px-space-md text-right font-semibold" scope="col">Primary Action</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-text-primary">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-3.5 px-space-md font-mono text-label-md font-semibold text-primary">#MPL-882</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Overhead RO Water Filtration Plant</span>
+<span class="font-label-xs text-label-xs text-text-muted">Ward 14, Harahua Block • Solar hybrid</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary">Varanasi North</td>
+<td class="py-3.5 px-space-md font-mono font-medium">₹1,42,50,000</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-status-warning-bg text-status-warning-text font-label-xs text-label-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warning-dot"></span> Tender Evaluation
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-container text-text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                View Dossier
+              </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-3.5 px-space-md font-mono text-label-md font-semibold text-primary">#MPL-741</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Shivpur Community Maternity Center</span>
+<span class="font-label-xs text-label-xs text-text-muted">30-bed RCC structure with oxygen line</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary">Varanasi Cantt</td>
+<td class="py-3.5 px-space-md font-mono font-medium">₹4,80,00,000</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-status-danger-bg text-status-danger-text font-label-xs text-label-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-danger-dot"></span> Plinth Lag (&gt;45d)
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-status-danger-bg hover:bg-status-danger-dot/20 text-status-danger-text font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                Submit Verification
+              </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-3.5 px-space-md font-mono text-label-md font-semibold text-primary">#MPL-904</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Model Science Lab &amp; Smart Classes</span>
+<span class="font-label-xs text-label-xs text-text-muted">GIC Rohaniya Senior Secondary Wing</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary">Rohaniya</td>
+<td class="py-3.5 px-space-md font-mono font-medium">₹88,20,000</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-status-info-bg text-status-info-text font-label-xs text-label-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-info-dot"></span> MB Billing
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-xs text-label-xs font-semibold transition-colors shadow-xs" type="button">
+                Upload MB
+              </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-3.5 px-space-md font-mono text-label-md font-semibold text-primary">#MPL-655</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Rural Link Road Bituminous Paving</span>
+<span class="font-label-xs text-label-xs text-text-muted">Pindra to Kashi Sub-Market (3.8 km)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary">Pindra</td>
+<td class="py-3.5 px-space-md font-mono font-medium">₹2,15,40,000</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span> Geo-Verified
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-container text-text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                View Dossier
+              </button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-subtle/70 transition-colors">
+<td class="py-3.5 px-space-md font-mono text-label-md font-semibold text-primary">#MPL-998</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary font-medium">Modern High-Mast LED Mast Tower (x12)</span>
+<span class="font-label-xs text-label-xs text-text-muted">Sevapuri Junction Market Square</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-text-secondary">Sevapuri</td>
+<td class="py-3.5 px-space-md font-mono font-medium">₹64,90,000</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low text-text-secondary font-label-xs text-label-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Running Stage
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-surface-container text-text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                View Dossier
+              </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="p-space-md bg-surface-card flex items-center justify-between font-label-xs text-label-xs text-text-muted">
+<span>Showing 5 of 48 statutory works</span>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded flex items-center justify-center bg-surface-subtle text-text-secondary hover:text-text-primary" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<span class="px-2 font-medium text-text-primary">1</span>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-subtle text-text-secondary" type="button">2</button>
+<button class="w-7 h-7 rounded flex items-center justify-center hover:bg-surface-subtle text-text-secondary" type="button">3</button>
+<button class="w-7 h-7 rounded flex items-center justify-center bg-surface-subtle text-text-secondary hover:text-text-primary" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

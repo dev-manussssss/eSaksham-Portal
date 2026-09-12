@@ -1,0 +1,21 @@
+================================================================================
+GOVERNMENT OF WEST BENGAL • PUBLIC WORKS DEPARTMENT
+CONTRACTOR RUNNING ACCOUNT BILL (RA BILL-02)
+================================================================================
+Project: RCC Bridge Approach and Protection Works
+Project ID: PRJ-004
+Tender ID: TND-004 (SYNTHETIC)
+Contractor: Eastern Structural & Engineering Co. (VND-007)
+Date of Submission: 2026-10-20
+
+Item No | Description of Work | Executed Qty | Unit | Rate (Rs) | Billed Amount (Rs)
+1.1 | Earthwork in filling (embankment) | 5000 | cum | 200 | 10,00,000.00
+1.2 | Reinforced Cement Concrete (RCC M25) | 880 | cum | 6000 | 52,80,000.00
+1.3 | TMT Steel Reinforcement | 25000 | kg | 80 | 20,00,000.00
+
+Total Claimed Amount: Rs. 82,80,000.00
+Measurement Book Ref: MB-P14 / Page 42
+
+DISCREPANCY ALERT FOR VERIFICATION:
+Note that Item 1.2 Sanctioned BOQ allocation is 500 cum, whereas billed quantity is 880 cum (+76% overage).
+================================================================================

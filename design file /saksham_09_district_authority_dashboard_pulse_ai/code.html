@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container":"#e5eeff","status-success-text":"#047857","primary-fixed":"#dce1ff","primary":"#0043c4","on-surface":"#0b1c30","error-container":"#ffdad6","surface-container-low":"#eff4ff","status-success-dot":"#10B981","border-strong":"#CBD5E1","surface-bright":"#f8f9ff","surface":"#f8f9ff","error":"#ba1a1a","status-warning-dot":"#F59E0B","primary-fixed-dim":"#b6c4ff","secondary-fixed-dim":"#afc6ff","border-subtle":"#E2E8F0","status-info-bg":"#EFF6FF","on-tertiary-fixed-variant":"#28418f","tertiary-container":"#4c64b3","on-secondary-container":"#fefcff","background":"#f8f9ff","outline":"#737687","status-success-bg":"#ECFDF5","on-tertiary-fixed":"#00164f","text-primary":"#0F172A","on-secondary-fixed":"#001944","secondary-container":"#216fea","inverse-on-surface":"#eaf1ff","on-tertiary":"#ffffff","surface-base":"#F8FAFC","surface-container-high":"#dce9ff","on-secondary-fixed-variant":"#004299","on-error":"#ffffff","primary-container":"#1a5af0","on-primary-container":"#e3e7ff","status-danger-dot":"#EF4444","inverse-primary":"#b6c4ff","surface-subtle":"#EDF2F9","status-danger-text":"#B91C1C","text-muted":"#94A3B8","on-primary-fixed-variant":"#003baf","text-secondary":"#475569","on-primary-fixed":"#00164e","status-info-text":"#1D4ED8","surface-container-highest":"#d3e4fe","secondary-fixed":"#d9e2ff","on-primary":"#ffffff","on-secondary":"#ffffff","on-tertiary-container":"#e4e7ff","status-info-dot":"#3B82F6","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#b6c4ff","inverse-surface":"#213145","status-warning-text":"#B45309","surface-tint":"#004fe4","outline-variant":"#c3c5d8","on-surface-variant":"#434655","tertiary-fixed":"#dce1ff","status-warning-bg":"#FFFBEB","on-error-container":"#93000a","surface-dim":"#cbdbf5","on-background":"#0b1c30","surface-variant":"#d3e4fe","status-danger-bg":"#FEF2F2","secondary":"#0056c3","tertiary":"#334b99","surface-card":"#FFFFFF"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-mobile":"1rem","space-md":"1rem","space-2xl":"3rem","space-xs":"0.25rem","gutter":"1.25rem","space-sm":"0.5rem","space-xl":"2rem","space-lg":"1.5rem","gutter-mobile":"0.75rem","margin":"2rem"},"fontFamily":{"display-lg-mobile":["Geist"],"body-lg":["Geist"],"label-md":["Geist"],"headline-sm":["Geist"],"display-lg":["Geist"],"label-sm":["Geist"],"metric-val":["Geist"],"body-sm":["Geist"],"headline-md":["Geist"],"label-xs":["Geist"],"body-md":["Geist"],"headline-lg":["Geist"]},"fontSize":{"display-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.03em","fontWeight":"600"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.015em","fontWeight":"500"}],"metric-val":["30px",{"lineHeight":"36px","letterSpacing":"-0.025em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-xs":["11px",{"lineHeight":"14px","letterSpacing":"0.025em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface-base font-body-md text-text-primary min-h-screen antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-card z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm bg-surface-card"><img alt="Glossy Tricolour India E-Emblem.png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UBbXezSAuGze2eRu1sT9OzuXuqNkp-GYks9DAHAwupeO30ZwBHD8vzMzhoJrPqD5qsznqUz1T_o680qf3awAD2GHtIsiNCANIMMEahxA6g9Ct7cfPalqm1HGajMARLQQmjdld2hNDu659fsptNJ-X5CP-B3wOXMQgLtEKebT1x2-lVH6DAMotX4LNnChHL9WtLojWcIXXGgoCoJJrfPWvDOBbxFGf_KEUXfVYIzJo72D0J3T7_7B7zGqIdUcFVMfRiX9xDH08q6Q"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight truncate">e-SAKSHAM</span><span class="px-1.5 py-0.2 bg-surface-container text-primary font-label-xs text-label-xs rounded">MPLADS</span></div><span class="font-label-xs text-label-xs text-text-muted truncate">Fiscal Oversight &amp; Intelligence</span></div></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-xs text-label-xs uppercase text-text-muted font-bold tracking-wider">Institutional Control</span></div><nav class="flex flex-col gap-1 px-space-sm" data-active-classes="bg-status-info-bg text-primary font-headline-sm"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="truncate">Dashboard &amp; Risk</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="manage-vendors" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="truncate">Manage Vendors</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="add-edit-vendor" href="#"><span class="material-symbols-outlined text-[20px]">person_add</span><span class="truncate">Add / Edit Vendor</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="vendor-risk-profiles" href="#"><span class="material-symbols-outlined text-[20px]">shield_with_heart</span><span class="truncate">Vendor Risk Profiles</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="work-project-details" href="#"><span class="material-symbols-outlined text-[20px]">account_tree</span><span class="truncate">Work / Project Details</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="assign-and-work-progress" href="#"><span class="material-symbols-outlined text-[20px]">published_with_changes</span><span class="truncate">Assign &amp; Work Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="fund-disbursement" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span class="truncate">Fund Disbursement</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors font-body-md text-body-md" data-path="risk-and-investigation" href="#"><span class="material-symbols-outlined text-[20px]">gavel</span><span class="truncate">Risk &amp; Investigation</span></a></nav></div><div class="p-space-sm mb-space-xs"><div class="bg-surface-subtle rounded-xl p-space-sm flex items-center justify-between"><div class="flex items-center gap-space-xs"><div class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-success-dot opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-status-success-dot"></span></div><span class="font-label-sm text-label-sm text-text-primary font-medium">NIC Gateway Active</span></div><span class="material-symbols-outlined text-text-muted text-[18px]">lock</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-card/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-md"><div class="h-16 w-full flex items-center justify-between gap-space-md"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-text-muted text-[18px]">search</span><input class="w-full h-10 pl-9 pr-14 rounded-full bg-surface-base text-text-primary placeholder:text-text-muted font-body-sm text-body-sm focus:outline-none focus:bg-surface-card shadow-[0_1px_3px_rgba(15,23,42,0.04)] transition-all" placeholder="Search Sanction Order, Work ID, Agency, or Geotagged Asset..." type="text"/><span class="absolute right-3 font-label-xs text-label-xs text-text-muted bg-surface-card px-1.5 py-0.5 rounded shadow-[0_1px_2px_rgba(15,23,42,0.05)]">⌘K</span></div></div><div class="flex items-center gap-space-sm"><button class="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><button class="relative w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface-subtle hover:text-text-primary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-status-danger-dot"></span></button><div class="h-6 w-px bg-surface-container mx-space-xs"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_2px_4px_rgba(0,67,196,0.15)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-text-primary font-medium leading-none">R. Venkatraman (IAS)</span><span class="font-label-xs text-label-xs text-text-muted mt-1 leading-none">District Collector &amp; Nodal Officer</span></div></div></div></div></header><main class="w-full pt-16 bg-surface-base min-h-screen px-space-md py-space-md"><div class="flex flex-col w-full space-y-space-lg">
+<!-- Executive Header & Administrative Action Row -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-md">
+<div class="flex flex-col space-y-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">
+          District Authority Executive Dashboard
+        </h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          Varanasi Parliamentary Constituency
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span>
+          PFMS-SNA Live
+        </span>
+</div>
+<p class="font-body-md text-body-md text-text-secondary">
+        High-level executive oversight of MPLADS fund utilization, statutory approvals, and autonomous risk detection
+      </p>
+</div>
+<!-- Right Controls -->
+<div class="flex items-center gap-space-sm self-start lg:self-auto">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-card text-text-primary shadow-sm hover:bg-surface-subtle transition-all font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">picture_as_pdf</span>
+<span>Download District Brief (PDF)</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-container text-on-primary shadow-md hover:bg-secondary-container transition-all font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">add_task</span>
+<span>+ Sanction New Recommendation</span>
+</button>
+</div>
+</div>
+<!-- Top KPI Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- KPI 1 -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-surface-container-low -z-0 pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-secondary">Constituency Fund Limit</span>
+<div class="w-8 h-8 rounded-lg bg-status-info-bg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+</div>
+<div class="mt-space-sm flex items-baseline gap-2">
+<span class="font-metric-val text-metric-val text-text-primary">₹25.00 Cr</span>
+<span class="px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-semibold inline-flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> 68% Committed
+          </span>
+</div>
+</div>
+<div class="relative z-10 mt-space-md pt-space-xs flex items-center justify-between text-text-muted font-body-sm text-body-sm">
+<span>Annual MP Entitlement</span>
+<span class="font-medium text-text-secondary">FY 2024-25</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-surface-container-low -z-0 pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-secondary">Total Works Sanctioned</span>
+<div class="w-8 h-8 rounded-lg bg-status-info-bg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+</div>
+</div>
+<div class="mt-space-sm flex items-baseline gap-2">
+<span class="font-metric-val text-metric-val text-text-primary">142 Projects</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-xs text-label-xs font-semibold">
+            +12 this mo
+          </span>
+</div>
+</div>
+<div class="relative z-10 mt-space-md pt-space-xs flex items-center gap-2 text-text-muted font-body-sm text-body-sm">
+<span class="text-status-success-text font-medium">86 Completed</span>
+<span>•</span>
+<span class="text-status-info-text font-medium">42 Ongoing</span>
+<span>•</span>
+<span class="text-status-warning-text font-medium">14 Pending</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-surface-container-low -z-0 pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-secondary">Disbursed Expenditure</span>
+<div class="w-8 h-8 rounded-lg bg-status-info-bg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+</div>
+<div class="mt-space-sm flex items-baseline gap-2">
+<span class="font-metric-val text-metric-val text-text-primary">₹17.35 Cr</span>
+<span class="px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-semibold">
+            69.4%
+          </span>
+</div>
+</div>
+<div class="relative z-10 mt-space-md pt-space-xs flex items-center justify-between text-text-muted font-body-sm text-body-sm">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-status-success-dot"></span>PFMS-SNA Live Settlement</span>
+<span class="font-medium text-text-secondary">₹7.65 Cr left</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-surface-container-low -z-0 pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-secondary">Saksham Risk Index</span>
+<div class="w-8 h-8 rounded-lg bg-status-success-bg flex items-center justify-center text-status-success-text">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+</div>
+<div class="mt-space-sm flex items-baseline gap-2">
+<span class="font-metric-val text-metric-val text-text-primary">24 <span class="text-headline-sm font-normal text-text-muted">/ 100</span></span>
+<span class="px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-semibold">
+            Optimal
+          </span>
+</div>
+</div>
+<div class="relative z-10 mt-space-md pt-space-xs flex items-center justify-between text-text-muted font-body-sm text-body-sm">
+<span class="text-status-danger-text font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-danger-dot"></span>
+          3 Projects Flagged Triage
+        </span>
+<span class="text-primary font-medium hover:underline cursor-pointer">View</span>
+</div>
+</div>
+</div>
+<!-- Saksham District Risk Overview: 4 Quick Alert Cards -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-status-danger-dot animate-pulse"></div>
+<h2 class="font-headline-md text-headline-md text-text-primary">Saksham District Risk Overview</h2>
+<span class="px-2 py-0.5 rounded bg-surface-subtle text-text-secondary font-label-xs text-label-xs">Autonomous NIC Radar</span>
+</div>
+<div class="flex items-center gap-2 text-text-muted font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>Telemetry Refreshed: Just Now</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Risk Card 1: High Risk Projects -->
+<div class="bg-surface-subtle rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container-low transition-all">
+<div class="flex flex-col space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-status-danger-text font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+              High Risk Projects
+            </span>
+<span class="px-2 py-0.5 rounded-full bg-status-danger-bg text-status-danger-text font-label-xs text-label-xs font-bold">Priority</span>
+</div>
+<div class="font-metric-val text-[24px] leading-tight text-text-primary">3 Flagged</div>
+<p class="font-body-sm text-body-sm text-text-secondary">
+            2 critical physical delay overruns, 1 tender cross-vendor anomaly detected.
+          </p>
+</div>
+<a class="mt-space-md inline-flex items-center gap-1 text-primary font-label-md text-label-md font-semibold hover:underline" href="#">
+<span>Review Projects</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Risk Card 2: High Risk Vendors -->
+<div class="bg-surface-subtle rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container-low transition-all">
+<div class="flex flex-col space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-status-warning-text font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">shield_person</span>
+              High Risk Vendors
+            </span>
+<span class="px-2 py-0.5 rounded-full bg-status-warning-bg text-status-warning-text font-label-xs text-label-xs font-bold">Vigilance</span>
+</div>
+<div class="font-metric-val text-[24px] leading-tight text-text-primary">2 Under Vigilance</div>
+<p class="font-body-sm text-body-sm text-text-secondary">
+            Director collusion pattern flag and GST ITC mismatch in Shivpur block.
+          </p>
+</div>
+<a class="mt-space-md inline-flex items-center gap-1 text-primary font-label-md text-label-md font-semibold hover:underline" href="#">
+<span>Inspect Vendors</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Risk Card 3: Physical Inspection Alerts -->
+<div class="bg-surface-subtle rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container-low transition-all">
+<div class="flex flex-col space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-status-info-text font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">location_searching</span>
+              Physical Inspections
+            </span>
+<span class="px-2 py-0.5 rounded-full bg-status-info-bg text-status-info-text font-label-xs text-label-xs font-bold">Field Action</span>
+</div>
+<div class="font-metric-val text-[24px] leading-tight text-text-primary">5 Sites Due</div>
+<p class="font-body-sm text-body-sm text-text-secondary">
+            Unverified geo-coordinates or 2nd milestone stage lag past statutory window.
+          </p>
+</div>
+<a class="mt-space-md inline-flex items-center gap-1 text-primary font-label-md text-label-md font-semibold hover:underline" href="#">
+<span>Schedule Inspections</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Risk Card 4: Payment Review Alerts -->
+<div class="bg-surface-subtle rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container-low transition-all">
+<div class="flex flex-col space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">lock_clock</span>
+              Payment Review Alerts
+            </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-xs text-label-xs font-bold">Sign-off</span>
+</div>
+<div class="font-metric-val text-[24px] leading-tight text-status-danger-text">₹2.15 Cr on Hold</div>
+<p class="font-body-sm text-body-sm text-text-secondary">
+            Milestone verification awaiting nodal collector electronic authorization.
+          </p>
+</div>
+<a class="mt-space-md inline-flex items-center gap-1 text-primary font-label-md text-label-md font-semibold hover:underline" href="#">
+<span>Open Payment Inbox</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Main Grid: 8 Columns (Analytics & Inbox) vs 4 Columns (Scheme Pipeline, GIS Radar, Collector Approvals) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left 8 Columns -->
+<div class="lg:col-span-8 flex flex-col space-y-space-lg">
+<!-- Chart Card: Trajectory & Fund Outlay vs Physical Progress -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div>
+<h3 class="font-headline-md text-headline-md text-text-primary">Development Work Trajectory &amp; Outlay</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Quarterly fiscal disbursement velocity vs. verified physical milestone execution</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-text-secondary">
+<span class="w-3 h-1 bg-primary rounded-full"></span>
+<span>Planned (Target)</span>
+</div>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-text-secondary">
+<span class="w-3 h-1 bg-status-success-dot rounded-full"></span>
+<span>Actual Physical</span>
+</div>
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-text-secondary">
+<span class="w-3 h-1 bg-status-warning-dot rounded-full"></span>
+<span>Fiscal Outlay</span>
+</div>
+</div>
+</div>
+<!-- SVG Trajectory Visualization -->
+<div class="w-full bg-surface-subtle/50 rounded-xl p-space-md relative overflow-hidden">
+<div class="h-60 w-full flex flex-col justify-between">
+<svg class="w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 700 220">
+<defs>
+<lineargradient id="actualGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#10B981" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#10B981" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="plannedGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0043c4" stop-opacity="0.12"></stop>
+<stop offset="100%" stop-color="#0043c4" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Horizontal Guides -->
+<line opacity="0.4" stroke="#CBD5E1" stroke-dasharray="3 3" x1="30" x2="680" y1="30" y2="30"></line>
+<line opacity="0.4" stroke="#CBD5E1" stroke-dasharray="3 3" x1="30" x2="680" y1="80" y2="80"></line>
+<line opacity="0.4" stroke="#CBD5E1" stroke-dasharray="3 3" x1="30" x2="680" y1="130" y2="130"></line>
+<line opacity="0.4" stroke="#CBD5E1" stroke-dasharray="3 3" x1="30" x2="680" y1="180" y2="180"></line>
+<!-- Planned Area & Curve -->
+<path d="M 50 180 C 180 150, 320 110, 460 70 C 560 45, 630 35, 660 30 L 660 190 L 50 190 Z" fill="url(#plannedGrad)"></path>
+<path d="M 50 180 C 180 150, 320 110, 460 70 C 560 45, 630 35, 660 30" stroke="#0043c4" stroke-linecap="round" stroke-width="2.5"></path>
+<!-- Actual Physical Area & Curve -->
+<path d="M 50 185 C 180 160, 320 125, 460 92 C 540 75, 600 62, 660 55 L 660 190 L 50 190 Z" fill="url(#actualGrad)"></path>
+<path d="M 50 185 C 180 160, 320 125, 460 92 C 540 75, 600 62, 660 55" stroke="#10B981" stroke-linecap="round" stroke-width="2.5"></path>
+<!-- Fiscal Outlay Curve -->
+<path d="M 50 188 C 180 170, 320 135, 460 102 C 550 82, 610 68, 660 62" stroke="#F59E0B" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="2"></path>
+<!-- Data Point Anchors -->
+<circle cx="50" cy="180" fill="#0043c4" r="3.5"></circle>
+<circle cx="250" cy="132" fill="#0043c4" r="3.5"></circle>
+<circle cx="460" cy="70" fill="#0043c4" r="3.5"></circle>
+<circle cx="660" cy="30" fill="#0043c4" r="4.5"></circle>
+<circle cx="50" cy="185" fill="#10B981" r="3.5"></circle>
+<circle cx="250" cy="144" fill="#10B981" r="3.5"></circle>
+<circle cx="460" cy="92" fill="#10B981" r="4.5"></circle>
+<circle cx="660" cy="55" fill="#10B981" r="4.5"></circle>
+</svg>
+</div>
+<!-- Chart X-Axis Labels -->
+<div class="flex justify-between px-6 pt-2 font-label-sm text-label-sm text-text-muted">
+<span>Q1 (Apr - Jun)</span>
+<span>Q2 (Jul - Sep)</span>
+<span>Q3 (Oct - Dec)</span>
+<span class="text-primary font-semibold">Q4 (Jan - Mar Live)</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-space-sm pt-space-xs">
+<div class="bg-surface-subtle p-3 rounded-xl">
+<span class="font-label-xs text-label-xs text-text-muted uppercase tracking-wide">Target Milestones</span>
+<div class="font-headline-sm text-headline-sm text-text-primary mt-0.5">92% Velocity</div>
+</div>
+<div class="bg-surface-subtle p-3 rounded-xl">
+<span class="font-label-xs text-label-xs text-text-muted uppercase tracking-wide">Ground Verified</span>
+<div class="font-headline-sm text-headline-sm text-status-success-text mt-0.5">84.2% Geotagged</div>
+</div>
+<div class="bg-surface-subtle p-3 rounded-xl">
+<span class="font-label-xs text-label-xs text-text-muted uppercase tracking-wide">Disbursement Lag</span>
+<div class="font-headline-sm text-headline-sm text-status-warning-text mt-0.5">-7.8% Under Signoff</div>
+</div>
+</div>
+</div>
+<!-- Active Sanction & Approval Inbox (Executive Work Queue) -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-headline-md text-text-primary">Active Sanction &amp; Approval Inbox</h3>
+<span class="px-2 py-0.5 rounded-full bg-status-info-bg text-status-info-text font-label-xs text-label-xs font-semibold">
+              4 Critical Actions
+            </span>
+</div>
+<button class="text-primary font-label-md text-label-md font-medium hover:underline inline-flex items-center gap-1" type="button">
+<span>View Complete Registry (142)</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto rounded-xl">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-subtle text-text-secondary font-label-xs text-label-xs uppercase tracking-wider">
+<th class="py-3 px-4">Work ID &amp; Description</th>
+<th class="py-3 px-3">Assembly Segment</th>
+<th class="py-3 px-3 text-right">Estimated Cost</th>
+<th class="py-3 px-3">Recommended By</th>
+<th class="py-3 px-3 text-center">Risk Flag</th>
+<th class="py-3 px-4 text-right">Executive Action</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-text-primary">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-subtle transition-colors group">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-primary">#MPL-882</span>
+<span class="font-medium text-text-primary line-clamp-1">Construction of Reinforced Stormwater Trunk Drain</span>
+</div>
+</td>
+<td class="py-3.5 px-3 font-medium text-text-secondary">Varanasi Cantt</td>
+<td class="py-3.5 px-3 text-right font-medium text-text-primary">₹3,45,00,000</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-low text-text-secondary font-medium">
+<span class="material-symbols-outlined text-[14px]">badge</span>
+                    Hon. MP
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-warning-bg text-status-warning-text font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-status-warning-dot"></span>
+                    Medium: Tender Cross
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-primary font-label-sm text-label-sm font-semibold hover:bg-primary hover:text-on-primary transition-all" type="button">
+                    Review Sanction
+                  </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-subtle transition-colors group">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-primary">#MPL-741</span>
+<span class="font-medium text-text-primary line-clamp-1">50-Bed Maternal &amp; Child Health Wing</span>
+</div>
+</td>
+<td class="py-3.5 px-3 font-medium text-text-secondary">Shivpur</td>
+<td class="py-3.5 px-3 text-right font-medium text-text-primary">₹8,90,00,000</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-low text-text-secondary font-medium">
+<span class="material-symbols-outlined text-[14px]">badge</span>
+                    Hon. MP
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-danger-bg text-status-danger-text font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-status-danger-dot"></span>
+                    High: 45d Plinth Lag
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-status-danger-bg text-status-danger-text font-label-sm text-label-sm font-semibold hover:bg-status-danger-dot hover:text-on-primary transition-all" type="button">
+                    Issue Notice
+                  </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-subtle transition-colors group">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-primary">#MPL-904</span>
+<span class="font-medium text-text-primary line-clamp-1">Model Science Lab &amp; Smart Classes</span>
+</div>
+</td>
+<td class="py-3.5 px-3 font-medium text-text-secondary">Rohaniya</td>
+<td class="py-3.5 px-3 text-right font-medium text-text-primary">₹88,20,000</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-low text-text-secondary font-medium">
+<span class="material-symbols-outlined text-[14px]">badge</span>
+                    Hon. MP
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span>
+                    Low Risk: Clear
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold hover:bg-primary transition-all shadow-sm" type="button">
+                    Sign AS Order
+                  </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-subtle transition-colors group">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-primary">#MPL-655</span>
+<span class="font-medium text-text-primary line-clamp-1">Rural Link Road Bituminous Paving</span>
+</div>
+</td>
+<td class="py-3.5 px-3 font-medium text-text-secondary">Pindra</td>
+<td class="py-3.5 px-3 text-right font-medium text-text-primary">₹2,15,40,000</td>
+<td class="py-3.5 px-3">
+<span class="inline-flex items-center gap-1 font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-low text-text-secondary font-medium">
+<span class="material-symbols-outlined text-[14px]">badge</span>
+                    Hon. MP
+                  </span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-success-bg text-status-success-text font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span>
+                    Low: Geo-Verified
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-primary font-label-sm text-label-sm font-semibold hover:bg-primary hover:text-on-primary transition-all" type="button">
+                    Approve MB
+                  </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right 4 Columns -->
+<div class="lg:col-span-4 flex flex-col space-y-space-lg">
+<!-- Card: MP Recommendations & Sanction Pipeline (Scheme Breakdown) -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-text-primary">Scheme Distribution</h3>
+<span class="font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-subtle text-text-secondary">Sector Allocation</span>
+</div>
+<!-- Donut Mini Visual & Breakdown -->
+<div class="flex items-center gap-4">
+<!-- Mini SVG Donut -->
+<div class="relative w-28 h-28 shrink-0 flex items-center justify-center">
+<svg class="w-28 h-28 -rotate-90" viewbox="0 0 36 36">
+<!-- Background Circle -->
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#E2E8F0" stroke-width="4.5"></circle>
+<!-- Urban Infra 45% -->
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#0043c4" stroke-dasharray="45 55" stroke-dashoffset="0" stroke-width="4.5"></circle>
+<!-- Health 25% -->
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#10B981" stroke-dasharray="25 75" stroke-dashoffset="-45" stroke-width="4.5"></circle>
+<!-- Education 18% -->
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#3B82F6" stroke-dasharray="18 82" stroke-dashoffset="-70" stroke-width="4.5"></circle>
+<!-- Rural Road 12% -->
+<circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#F59E0B" stroke-dasharray="12 88" stroke-dashoffset="-88" stroke-width="4.5"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-text-primary">142</span>
+<span class="font-label-xs text-[10px] text-text-muted leading-none">Works</span>
+</div>
+</div>
+<!-- Legend Bar List -->
+<div class="flex flex-col space-y-2 w-full">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="text-text-secondary">Urban Infra</span>
+</div>
+<span class="font-semibold text-text-primary">45% (₹11.2 Cr)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-status-success-dot"></span>
+<span class="text-text-secondary">Health Wing</span>
+</div>
+<span class="font-semibold text-text-primary">25% (₹6.25 Cr)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-status-info-dot"></span>
+<span class="text-text-secondary">Education</span>
+</div>
+<span class="font-semibold text-text-primary">18% (₹4.5 Cr)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-status-warning-dot"></span>
+<span class="text-text-secondary">Rural Roads</span>
+</div>
+<span class="font-semibold text-text-primary">12% (₹3.0 Cr)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Constituency Geographic Risk & ISRO Bhuvan Telemetry Card -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-text-primary">ISRO Bhuvan Telemetry</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Constituency GIS geotagged asset matrix</p>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-xs text-label-xs font-semibold">
+            Bhuvan-2D
+          </span>
+</div>
+<!-- Interactive Mini Map Frame -->
+<div class="w-full h-44 rounded-xl bg-surface-subtle relative overflow-hidden flex items-center justify-center shadow-inner group" data-location="Varanasi, Uttar Pradesh, India" style="">
+<!-- Assembly Segment Overlay Pills on Map -->
+<div class="absolute inset-0 p-3 flex flex-col justify-between pointer-events-none">
+<div class="flex justify-between items-start">
+<div class="pointer-events-auto bg-surface-card/90 backdrop-blur-md px-2.5 py-1 rounded-md shadow-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-status-danger-dot"></span>
+<span class="font-label-xs text-label-xs font-semibold text-text-primary">Shivpur (1 Red)</span>
+</div>
+<div class="pointer-events-auto bg-surface-card/90 backdrop-blur-md px-2.5 py-1 rounded-md shadow-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-status-warning-dot"></span>
+<span class="font-label-xs text-label-xs font-semibold text-text-primary">Cantt (1 Amber)</span>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div class="pointer-events-auto bg-surface-card/90 backdrop-blur-md px-2.5 py-1 rounded-md shadow-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-status-success-dot"></span>
+<span class="font-label-xs text-label-xs font-semibold text-text-primary">Rohaniya (Clear)</span>
+</div>
+<div class="pointer-events-auto bg-surface-card/90 backdrop-blur-md px-2.5 py-1 rounded-md shadow-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-status-success-dot"></span>
+<span class="font-label-xs text-label-xs font-semibold text-text-primary">Pindra (Clear)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Assembly Segments Geo Badge Strip -->
+<div class="flex flex-wrap gap-1.5 pt-1">
+<span class="px-2 py-1 rounded-lg bg-surface-subtle text-text-secondary font-label-xs text-label-xs flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span> Varanasi North (28 Sites)
+          </span>
+<span class="px-2 py-1 rounded-lg bg-surface-subtle text-text-secondary font-label-xs text-label-xs flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span> Varanasi South (34 Sites)
+          </span>
+<span class="px-2 py-1 rounded-lg bg-surface-subtle text-text-secondary font-label-xs text-label-xs flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-success-dot"></span> Sevapuri (19 Sites)
+          </span>
+</div>
+</div>
+<!-- Pending Approvals for District Collector Card -->
+<div class="bg-surface-card rounded-2xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+<h3 class="font-headline-md text-headline-md text-text-primary">Collector Pending Approvals</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-danger-bg text-status-danger-text font-label-xs text-label-xs font-bold">12 Total</span>
+</div>
+<div class="flex flex-col space-y-space-sm">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-subtle hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-text-primary">Administrative Sanction (AS)</span>
+<span class="font-body-sm text-body-sm text-text-muted">4 Orders awaiting digital DSC sign</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded-lg bg-surface-card text-primary font-label-xs text-label-xs font-semibold shadow-sm hover:bg-primary hover:text-on-primary transition-colors" type="button">
+              Sign All
+            </button>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-subtle hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-status-success-bg flex items-center justify-center text-status-success-text">
+<span class="material-symbols-outlined text-[18px]">task_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-text-primary">Final Completion Certificates</span>
+<span class="font-body-sm text-body-sm text-text-muted">6 Pending 3rd-party engineering signoffs</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded-lg bg-surface-card text-text-primary font-label-xs text-label-xs font-semibold shadow-sm hover:bg-surface-subtle transition-colors" type="button">
+              Review
+            </button>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-subtle hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-status-warning-bg flex items-center justify-center text-status-warning-text">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-text-primary">Audit Show-Cause Replies</span>
+<span class="font-body-sm text-body-sm text-text-muted">2 Pending agency delay responses</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded-lg bg-surface-card text-status-warning-text font-label-xs text-label-xs font-semibold shadow-sm hover:bg-status-warning-bg transition-colors" type="button">
+              Inspect
+            </button>
+</div>
+</div>
+<button class="w-full py-2.5 rounded-xl bg-surface-container text-primary font-label-md text-label-md font-semibold hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span>Open Executive DSC Signing Suite</span>
+<span class="material-symbols-outlined text-[18px]">vpn_key</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interaction for active table actions
+  document.addEventListener('DOMContentLoaded', () => {
+    const actionButtons = document.querySelectorAll('table button');
+    actionButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const row = e.target.closest('tr');
+        const workId = row.querySelector('.font-semibold.text-primary')?.innerText || 'Work order';
+        const origText = btn.innerText;
+        btn.innerText = 'Processing...';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.innerText = 'Completed ✓';
+          btn.classList.remove('bg-surface-container', 'bg-primary-container', 'bg-status-danger-bg');
+          btn.classList.add('bg-status-success-bg', 'text-status-success-text');
+        }, 600);
+      });
+    });
+  });
+</script></main></div></body></html>

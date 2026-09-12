@@ -1,0 +1,40 @@
+{
+  "system": {
+    "name": "SAKSHAM",
+    "environment": "development",
+    "timezone": "Asia/Kolkata",
+    "database_source_of_truth": true
+  },
+  "risk_engine": {
+    "weights": {
+      "vendor": 0.20,
+      "tender": 0.20,
+      "project": 0.15,
+      "inspection": 0.20,
+      "payment": 0.15,
+      "document": 0.10
+    },
+    "critical_threshold": 85.0,
+    "high_threshold": 70.0,
+    "moderate_threshold": 40.0
+  },
+  "cache": {
+    "deterministic_caching_enabled": true,
+    "prevent_rerun_on_refresh": true,
+    "maxOfflinePdfBytes": 5242880
+  },
+  "services": {
+    "ocr": {
+      "timeout_seconds": 15,
+      "fallback_mode": "GRACEFUL_DEGRADE"
+    },
+    "cv": {
+      "timeout_seconds": 10,
+      "phash_hamming_threshold": 5
+    },
+    "fraud_graph": {
+      "clique_min_size": 3,
+      "shared_attribute_types": ["DIN", "PHONE", "BANK_HASH", "ADDRESS"]
+    }
+  }
+}

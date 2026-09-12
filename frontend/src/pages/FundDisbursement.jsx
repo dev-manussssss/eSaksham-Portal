@@ -49,7 +49,7 @@ export default function FundDisbursement() {
   }
 
   const sanctioned = Number(selectedProj?.sanctioned_amount || 0);
-  const disbursed = Number(selectedProj?.disbursed_amount || 0);
+  const disbursed = Number(selectedProj?.released_amount ?? selectedProj?.disbursed_amount ?? 0);
   const unspent = Math.max(0, sanctioned - disbursed);
   const disbursalPct = sanctioned > 0 ? Math.round((disbursed / sanctioned) * 100) : 0;
 

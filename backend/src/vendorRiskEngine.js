@@ -105,68 +105,70 @@ async function calcHistoricalPerformance(vendorId) {
 async function calcCollusionNetwork(vendorId) {
   const signals = [];
 
-  const { data: vendor } = await supabase
+  const { data: vendor, error: vErr } = await supabase
     .from('vendors')
-    .select('registered_address, director_dins')
+    .select('id, company_name, gstin, district, state, sector, is_blacklisted')
     .eq('id', vendorId)
     .single();
 
-  if (!vendor) return { score: 0, signals: [{ dimension: 'B', signal_code: 'VENDOR_NOT_FOUND', label: 'Vendor record not found', points: 0, status: 'ANALYSIS_PENDING', source_field: 'vendors.id' }] };
+  if (!vendor || vErr) {
+    return { score: 0, signals: [{ dimension: 'B', signal_code: 'VENDOR_NOT_FOUND', label: 'Vendor record not found', points: 0, status: 'ANALYSIS_PENDING', source_field: 'vendors.id' }] };
+  }
 
   let score = 0;
 
-  // Shared registered address
-  if (vendor.registered_address) {
-    const { data: sameAddress } = await supabase
+  // District & Sector concentration indicator
+  if (vendor.district && vendor.sector) {
+    const { data: peerVendors } = await supabase
       .from('vendors')
-      .select('id', { count: 'exact' })
-      .eq('registered_address', vendor.registered_address)
-      .eq('is_active', true)
+      .select('id')
+      .eq('district', vendor.district)
+      .eq('sector', vendor.sector)
       .neq('id', vendorId);
-    const count = sameAddress?.length || 0;
-    if (count >= 1) {
-      score += 20;
-      signals.push({ dimension: 'B', signal_code: 'SHARED_ADDRESS', label: `Same registered address as ${count} other active vendor(s) — verify for shell indicators`, points: 20, status: 'ACTIVE', source_field: 'vendors.registered_address' });
-    }
-  }
 
-  // Shared director DINs
-  if (vendor.director_dins && vendor.director_dins.length > 0) {
-    const { data: allVendors } = await supabase
-      .from('vendors')
-      .select('id, director_dins')
-      .eq('is_active', true)
-      .neq('id', vendorId);
-    const overlap = (allVendors || []).filter(v =>
-      v.director_dins && v.director_dins.some(din => vendor.director_dins.includes(din))
-    );
-    if (overlap.length >= 1) {
-      score += 30;
-      signals.push({ dimension: 'B', signal_code: 'SHARED_DIRECTOR_DIN', label: `Shared director DIN with ${overlap.length} other vendor(s)`, points: 30, status: 'ACTIVE', source_field: 'vendors.director_dins (array overlap)' });
+    const peerCount = peerVendors?.length || 0;
+    if (peerCount >= 2) {
+      signals.push({
+        dimension: 'B',
+        signal_code: 'LOCAL_CONCENTRATION_CLUSTER',
+        label: `Active in high-density local procurement cluster (${peerCount} peer firms in ${vendor.district} ${vendor.sector})`,
+        points: 10,
+        status: 'ACTIVE',
+        source_field: 'vendors.district, vendors.sector',
+      });
+      score += 10;
     }
   }
 
   // Sole-bidder awards — PENDING (bids table not yet in schema)
-  signals.push({ dimension: 'B', signal_code: 'SOLE_BIDDER_WINS', label: 'Sole-bidder award detection requires bids table', points: 0, status: 'ANALYSIS_PENDING', source_field: 'bids table (not yet implemented)' });
+  signals.push({
+    dimension: 'B',
+    signal_code: 'SOLE_BIDDER_WINS',
+    label: 'Sole-bidder award detection requires tenders bid registry',
+    points: 0,
+    status: 'ANALYSIS_PENDING',
+    source_field: 'tenders.awarded_vendor_id',
+  });
 
   return { score: clip(score), signals };
 }
 
 /**
  * C. Financial Anomalies Score (25%)
- * Inputs: bills, boq_items
+ * Inputs: bills, boq_items, projects
  */
 async function calcFinancialAnomalies(vendorId) {
   const signals = [];
 
-  const { data: projects } = await supabase
+  const { data: projects, error: pErr } = await supabase
     .from('projects')
-    .select('id')
-    .eq('vendor_id', vendorId)
-    .eq('is_active', true);  // note: projects table doesn't have is_active but won't break
+    .select('id, status, sanctioned_amount, released_amount, expenditure_amount')
+    .eq('vendor_id', vendorId);
 
   const projectIds = (projects || []).map(p => p.id);
-  if (projectIds.length === 0) return { score: 0, signals: [{ dimension: 'C', signal_code: 'NO_PROJECTS', label: 'No projects to evaluate', points: 0, status: 'ANALYSIS_PENDING', source_field: 'projects.vendor_id' }] };
+  if (projectIds.length === 0) {
+    return { score: 0, signals: [{ dimension: 'C', signal_code: 'NO_PROJECTS', label: 'No projects currently assigned to evaluate', points: 0, status: 'ANALYSIS_PENDING', source_field: 'projects.vendor_id' }] };
+  }
 
   let score = 0;
   const ratios = [];

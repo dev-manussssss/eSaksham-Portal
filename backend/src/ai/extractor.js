@@ -1,4 +1,5 @@
 import pdfParse from 'pdf-parse';
+import { extractInvoiceJsonWithGroq } from './groqFailover.js';
 
 export async function extractDocumentData(fileBuffer, mimeType, originalName = '') {
   let text = '';
@@ -14,45 +15,57 @@ export async function extractDocumentData(fileBuffer, mimeType, originalName = '
     text = fileBuffer.toString('utf-8');
   }
 
-  // Check if text is JSON
+  // 1. Direct JSON check
   try {
     const trimmed = text.trim();
     if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
       const json = JSON.parse(trimmed);
       return {
-        rawText: text.slice(0, 1000),
+        rawText: text.slice(0, 4000),
         extracted: json,
       };
     }
   } catch (e) {
-    // Not valid JSON, continue regex parsing
+    // Not raw JSON, continue to AI extraction
   }
 
-  // Regex-based heuristic parser for Bills, Invoices, and MB records
+  // 2. Groq AI Extraction (Structured JSON conversion)
+  try {
+    const groqResult = await extractInvoiceJsonWithGroq(text);
+    if (groqResult && groqResult.items && groqResult.items.length > 0) {
+      return {
+        rawText: text.slice(0, 4000),
+        extracted: groqResult,
+      };
+    }
+  } catch (e) {
+    console.warn('Groq extraction encountered an error, falling back to heuristic parser:', e.message);
+  }
+
+  // 3. Fallback Heuristic / Regex Parser for Bills, Invoices, and MB records
   const items = [];
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
 
-  // Heuristic item matcher: e.g. "Item 1: Concrete 800 cum @ 6000 = 4800000" or tabular "1 | Earthwork | 2000 | 150"
   for (const line of lines) {
-    // Match line with numbers: e.g. "1.2 | RCC M25 | 880 | 6000 | 5280000"
     const parts = line.split(/[|,\t]/).map(p => p.trim());
     if (parts.length >= 3) {
       const numMatch = parts[0].match(/^[0-9.]+/);
-      const qtyMatch = parts[2].match(/[0-9.]+/);
+      // Look for a numeric quantity in parts[2] or parts[3]
+      const qtyMatch = parts[2]?.match(/[0-9.]+/);
       if (numMatch && qtyMatch) {
         items.push({
           item_no: numMatch[0],
           description: parts[1] || `Item ${numMatch[0]}`,
           executed_qty: parseFloat(qtyMatch[0]),
           billed_qty: parseFloat(qtyMatch[0]),
-          rate: parts[3] ? parseFloat(parts[3].replace(/[^0-9.]/g, '')) : 0,
-          billed_amount: parts[4] ? parseFloat(parts[4].replace(/[^0-9.]/g, '')) : 0,
+          unit: parts[3] && isNaN(parseFloat(parts[3])) ? parts[3].trim() : 'units',
+          rate: parts[4] ? parseFloat(parts[4].replace(/[^0-9.]/g, '')) : (parts[3] ? parseFloat(parts[3].replace(/[^0-9.]/g, '')) : 0),
+          billed_amount: parts[5] ? parseFloat(parts[5].replace(/[^0-9.]/g, '')) : 0,
         });
       }
     }
   }
 
-  // If no tabular items found, look for explicit quantity overrides in text
   if (items.length === 0) {
     const qtyRegex = /(?:item|item no|s\.no)\s*[:#]?\s*([0-9.]+)[^0-9\n]*([A-Za-z\s]+)[^0-9\n]*([0-9.]+)\s*(cum|sqm|rmt|nos|lot|kg|m³|m²)/gi;
     let match;
@@ -67,20 +80,17 @@ export async function extractDocumentData(fileBuffer, mimeType, originalName = '
     }
   }
 
-  // Extract metadata like Bill No
   const billNoMatch = text.match(/(?:bill\s*no|invoice\s*no|ra\s*bill)\s*[:#-]?\s*([A-Za-z0-9\/-]+)/i);
-  // ZERO-FABRICATION: return null if bill number cannot be extracted, never invent a value
   const billNo = billNoMatch ? billNoMatch[1].trim() : null;
 
   return {
-    rawText: text.slice(0, 2000),
+    rawText: text.slice(0, 4000),
     extracted: {
       bill_no: billNo,
-      // ZERO-FABRICATION: if no items found, return empty array and EXTRACTION_FAILED status
-      // Never insert synthetic/assumed quantities — callers must check extraction_status
       items: items,
       extraction_status: items.length > 0 ? 'COMPLETE' : 'EXTRACTION_FAILED',
       bill_no_status: billNo ? 'COMPLETE' : 'EXTRACTION_PARTIAL',
+      extractedBy: 'Deterministic Heuristic Fallback',
     },
   };
 }

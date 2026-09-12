@@ -208,6 +208,7 @@ app.post('/api/projects/:id/documents', upload.single('file'), async (req, res) 
       project,
       boqItems: boqItems || [],
       ruleResult,
+      extractedData: extracted,
       extractedText: rawText,
     });
 
@@ -940,7 +941,7 @@ app.get('/api/dashboard/stats', async (req, res) => {
 
     list.forEach(p => {
       totalSanctioned += Number(p.sanctioned_amount || 0);
-      totalDisbursed += Number(p.disbursed_amount || 0);
+      totalDisbursed += Number(p.released_amount || p.disbursed_amount || p.expenditure_amount || 0);
       statusCounts[p.status] = (statusCounts[p.status] || 0) + 1;
     });
 
@@ -974,7 +975,7 @@ app.get('/api/dashboard/stats', async (req, res) => {
         total_disbursed: totalDisbursed,
         completed_projects: statusCounts['COMPLETED'] || 0,
         stalled_projects: (statusCounts['ON_HOLD'] || 0) + (statusCounts['stalled'] || 0),
-        in_progress_projects: (statusCounts['IN_PROGRESS'] || 0) + (statusCounts['WORK_IN_PROGRESS'] || 0),
+        in_progress_projects: (statusCounts['UNDER_IMPLEMENTATION'] || 0) + (statusCounts['IN_PROGRESS'] || 0) + (statusCounts['WORK_IN_PROGRESS'] || 0),
         status_counts: statusCounts,
         active_flags_count: activeFlagsCount || 0,
         critical_flags_count: criticalFlagsCount || 0,

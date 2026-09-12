@@ -1,14 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RiskBadge from '../components/RiskBadge';
 import StatusBadge from '../components/StatusBadge';
-import { projects, getVendorById } from '../data/index.js';
+import { useAuth } from '../auth/AuthContext.jsx';
+import { fetchProjects } from '../api/sakshamApi.js';
+import { projects as mockProjects, getVendorById } from '../data/index.js';
 
 export default function WorkProgress() {
   const navigate = useNavigate();
-  const [selectedProjectId, setSelectedProjectId] = useState(projects[0].id);
+  const { session } = useAuth();
+  const [projectsList, setProjectsList] = useState(mockProjects);
+  const [selectedProjectId, setSelectedProjectId] = useState(mockProjects[0]?.id || 'PRJ-001');
 
-  const project = projects.find(p => p.id === selectedProjectId) || projects[0];
+  useEffect(() => {
+    let isMounted = true;
+    fetchProjects(session)
+      .then((res) => {
+        if (!isMounted) return;
+        if (res?.projects && res.projects.length > 0) {
+          setProjectsList(res.projects);
+          if (!res.projects.some((p) => p.id === selectedProjectId)) {
+            setSelectedProjectId(res.projects[0].id);
+          }
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, [session]);
+
+  const rawProject = projectsList.find((p) => p.id === selectedProjectId) || projectsList[0] || mockProjects[0];
+  const project = {
+    ...rawProject,
+    workId: rawProject.project_code || rawProject.workId || rawProject.id,
+    vendorId: rawProject.vendor_id || rawProject.vendorId || 'VND-001',
+    riskLevel: rawProject.risk_level || rawProject.riskLevel || 'LOW',
+    status: rawProject.status || 'UNDER_IMPLEMENTATION',
+    sanctionedAmount: rawProject.sanctioned_amount !== undefined
+      ? `₹${(Number(rawProject.sanctioned_amount) / 100000).toFixed(1)} Lakh`
+      : (rawProject.sanctionedAmount || '₹45.0 Lakh'),
+    releasedAmount: rawProject.released_amount !== undefined
+      ? `₹${(Number(rawProject.released_amount) / 100000).toFixed(1)} Lakh`
+      : (rawProject.releasedAmount || '₹36.6 Lakh'),
+    physicalProgress: Number(rawProject.physical_progress_percent ?? rawProject.physicalProgress ?? 50),
+    utilizationPct: Number(rawProject.financial_progress_percent ?? rawProject.utilizationPct ?? 50),
+    targetCompletion: rawProject.target_completion_date || rawProject.targetCompletion || '30 Nov 2026',
+  };
+
   const vendor = getVendorById(project.vendorId);
 
   const milestones = [
@@ -20,7 +60,7 @@ export default function WorkProgress() {
       date: project.riskLevel === 'CRITICAL' ? 'Flagged Discrepancy • Aug 2026' : 'In Progress • Aug 2026',
       status: project.riskLevel === 'CRITICAL' ? 'flagged' : 'active',
     },
-    { title: 'Final Handover', date: `Target: ${project.targetCompletion || '30 Nov 2026'}`, status: 'pending' },
+    { title: 'Final Handover', date: `Target: ${project.targetCompletion}`, status: 'pending' },
   ];
 
   return (
@@ -47,9 +87,9 @@ export default function WorkProgress() {
           <select
             className="saksham-input text-xs max-w-xs font-medium"
             value={selectedProjectId}
-            onChange={e => setSelectedProjectId(e.target.value)}
+            onChange={(e) => setSelectedProjectId(e.target.value)}
           >
-            {projects.map(p => (
+            {projectsList.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.id}: {p.title.slice(0, 32)}... ({p.district})
               </option>

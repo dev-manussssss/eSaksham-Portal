@@ -140,22 +140,45 @@ async function calcCollusionNetwork(vendorId) {
     }
   }
 
-  // Sole-bidder awards — PENDING (bids table not yet in schema)
-  signals.push({
-    dimension: 'B',
-    signal_code: 'SOLE_BIDDER_WINS',
-    label: 'Sole-bidder award detection requires tenders bid registry',
-    points: 0,
-    status: 'ANALYSIS_PENDING',
-    source_field: 'tenders.awarded_vendor_id',
-  });
+  // Sole-bidder awards query (AUD-011)
+  try {
+    const { data: awardedTenders } = await supabase
+      .from('tenders')
+      .select('id, reference_no')
+      .eq('awarded_vendor_id', vendorId);
+
+    if (awardedTenders && awardedTenders.length > 0) {
+      let soleBidCount = 0;
+      for (const t of awardedTenders) {
+        const { count } = await supabase
+          .from('bids')
+          .select('*', { count: 'exact', head: true })
+          .eq('tender_id', t.id);
+        if (count === 1) soleBidCount++;
+      }
+
+      if (soleBidCount > 0) {
+        score += 15;
+        signals.push({
+          dimension: 'B',
+          signal_code: 'SOLE_BIDDER_WINS',
+          label: `Won ${soleBidCount} tender(s) where sole bid was received — statutory competition review advised`,
+          points: 15,
+          status: 'ACTIVE',
+          source_field: 'tenders.awarded_vendor_id vs bids.tender_id',
+        });
+      }
+    }
+  } catch (err) {
+    console.warn('Error computing sole-bidder detection:', err.message);
+  }
 
   return { score: clip(score), signals };
 }
 
 /**
  * C. Financial Anomalies Score (25%)
- * Inputs: bills, boq_items, projects
+ * Inputs: bills, boq_items, projects, bids
  */
 async function calcFinancialAnomalies(vendorId) {
   const signals = [];
@@ -167,7 +190,7 @@ async function calcFinancialAnomalies(vendorId) {
 
   const projectIds = (projects || []).map(p => p.id);
   if (projectIds.length === 0) {
-    return { score: 0, signals: [{ dimension: 'C', signal_code: 'NO_PROJECTS', label: 'No projects currently assigned to evaluate', points: 0, status: 'ANALYSIS_PENDING', source_field: 'projects.vendor_id' }] };
+    return { score: 0, signals: [{ dimension: 'C', signal_code: 'NO_PROJECTS', label: 'No projects currently assigned to evaluate', points: 0, status: 'ACTIVE', source_field: 'projects.vendor_id' }] };
   }
 
   let score = 0;
@@ -194,8 +217,37 @@ async function calcFinancialAnomalies(vendorId) {
     }
   }
 
-  // Bid discount anomaly — PENDING (bids table not yet available)
-  signals.push({ dimension: 'C', signal_code: 'BID_DISCOUNT_ANOMALY', label: 'Abnormal bid discount detection requires bids table', points: 0, status: 'ANALYSIS_PENDING', source_field: 'bids table (not yet implemented)' });
+  // Bid discount anomaly check using bids & tenders (AUD-011)
+  try {
+    const { data: participations } = await supabase
+      .from('bid_participants')
+      .select('bid_id, bids(financial_quote, tender_id, tenders(estimated_budget))')
+      .eq('vendor_id', vendorId);
+
+    if (participations && participations.length > 0) {
+      let highDiscountCount = 0;
+      for (const p of participations) {
+        const quote = Number(p.bids?.financial_quote || 0);
+        const est = Number(p.bids?.tenders?.estimated_budget || 0);
+        if (est > 0 && quote < est * 0.75) {
+          highDiscountCount++;
+        }
+      }
+      if (highDiscountCount > 0) {
+        score += 15;
+        signals.push({
+          dimension: 'C',
+          signal_code: 'BID_DISCOUNT_ANOMALY',
+          label: `Submitted bid(s) with discount exceeding 25% below estimated engineering cost in ${highDiscountCount} tender(s)`,
+          points: 15,
+          status: 'ACTIVE',
+          source_field: 'bids.financial_quote vs tenders.estimated_budget',
+        });
+      }
+    }
+  } catch (err) {
+    console.warn('Error checking bid discount anomaly:', err.message);
+  }
 
   return { score: clip(score), signals };
 }

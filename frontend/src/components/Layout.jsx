@@ -1,44 +1,57 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import OfflineBanner from './OfflineBanner';
 
 export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Determine active portal context based on route
+  const isProcurementRoute =
+    location.pathname.startsWith('/tenders') ||
+    location.pathname.startsWith('/procurement-dashboard') ||
+    location.pathname.startsWith('/vendors');
 
   return (
-    <div className="min-h-screen bg-surface-base">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-full w-72 bg-surface-card flex-col z-50 shadow-sm border-r border-border-subtle">
-        <Sidebar />
-      </aside>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      {/* Desktop Sidebar (Fixed Left, Width 16rem / 256px) */}
+      <div className="hidden lg:block fixed left-0 top-0 bottom-0 w-64 z-40 bg-white border-r border-slate-200">
+        <Sidebar isProcurement={isProcurementRoute} />
+      </div>
 
-      {/* Mobile drawer overlay */}
+      {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
         <div
           className="fixed inset-0 z-50 lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-xs" />
           {/* Drawer */}
-          <aside
-            className="absolute left-0 top-0 h-full w-72 bg-surface-card flex flex-col shadow-xl"
+          <div
+            className="absolute left-0 top-0 bottom-0 w-64 bg-white shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <Sidebar onClose={() => setMobileMenuOpen(false)} />
-          </aside>
+            <Sidebar
+              isProcurement={isProcurementRoute}
+              onClose={() => setMobileMenuOpen(false)}
+            />
+          </div>
         </div>
       )}
 
-      {/* Header */}
-      <Header onMenuClick={() => setMobileMenuOpen(true)} />
+      {/* Top Header — Fixed Top, offset by sidebar width on desktop */}
+      <Header
+        isProcurement={isProcurementRoute}
+        onMenuClick={() => setMobileMenuOpen(true)}
+      />
 
-      {/* Main content area — offset by sidebar on desktop, by header on all */}
-      <main className="pt-16 lg:pl-72 min-h-screen flex flex-col">
+      {/* Main Content Area — Offset by header height (pt-16) and sidebar width (lg:pl-64) */}
+      <main className="pt-16 lg:pl-64 min-h-screen flex flex-col">
         <OfflineBanner />
-        <div className="px-4 sm:px-6 py-6 pb-12 flex-1">
+        <div className="p-4 sm:p-6 lg:p-8 flex-1 w-full max-w-7xl mx-auto">
           <Outlet />
         </div>
       </main>

@@ -105,3 +105,8 @@ export const DEFAULT_PROFILES = {
     landingRoute: '/investigations',
   },
 };
+
+export function getRoleLandingRoute(role) {
+  if (!role) return '/district-dashboard';
+  return DEFAULT_PROFILES[role]?.landingRoute || '/district-dashboard';
+}

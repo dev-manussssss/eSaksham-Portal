@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MetricCard from '../components/MetricCard';
 import RiskBadge from '../components/RiskBadge';
 import StatusBadge from '../components/StatusBadge';
 import { useAuth } from '../auth/AuthContext.jsx';
@@ -13,6 +12,7 @@ export default function Dashboard() {
   const [stats, setStats] = useState(null);
   const [projectsList, setProjectsList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [scopeFilter, setScopeFilter] = useState('assigned'); // 'assigned' | 'all'
 
   useEffect(() => {
     let isMounted = true;
@@ -32,123 +32,237 @@ export default function Dashboard() {
     };
   }, [session]);
 
-  const totalSanctioned = Number(stats?.total_sanctioned || 0);
-  const totalDisbursed = Number(stats?.total_disbursed || 0);
-  const totalProjects = Number(stats?.total_projects || projectsList.length || 0);
-  const stalledProjects = Number(stats?.stalled_projects || 0);
-  const activeAlerts = Number(stats?.active_flags_count || 0);
-  const criticalAlerts = Number(stats?.critical_flags_count || 0);
+  // Filter assigned works (matching division or district)
+  const assignedProjects = projectsList.filter((p) => {
+    if (!session?.organizationName && !session?.district) return true;
+    return (
+      (session?.organizationName && p.implementing_agency === session.organizationName) ||
+      (session?.district && p.district === session.district)
+    );
+  });
+
+  const displayedProjects = scopeFilter === 'assigned' ? assignedProjects : projectsList;
+
+  // Reliable calculations based on assigned division works
+  const totalSanctioned =
+    assignedProjects.reduce((acc, p) => acc + Number(p.sanctioned_amount || 0), 0) ||
+    Number(stats?.total_sanctioned) || 0;
+
+  const totalDisbursed =
+    assignedProjects.reduce((acc, p) => acc + Number(p.released_amount || 0), 0) ||
+    Number(stats?.total_disbursed) || 0;
+
+  const pendingInspections = assignedProjects.filter((p) => p.status === 'INSPECTION_REQUIRED');
+  const activeWorks = assignedProjects.filter((p) => p.status === 'UNDER_IMPLEMENTATION');
+  const completedWorks = assignedProjects.filter((p) => p.status === 'COMPLETED');
 
   return (
-    <div className="flex flex-col gap-6 pb-12">
+    <div className="flex flex-col gap-6">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="font-semibold text-text-primary tracking-tight" style={{ fontSize: 24 }}>
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
               Implementing Agency Dashboard
             </h1>
-            <span className="px-2 py-0.5 rounded-full bg-status-info-bg text-status-info-text font-semibold" style={{ fontSize: 11 }}>
-              Public Works & Infrastructure
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold">
+              Technical Division & Execution
             </span>
           </div>
-          <p className="text-text-secondary mt-0.5" style={{ fontSize: 13 }}>
-            Live project lifecycle monitoring, geo-tagged measurement billing, and statutory GFR compliance.
+          <p className="text-xs text-slate-500 mt-1">
+            Executive Engineer: <strong className="text-slate-700">{session?.name || 'Er. S. K. Sharma'}</strong> · Jurisdiction: <strong className="text-slate-700">{session?.organizationName || 'Public Works Department'}</strong>
           </p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <button className="btn-secondary" onClick={() => navigate('/reports')}>
-            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>assessment</span>
-            <span>Reports</span>
+
+        <div className="flex items-center gap-2.5 shrink-0">
+          <button
+            onClick={() => navigate('/work-progress')}
+            className="flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-medium rounded-lg shadow-xs transition-colors"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>construction</span>
+            <span>Measurement Book</span>
           </button>
-          <button className="btn-primary" onClick={() => navigate('/projects')}>
-            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>account_tree</span>
-            <span>View All Works</span>
+          <button
+            onClick={() => navigate('/inspections')}
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-[#1F497D] hover:bg-[#16375D] text-white text-xs font-semibold rounded-lg shadow-xs transition-colors"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>fact_check</span>
+            <span>Site Inspection Queue</span>
           </button>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <MetricCard
-          label="Total Funds Disbursed"
-          value={`₹${(totalDisbursed / 10000000).toFixed(2)} Cr`}
-          delta={totalSanctioned > 0 ? `${Math.round((totalDisbursed / totalSanctioned) * 100)}% utilized` : '0%'}
-          deltaType="up"
-          icon="account_balance"
-          footnote={`vs. ₹${(totalSanctioned / 10000000).toFixed(2)} Cr sanctioned`}
-        />
-        <MetricCard
-          label="Active Works"
-          value={totalProjects}
-          unit="projects"
-          delta={stalledProjects > 0 ? `${stalledProjects} stalled` : 'All operational'}
-          deltaType={stalledProjects > 0 ? 'down' : 'up'}
-          icon="account_tree"
-          footnote={`${stats?.completed_projects || 0} completed works`}
-        />
-        <MetricCard
-          label="Active Risk Signals"
-          value={activeAlerts}
-          unit="flags"
-          delta={`${criticalAlerts} critical`}
-          deltaType={criticalAlerts > 0 ? 'down' : 'up'}
-          icon="crisis_alert"
-          iconBgClass="bg-status-danger-bg"
-          iconTextClass="text-status-danger-text"
-          footnote="Statutory vigilance review"
-        />
+      {/* Practical Operational Metric Cards (Section 7) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+            Assigned Works
+          </div>
+          <div className="font-mono text-xl font-bold text-slate-900 mt-1">
+            {projectsList.length}
+          </div>
+          <div className="text-[10px] text-emerald-700 font-medium mt-0.5">
+            {activeWorks.length} actively executing
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+            Total Sanctioned Outlay
+          </div>
+          <div className="font-mono text-xl font-bold text-slate-900 mt-1">
+            ₹{(totalSanctioned / 100000).toFixed(1)} Lakh
+          </div>
+          <div className="text-[10px] text-slate-500 mt-0.5">
+            Approved departmental allocation
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+            Total Disbursed to Date
+          </div>
+          <div className="font-mono text-xl font-bold text-blue-700 mt-1">
+            ₹{(totalDisbursed / 100000).toFixed(1)} Lakh
+          </div>
+          <div className="text-[10px] text-slate-500 mt-0.5">
+            Verified MB milestone claims
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+            Pending Inspections
+          </div>
+          <div className="font-mono text-xl font-bold text-amber-700 mt-1">
+            {pendingInspections.length}
+          </div>
+          <div className="text-[10px] text-amber-800 font-medium mt-0.5">
+            Stage gate verification required
+          </div>
+        </div>
       </div>
 
-      {/* Project Table */}
-      <div className="saksham-card">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-text-primary" style={{ fontSize: 16 }}>Active Work Orders</h2>
-          <button className="btn-secondary text-xs" onClick={() => navigate('/projects')}>
-            <span>View All</span>
-            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
-          </button>
+      {/* Assigned Works Table (Fixed: No -mx-6) */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+        <div className="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 className="text-sm font-bold text-slate-900">
+              Departmental Assigned Works ({displayedProjects.length})
+            </h2>
+            <p className="text-[11px] text-slate-500 mt-0.5">
+              Civil and technical works under executive supervision
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs">
+              <button
+                onClick={() => setScopeFilter('assigned')}
+                className={`px-3 py-1 rounded-md font-medium transition-colors ${
+                  scopeFilter === 'assigned'
+                    ? 'bg-white text-slate-900 shadow-xs font-semibold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Division Works ({assignedProjects.length})
+              </button>
+              <button
+                onClick={() => setScopeFilter('all')}
+                className={`px-3 py-1 rounded-md font-medium transition-colors ${
+                  scopeFilter === 'all'
+                    ? 'bg-white text-slate-900 shadow-xs font-semibold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                All Schemes ({projectsList.length})
+              </button>
+            </div>
+            <button
+              onClick={() => navigate('/projects')}
+              className="text-xs font-semibold text-[#1F497D] hover:underline whitespace-nowrap"
+            >
+              All Works Portfolio →
+            </button>
+          </div>
         </div>
-        <div className="overflow-x-auto -mx-6">
-          <table className="w-full saksham-table min-w-[700px]">
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr>
-                <th>Work ID</th>
-                <th>Project Title</th>
-                <th>District</th>
-                <th>Sanctioned Outlay</th>
-                <th>Status</th>
+              <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+                <th className="py-3 px-4">Work Code</th>
+                <th className="py-3 px-4">Scheme Title</th>
+                <th className="py-3 px-4">District</th>
+                <th className="py-3 px-4">Sanctioned Outlay</th>
+                <th className="py-3 px-4">Physical Progress</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-center">Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-xs text-text-muted">
-                    Loading works from database...
+                  <td colSpan={7} className="py-10 text-center text-slate-400">
+                    Loading assigned works...
                   </td>
                 </tr>
-              ) : projectsList.length === 0 ? (
+              ) : displayedProjects.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-xs text-text-muted">
-                    No active projects found.
+                  <td colSpan={7} className="py-10 text-center text-slate-400">
+                    No assigned works found for this view.
                   </td>
                 </tr>
               ) : (
-                projectsList.slice(0, 6).map((p) => (
+                displayedProjects.map((p) => (
                   <tr
                     key={p.id}
-                    className="cursor-pointer hover:bg-surface-subtle transition-colors"
+                    className="hover:bg-slate-50/80 cursor-pointer"
                     onClick={() => navigate(`/projects/${p.id}`)}
                   >
-                    <td className="font-mono text-xs text-text-secondary">{p.project_code || p.id}</td>
-                    <td>
-                      <div className="font-medium text-text-primary text-xs max-w-sm">{p.title}</div>
+                    <td className="py-3 px-4 font-mono font-bold text-[#1F497D]">
+                      {p.project_code || p.id}
                     </td>
-                    <td className="text-xs text-text-secondary">{p.district}</td>
-                    <td className="text-xs font-semibold text-text-primary">
+                    <td className="py-3 px-4">
+                      <div className="font-semibold text-slate-900 max-w-sm truncate leading-tight">
+                        {p.title}
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5">
+                        Sector: {p.sector || p.category}
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 text-slate-600">
+                      {p.district}, {p.state}
+                    </td>
+                    <td className="py-3 px-4 font-mono font-semibold text-slate-900">
                       ₹{Number(p.sanctioned_amount || 0).toLocaleString('en-IN')}
                     </td>
-                    <td><StatusBadge status={p.status} /></td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-16 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                          <div
+                            className="bg-emerald-600 h-1.5 rounded-full"
+                            style={{ width: `${Math.min(100, p.physical_progress_percent || 0)}%` }}
+                          />
+                        </div>
+                        <span className="font-mono text-[11px] font-semibold text-slate-700">
+                          {p.physical_progress_percent || 0}%
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <StatusBadge status={p.status} />
+                    </td>
+                    <td className="py-3 px-4 text-center">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/projects/${p.id}`);
+                        }}
+                        className="px-2.5 py-1 text-xs text-[#1F497D] hover:bg-blue-50 rounded font-medium transition-colors"
+                      >
+                        Inspect
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}

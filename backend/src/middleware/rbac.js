@@ -1,0 +1,83 @@
+/**
+ * SAKSHAM Backend RBAC — Role-Based Access Control
+ * Strictly evaluates server-verified `req.user.role`. Zero client role overrides permitted.
+ */
+export const ROLES = {
+  MP: 'MP',
+  DISTRICT_AUTHORITY: 'DISTRICT_AUTHORITY',
+  IMPLEMENTING_AGENCY: 'IMPLEMENTING_AGENCY',
+  VENDOR: 'VENDOR',
+  INVESTIGATOR: 'INVESTIGATOR',
+  STATE_NODAL_AUTHORITY: 'STATE_NODAL_AUTHORITY',
+  CENTRAL_NODAL_AGENCY: 'CENTRAL_NODAL_AGENCY',
+};
+
+export const PERMISSIONS = {
+  // Document Uploads
+  UPLOAD_RECOMMENDATION: [ROLES.MP, ROLES.DISTRICT_AUTHORITY],
+  UPLOAD_WORK_DOCUMENTS: [ROLES.IMPLEMENTING_AGENCY, ROLES.DISTRICT_AUTHORITY],
+  UPLOAD_BILL_INVOICE: [ROLES.VENDOR, ROLES.IMPLEMENTING_AGENCY],
+  UPLOAD_EVIDENCE: [ROLES.DISTRICT_AUTHORITY, ROLES.IMPLEMENTING_AGENCY, ROLES.VENDOR, ROLES.INVESTIGATOR],
+
+  // Decisions / Human Actions (project-level)
+  RECOMMEND_PROJECT: [ROLES.MP],
+  APPROVE_FEASIBILITY: [ROLES.DISTRICT_AUTHORITY],
+  SANCTION_PROJECT: [ROLES.DISTRICT_AUTHORITY],
+  PUT_ON_HOLD: [ROLES.DISTRICT_AUTHORITY],
+  CLEAR_HOLD: [ROLES.DISTRICT_AUTHORITY],
+  REQUEST_VERIFICATION: [ROLES.DISTRICT_AUTHORITY, ROLES.INVESTIGATOR],
+  REQUEST_CLARIFICATION: [ROLES.DISTRICT_AUTHORITY, ROLES.IMPLEMENTING_AGENCY],
+  SUBMIT_FOR_INSPECTION: [ROLES.IMPLEMENTING_AGENCY],
+  MARK_VERIFIED: [ROLES.DISTRICT_AUTHORITY],
+  APPROVE: [ROLES.DISTRICT_AUTHORITY],
+  REJECT: [ROLES.DISTRICT_AUTHORITY],
+  ESCALATE: [ROLES.DISTRICT_AUTHORITY, ROLES.INVESTIGATOR],
+  ADD_AUDIT_NOTE: [ROLES.INVESTIGATOR, ROLES.DISTRICT_AUTHORITY],
+
+  // Auditing & Visibility
+  VIEW_FULL_AUDIT: [ROLES.DISTRICT_AUTHORITY, ROLES.INVESTIGATOR, ROLES.STATE_NODAL_AUTHORITY, ROLES.CENTRAL_NODAL_AGENCY],
+
+  // Vendor Management
+  CREATE_VENDOR: [ROLES.DISTRICT_AUTHORITY, ROLES.IMPLEMENTING_AGENCY],
+  EDIT_VENDOR: [ROLES.DISTRICT_AUTHORITY, ROLES.IMPLEMENTING_AGENCY],
+  DEACTIVATE_VENDOR: [ROLES.DISTRICT_AUTHORITY],
+  VIEW_VENDOR_RISK: [ROLES.DISTRICT_AUTHORITY, ROLES.IMPLEMENTING_AGENCY, ROLES.STATE_NODAL_AUTHORITY, ROLES.CENTRAL_NODAL_AGENCY, ROLES.INVESTIGATOR],
+
+  // Tender Management
+  CREATE_TENDER: [ROLES.IMPLEMENTING_AGENCY, ROLES.DISTRICT_AUTHORITY],
+  SUBMIT_BID: [ROLES.VENDOR],
+  EVALUATE_BID: [ROLES.IMPLEMENTING_AGENCY, ROLES.DISTRICT_AUTHORITY],
+
+  // Inspection Management
+  CONDUCT_INSPECTION: [ROLES.DISTRICT_AUTHORITY, ROLES.IMPLEMENTING_AGENCY, ROLES.INVESTIGATOR],
+};
+
+export function canPerformAction(role, action) {
+  if (!role || !action) return false;
+  const allowedRoles = PERMISSIONS[action];
+  if (!allowedRoles) return false;
+  return allowedRoles.includes(role);
+}
+
+/**
+ * Express middleware requiring a specific permission based on `req.user.role`
+ */
+export function requirePermission(action) {
+  return (req, res, next) => {
+    if (!req.user || !req.user.role) {
+      return res.status(401).json({
+        success: false,
+        error: 'Authentication required for this operation.',
+      });
+    }
+
+    if (!canPerformAction(req.user.role, action)) {
+      return res.status(403).json({
+        success: false,
+        error: `Permission denied. Role '${req.user.role}' is not authorized for action '${action}'.`,
+      });
+    }
+
+    next();
+  };
+}

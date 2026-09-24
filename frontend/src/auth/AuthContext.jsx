@@ -1,67 +1,124 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ROLES, AGENCY_TYPES, DEFAULT_PROFILES } from './roles.js';
+import { ROLES, DEFAULT_PROFILES, getRoleLandingRoute } from './roles.js';
 
-export { ROLES, AGENCY_TYPES, DEFAULT_PROFILES };
+export { ROLES, DEFAULT_PROFILES, getRoleLandingRoute };
 
 const AuthContext = createContext(null);
 
-const STORAGE_KEY = 'saksham_auth_session';
+const SESSION_KEY = 'saksham_auth_session';
+const TOKEN_KEY = 'saksham_auth_token';
+
+const PRE_AUTH_ROLE_EMAILS = {
+  [ROLES.DISTRICT_AUTHORITY]: 'da.bhopal@saksham.gov.in',
+  [ROLES.IMPLEMENTING_AGENCY]: 'ia.pwd.bhopal@saksham.gov.in',
+  [ROLES.MP]: 'mp.bhopal@saksham.gov.in',
+  [ROLES.VENDOR]: 'contact@aaryainfra.test',
+  [ROLES.STATE_NODAL_AUTHORITY]: 'sna.mp@saksham.gov.in',
+  [ROLES.CENTRAL_NODAL_AGENCY]: 'cna.mospi@saksham.gov.in',
+  [ROLES.INVESTIGATOR]: 'vigilance.central@saksham.gov.in',
+};
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(SESSION_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed?.role && DEFAULT_PROFILES[parsed.role]) {
-          return parsed;
+        if (parsed && !parsed.landingRoute) {
+          parsed.landingRoute = getRoleLandingRoute(parsed.role);
         }
+        return parsed;
       }
     } catch (e) {
-      console.warn('Failed to parse saved auth session:', e);
+      console.warn('Failed to parse cached session:', e);
     }
-    return DEFAULT_PROFILES[ROLES.IMPLEMENTING_AGENCY];
+    return null;
   });
 
-  useEffect(() => {
+  const [token, setToken] = useState(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+      return localStorage.getItem(TOKEN_KEY) || null;
     } catch (e) {
-      console.warn('Failed to persist auth session:', e);
+      return null;
     }
-  }, [session]);
+  });
 
-  const login = (profile) => {
-    setSession(profile);
+  const [loading, setLoading] = useState(false);
+
+  // Authenticate using official email and password credentials
+  const login = async (email, password) => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Authentication failed. Please verify credentials.');
+      }
+
+      const enrichedUser = {
+        ...data.user,
+        landingRoute: data.user.landingRoute || getRoleLandingRoute(data.user.role),
+      };
+
+      setToken(data.token);
+      setSession(enrichedUser);
+      localStorage.setItem(TOKEN_KEY, data.token);
+      localStorage.setItem(SESSION_KEY, JSON.stringify(enrichedUser));
+
+      return { success: true, user: enrichedUser };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // One-click switch to an authorized role for testing / emergency administrative bypass
+  const switchRole = async (targetRole) => {
+    const email = PRE_AUTH_ROLE_EMAILS[targetRole];
+    if (!email) {
+      throw new Error(`No default account registered for role: ${targetRole}`);
+    }
+    return await login(email, 'Demopass@2026');
   };
 
   const logout = () => {
     setSession(null);
+    setToken(null);
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(SESSION_KEY);
     } catch (e) {
-      console.warn('Failed to clear storage:', e);
+      // Ignore
     }
   };
 
-  const switchRole = (roleKey, customOverrides = {}) => {
-    const base = DEFAULT_PROFILES[roleKey] || DEFAULT_PROFILES[ROLES.IMPLEMENTING_AGENCY];
-    const newSession = { ...base, ...customOverrides };
-    setSession(newSession);
-    return newSession.landingRoute;
-  };
-
   return (
-    <AuthContext.Provider value={{ session, login, logout, switchRole, roles: ROLES }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        token,
+        loading,
+        login,
+        logout,
+        switchRole,
+        roles: ROLES,
+        ROLES,
+        getRoleLandingRoute,
+        isAuthenticated: !!session,
+        role: session?.role || null,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
+  return ctx;
 }

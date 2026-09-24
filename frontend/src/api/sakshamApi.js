@@ -18,13 +18,14 @@ import {
 
 export const isOnline = () => (typeof navigator !== 'undefined' ? navigator.onLine : true);
 
-function getAuthHeaders(session) {
+function getAuthHeaders() {
   const headers = {};
-  if (session?.role) headers['x-saksham-role'] = session.role;
-  if (session?.district) headers['x-saksham-district'] = session.district;
-  if (session?.vendorId) headers['x-saksham-vendor-id'] = session.vendorId;
-  if (session?.constituency) headers['x-saksham-constituency'] = session.constituency;
-  if (session?.userId) headers['x-saksham-user-id'] = session.userId;
+  try {
+    const token = localStorage.getItem('saksham_auth_token');
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+  } catch (e) {
+    // Ignore in non-browser env
+  }
   return headers;
 }
 
@@ -150,6 +151,28 @@ export async function executeHumanAction(projectId, action, session, notes = '',
   return await res.json();
 }
 
+export async function recommendProjectApi(projectData, session) {
+  if (!isOnline()) {
+    throw new Error('Offline Mode: Scheme recommendations require active network connectivity.');
+  }
+
+  const res = await fetch('/api/projects/recommend', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(session),
+    },
+    body: JSON.stringify(projectData),
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.error || `Recommendation failed with status ${res.status}`);
+  }
+
+  return await res.json();
+}
+
 // ─── VENDORS ────────────────────────────────────────────────────────────────
 export async function fetchVendors(session, { includeDeactivated = false } = {}) {
   if (!isOnline()) {
@@ -218,7 +241,10 @@ export async function fetchVendorDetails(vendorId, session) {
   }
 }
 
+export const fetchVendorById = fetchVendorDetails;
+
 export async function createVendor(vendorData, session) {
+
   if (!isOnline()) {
     throw new Error('Offline Mode: Adding new vendors requires active connectivity.');
   }

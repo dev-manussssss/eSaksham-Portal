@@ -31,7 +31,15 @@ export const routePermissions = {
     ROLES.IMPLEMENTING_AGENCY,
   ],
 
-  // Tenders
+  // Tenders & Procurement
+  '/procurement-dashboard': [
+    ROLES.DISTRICT_AUTHORITY,
+    ROLES.IMPLEMENTING_AGENCY,
+    ROLES.STATE_NODAL_AUTHORITY,
+    ROLES.CENTRAL_NODAL_AGENCY,
+    ROLES.INVESTIGATOR,
+    ROLES.VENDOR,
+  ],
   '/tenders': [
     ROLES.IMPLEMENTING_AGENCY,
     ROLES.DISTRICT_AUTHORITY,
@@ -39,6 +47,7 @@ export const routePermissions = {
     ROLES.CENTRAL_NODAL_AGENCY,
     ROLES.INVESTIGATOR,
     ROLES.VENDOR,
+    ROLES.MP,
   ],
 
   // Works / Projects

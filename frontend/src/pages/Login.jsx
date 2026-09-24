@@ -1,590 +1,390 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png';
-import { useAuth, ROLES, AGENCY_TYPES, DEFAULT_PROFILES } from '../auth/AuthContext.jsx';
-import { vendors } from '../data/index.js';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth, ROLES, getRoleLandingRoute } from '../auth/AuthContext.jsx';
 
-const ACCESS_TYPES = [
-  { id: ROLES.DISTRICT_AUTHORITY, label: 'District Authority', icon: 'location_city' },
-  { id: ROLES.IMPLEMENTING_AGENCY, label: 'Implementing Agency', icon: 'corporate_fare' },
-  { id: ROLES.VENDOR, label: 'Vendor / Bidder', icon: 'business' },
-  { id: ROLES.STATE_NODAL_AUTHORITY, label: 'State Nodal Authority', icon: 'map' },
-  { id: ROLES.CENTRAL_NODAL_AGENCY, label: 'Central Nodal Agency', icon: 'account_balance' },
-  { id: ROLES.MP, label: 'MP / Member of Parliament', icon: 'how_to_vote' },
-  { id: ROLES.INVESTIGATOR, label: 'Inspector / Investigator', icon: 'policy' },
+const SAMPLE_CAPTCHAS = [
+  { code: '9K4T2M', display: '9 K 4 T 2 M' },
+  { code: '7H8P3X', display: '7 H 8 P 3 X' },
+  { code: '5W2R9Q', display: '5 W 2 R 9 Q' },
+  { code: '4N7C1Z', display: '4 N 7 C 1 Z' },
 ];
 
-const STATES = ['Madhya Pradesh', 'Maharashtra', 'Karnataka', 'West Bengal', 'Rajasthan', 'Odisha', 'Haryana'];
-
-const DISTRICTS_BY_STATE = {
-  'Madhya Pradesh': ['Bhopal', 'Sehore', 'Indore', 'Jabalpur', 'Gwalior'],
-  'Maharashtra': ['Nashik', 'Pune', 'Mumbai Suburban', 'Nagpur'],
-  'Karnataka': ['Bengaluru Urban', 'Mysuru', 'Belagavi'],
-  'West Bengal': ['Nadia', 'Kolkata', 'North 24 Parganas'],
-  'Rajasthan': ['Ajmer', 'Jaipur', 'Jodhpur'],
-  'Odisha': ['Ganjam', 'Khordha', 'Cuttack'],
-  'Haryana': ['Ambala', 'Gurugram', 'Faridabad'],
-};
-
-const CONSTITUENCIES_BY_STATE = {
-  'Madhya Pradesh': ['Bhopal (PC-19)', 'Indore (PC-26)', 'Vidisha (PC-18)'],
-  'Maharashtra': ['Nashik (PC-20)', 'Dindori (PC-21)', 'Pune (PC-34)'],
-  'Karnataka': ['Bengaluru Central (PC-25)', 'Bengaluru South (PC-26)'],
-  'West Bengal': ['Ranaghat (PC-13)', 'Krishnanagar (PC-12)'],
-  'Rajasthan': ['Ajmer (PC-13)', 'Jaipur (PC-07)'],
-  'Odisha': ['Aska (PC-19)', 'Bhubaneswar (PC-18)'],
-  'Haryana': ['Ambala (PC-01)', 'Kurukshetra (PC-02)'],
-};
-
-const CAPTCHAS = ['7K9M2', '4X8WP', 'A2N7R', '5M3TK'];
+const PRE_AUTH_ACCOUNTS = [
+  {
+    category: 'e-SAKSHI Works Access',
+    roles: [
+      {
+        title: 'Member of Parliament',
+        subtitle: 'Shri R. K. Singh, MP (Bhopal PC-19)',
+        email: 'mp.bhopal@saksham.gov.in',
+        icon: 'account_balance',
+        tag: 'Lok Sabha Recommender',
+        color: '#1F497D',
+        bg: '#EFF6FF',
+      },
+      {
+        title: 'District Authority',
+        subtitle: 'R. Venkatraman, IAS (District Collector & DM)',
+        email: 'da.bhopal@saksham.gov.in',
+        icon: 'location_city',
+        tag: 'Sanction & Nodal Authority',
+        color: '#047857',
+        bg: '#ECFDF5',
+      },
+      {
+        title: 'Implementing Agency',
+        subtitle: 'Er. S. K. Sharma (Executive Engineer, PWD)',
+        email: 'ia.pwd.bhopal@saksham.gov.in',
+        icon: 'engineering',
+        tag: 'Technical Execution & MB',
+        color: '#B45309',
+        bg: '#FFFBEB',
+      },
+    ],
+  },
+  {
+    category: 'e-Procurement & Oversight Access',
+    roles: [
+      {
+        title: 'Registered Contractor',
+        subtitle: 'Aarya Infraworks Pvt. Ltd. (VND-001)',
+        email: 'contact@aaryainfra.test',
+        icon: 'storefront',
+        tag: 'Bidder & Contract Execution',
+        color: '#2563EB',
+        bg: '#EFF6FF',
+      },
+      {
+        title: 'Statutory Vigilance / Audit',
+        subtitle: 'K. S. Narayanan, IPS (Vigilance & Inspection)',
+        email: 'vigilance.central@saksham.gov.in',
+        icon: 'policy',
+        tag: 'Independent Audit & Risk Triage',
+        color: '#DC2626',
+        bg: '#FEF2F2',
+      },
+      {
+        title: 'State Nodal Authority',
+        subtitle: 'Anita Deshmukh, IAS (State Planning)',
+        email: 'sna.mp@saksham.gov.in',
+        icon: 'map',
+        tag: 'State-Level Planning & Allocation',
+        color: '#7C3AED',
+        bg: '#F5F3FF',
+      },
+    ],
+  },
+];
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { login, logout, session } = useAuth();
 
-  // STEP 1: Access Type Selection
-  const [selectedRole, setSelectedRole] = useState(ROLES.IMPLEMENTING_AGENCY);
+  const queryParams = new URLSearchParams(location.search);
+  const portalParam = queryParams.get('portal');
 
-  // STEP 2: Progressive / Cascading Fields
-  const [agencyType, setAgencyType] = useState('PWD (Public Works Department)');
-  const [state, setState] = useState('Madhya Pradesh');
-  const [district, setDistrict] = useState('Bhopal');
-  const [constituency, setConstituency] = useState('Bhopal (PC-19)');
-  const [vendorId, setVendorId] = useState('VND-007');
-  const [centralDivision, setCentralDivision] = useState('MPLADS Division (MoSPI)');
-  const [stateDept, setStateDept] = useState('Planning & Programme Monitoring Dept');
-  const [vigilanceCell, setVigilanceCell] = useState('Central Zone Technical Inspection Unit');
-  const [userId, setUserId] = useState('PWD-BPL-IA-001');
+  // Pre-select account based on portal query parameter if provided
+  const initialRole = portalParam === 'eprocurement'
+    ? { email: 'contact@aaryainfra.test', title: 'Registered Contractor' }
+    : { email: 'da.bhopal@saksham.gov.in', title: 'District Authority' };
+
+  const [email, setEmail] = useState(initialRole.email);
   const [password, setPassword] = useState('Demopass@2026');
-  const [captchaInput, setCaptchaInput] = useState(CAPTCHAS[0]);
-  const [captchaIdx, setCaptchaIdx] = useState(0);
+  const [captchaInput, setCaptchaInput] = useState('9K4T2M');
+  const [captchaIndex, setCaptchaIndex] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [selectedRoleTitle, setSelectedRoleTitle] = useState(initialRole.title);
 
-  // When role changes, update default userId and geography
-  const handleRoleChange = (role) => {
-    setSelectedRole(role);
-    if (role === ROLES.IMPLEMENTING_AGENCY) {
-      setUserId('PWD-BPL-IA-001');
-    } else if (role === ROLES.DISTRICT_AUTHORITY) {
-      setUserId('DA-BPL-001');
-    } else if (role === ROLES.VENDOR) {
-      setUserId('VND-007-USER');
-    } else if (role === ROLES.STATE_NODAL_AUTHORITY) {
-      setUserId('SNA-MP-001');
-    } else if (role === ROLES.CENTRAL_NODAL_AGENCY) {
-      setUserId('CNA-MOSPI-001');
-    } else if (role === ROLES.MP) {
-      setUserId('MP-LS-BPL-19');
-    } else if (role === ROLES.INVESTIGATOR) {
-      setUserId('VIG-INSP-042');
-    }
+  const activeCaptcha = SAMPLE_CAPTCHAS[captchaIndex];
+
+  const handleRefreshCaptcha = () => {
+    const nextIdx = (captchaIndex + 1) % SAMPLE_CAPTCHAS.length;
+    setCaptchaIndex(nextIdx);
+    setCaptchaInput(SAMPLE_CAPTCHAS[nextIdx].code);
   };
 
-  const handleStateChange = (newState) => {
-    setState(newState);
-    const availableDistricts = DISTRICTS_BY_STATE[newState] || ['District 1'];
-    setDistrict(availableDistricts[0]);
-    const availableConst = CONSTITUENCIES_BY_STATE[newState] || ['Constituency 1'];
-    setConstituency(availableConst[0]);
+  const selectPreAuthAccount = (roleObj) => {
+    setEmail(roleObj.email);
+    setPassword('Demopass@2026');
+    setCaptchaInput(activeCaptcha.code);
+    setSelectedRoleTitle(roleObj.title);
+    setErrorMessage('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setErrorMessage('');
 
-    // Build typed session context matching user's selections
-    let profile = { ...DEFAULT_PROFILES[selectedRole] };
-
-    if (selectedRole === ROLES.IMPLEMENTING_AGENCY) {
-      profile = {
-        role: ROLES.IMPLEMENTING_AGENCY,
-        roleTitle: 'IMPLEMENTING AGENCY',
-        agencyType: agencyType,
-        organizationName: `${agencyType.split('(')[0].trim()} (${district})`,
-        state: state,
-        district: district,
-        subTitle: `${agencyType.split('(')[0].trim()} • ${district}, ${state}`,
-        userId: userId || 'PWD-BPL-IA-001',
-        userName: 'Er. S. K. Sharma',
-        designation: 'Executive Engineer',
-        landingRoute: '/dashboard',
-      };
-    } else if (selectedRole === ROLES.DISTRICT_AUTHORITY) {
-      profile = {
-        role: ROLES.DISTRICT_AUTHORITY,
-        roleTitle: 'DISTRICT AUTHORITY',
-        organizationName: `District Collectorate (${district})`,
-        state: state,
-        district: district,
-        subTitle: `${district}, ${state}`,
-        userId: userId || 'DA-BPL-001',
-        userName: 'R. Venkatraman, IAS',
-        designation: 'District Collector & Nodal Officer',
-        landingRoute: '/district-dashboard',
-      };
-    } else if (selectedRole === ROLES.VENDOR) {
-      const selectedVendorObj = vendors.find(v => v.id === vendorId) || vendors[0];
-      profile = {
-        role: ROLES.VENDOR,
-        roleTitle: 'VENDOR / CONTRACTOR',
-        organizationName: selectedVendorObj.legalName,
-        vendorId: selectedVendorObj.id,
-        state: selectedVendorObj.state,
-        district: selectedVendorObj.primaryDistrict,
-        subTitle: `${selectedVendorObj.legalName} • ID: ${selectedVendorObj.id}`,
-        userId: userId || `${selectedVendorObj.id}-USER`,
-        userName: 'Authorized Signatory',
-        designation: 'Vendor Representative',
-        landingRoute: '/vendor-dashboard',
-      };
-    } else if (selectedRole === ROLES.STATE_NODAL_AUTHORITY) {
-      profile = {
-        role: ROLES.STATE_NODAL_AUTHORITY,
-        roleTitle: 'STATE NODAL AUTHORITY',
-        organizationName: `${state} State Directorate`,
-        state: state,
-        district: 'Statewide',
-        subTitle: `${stateDept} • ${state}`,
-        userId: userId || 'SNA-001',
-        userName: 'Anita Deshmukh, IAS',
-        designation: 'Principal Secretary (Planning)',
-        landingRoute: '/state-dashboard',
-      };
-    } else if (selectedRole === ROLES.CENTRAL_NODAL_AGENCY) {
-      profile = {
-        role: ROLES.CENTRAL_NODAL_AGENCY,
-        roleTitle: 'CENTRAL NODAL AGENCY',
-        organizationName: 'Ministry of Statistics & Programme Implementation',
-        state: 'National',
-        district: 'All States & UTs',
-        subTitle: `${centralDivision} • New Delhi`,
-        userId: userId || 'CNA-MOSPI-001',
-        userName: 'Dr. Alok Verma',
-        designation: 'Joint Secretary (MPLADS Division)',
-        landingRoute: '/national-dashboard',
-      };
-    } else if (selectedRole === ROLES.MP) {
-      profile = {
-        role: ROLES.MP,
-        roleTitle: 'MEMBER OF PARLIAMENT',
-        organizationName: `Parliamentary Office (${constituency})`,
-        state: state,
-        constituency: constituency,
-        subTitle: `${constituency}, ${state}`,
-        userId: userId || 'MP-USER-01',
-        userName: 'Hon. Member of Parliament',
-        designation: 'Lok Sabha Representative',
-        landingRoute: '/mp-dashboard',
-      };
-    } else if (selectedRole === ROLES.INVESTIGATOR) {
-      profile = {
-        role: ROLES.INVESTIGATOR,
-        roleTitle: 'INSPECTOR / INVESTIGATOR',
-        organizationName: 'SAKSHAM Statutory Vigilance Cell',
-        state: 'Multi-State',
-        district: vigilanceCell,
-        subTitle: `${vigilanceCell}`,
-        userId: userId || 'VIG-INSP-042',
-        userName: 'Vikramaditya Roy',
-        designation: 'Senior Vigilance & Risk Auditor',
-        landingRoute: '/investigations',
-      };
+    if (!email.trim() || !password) {
+      setErrorMessage('Please enter both your official email and password.');
+      return;
     }
 
-    setTimeout(() => {
-      login(profile);
+    if (captchaInput.trim().toUpperCase() !== activeCaptcha.code) {
+      setErrorMessage('Security challenge code does not match. Please verify characters.');
+      handleRefreshCaptcha();
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await login(email.trim(), password);
+      if (res.success && res.user) {
+        const landingRoute = res.user.landingRoute || getRoleLandingRoute(res.user.role);
+        navigate(landingRoute);
+      }
+    } catch (err) {
+      setErrorMessage(err.message || 'Login failed. Please verify credentials.');
+    } finally {
       setLoading(false);
-      navigate(profile.landingRoute);
-    }, 400);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-surface-base flex items-center justify-center p-4 py-8">
-      <main className="w-full max-w-xl bg-surface-card rounded-2xl p-6 sm:p-8 shadow-md border border-border-subtle">
-        {/* Security Header */}
-        <div className="flex items-center justify-between mb-5 bg-slate-50 rounded-xl px-4 py-2 border border-border-subtle">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-text-secondary font-semibold uppercase tracking-wider text-[11px]">
-              NIC SAKSHAM SECURE GATEWAY
-            </span>
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
+      {/* Top Header */}
+      <header className="bg-white border-b border-slate-200 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-xs">
+        <button onClick={() => navigate('/')} className="flex items-center gap-3 group text-left">
+          <div className="w-8 h-8 rounded-lg bg-[#1F497D] text-white flex items-center justify-center font-bold text-sm shadow-xs">
+            S
           </div>
-          <div className="flex items-center gap-1 text-primary text-xs font-semibold">
-            <span className="material-symbols-outlined" style={{ fontSize: 14 }}>lock</span>
-            <span className="text-[11px]">256-Bit TLS Guard</span>
-          </div>
-        </div>
-
-        {/* Logo & Portal Identity */}
-        <div className="flex flex-col items-center text-center mb-6">
-          <img src={logo} alt="SAKSHAM Portal" className="h-12 w-auto object-contain mb-2" />
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-            Administrative Sign In
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5 max-w-sm">
-            e-SAKSHI &amp; MPLADS Fiscal Oversight and Automated Risk Intelligence
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* STEP 1: Select Access Type */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Step 1: Select Access Type
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {ACCESS_TYPES.map((type) => {
-                const isSelected = selectedRole === type.id;
-                return (
-                  <button
-                    key={type.id}
-                    type="button"
-                    onClick={() => handleRoleChange(type.id)}
-                    className={`p-2.5 rounded-xl border text-left flex items-center gap-2 transition-all ${
-                      isSelected
-                        ? 'border-primary bg-blue-50 text-primary font-semibold shadow-xs ring-1 ring-primary'
-                        : 'border-border-subtle bg-slate-50 text-slate-700 hover:bg-slate-100 font-normal'
-                    }`}
-                  >
-                    <span className="material-symbols-outlined text-slate-500" style={{ fontSize: 18 }}>
-                      {type.icon}
-                    </span>
-                    <span className="text-xs truncate">{type.label}</span>
-                  </button>
-                );
-              })}
+            <div className="text-sm font-bold text-[#1F497D] leading-none">SAKSHAM AI</div>
+            <div className="text-[10px] text-slate-400 font-medium tracking-wide mt-0.5">
+              MPLADS & e-Procurement Prototype
             </div>
           </div>
+        </button>
 
-          {/* STEP 2: Progressive Cascading Organization Fields */}
-          <div className="p-4 rounded-xl bg-slate-50 border border-border-subtle space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border-subtle">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Step 2: Organization &amp; Authority Details
-              </span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800">
-                {selectedRole.replace(/_/g, ' ')}
-              </span>
+        <button
+          onClick={() => navigate('/')}
+          className="text-xs text-slate-600 hover:text-slate-900 font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: 15 }}>arrow_back</span>
+          <span>Back to Overview</span>
+        </button>
+      </header>
+
+      {/* Main Container */}
+      <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8">
+        <div className="w-full max-w-4xl space-y-6">
+          {session && (
+            <div className="p-4 rounded-xl bg-blue-50/90 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-[#1F497D] text-white flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined" style={{ fontSize: 20 }}>account_circle</span>
+                </div>
+                <div>
+                  <div className="text-xs text-blue-900 font-bold">Currently Signed In</div>
+                  <div className="text-xs text-slate-700">
+                    {session.name} • <span className="font-semibold text-blue-800">{session.roleTitle || session.role}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => navigate(session.landingRoute || getRoleLandingRoute(session.role))}
+                  className="px-3.5 py-1.5 bg-[#1F497D] hover:bg-[#16375D] text-white text-xs font-semibold rounded-lg shadow-xs transition-colors flex items-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 16 }}>dashboard</span>
+                  <span>Continue to Dashboard</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => logout()}
+                  className="px-3 py-1.5 border border-slate-300 hover:border-slate-400 bg-white text-slate-700 hover:text-slate-900 text-xs font-semibold rounded-lg shadow-xs transition-colors flex items-center gap-1"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 16 }}>logout</span>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column: Select Access Before Login (Section 5) */}
+          <div className="lg:col-span-7 space-y-5">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1F497D] text-xs font-semibold mb-2">
+                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>vpn_key</span>
+                Select Your Access Role
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+                Authorised Portal Sign In
+              </h1>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                Click any role entry below to load pre-seeded credentials. Role authority is strictly resolved by the server after authentication — no post-login role switching.
+              </p>
             </div>
 
-            {/* Sub-fields for IMPLEMENTING AGENCY */}
-            {selectedRole === ROLES.IMPLEMENTING_AGENCY && (
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Agency Type</label>
-                  <select
-                    className="saksham-input text-xs font-medium"
-                    value={agencyType}
-                    onChange={(e) => setAgencyType(e.target.value)}
-                  >
-                    {AGENCY_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                  </select>
+            {PRE_AUTH_ACCOUNTS.map((group, gi) => (
+              <div key={gi} className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-2">
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-1">
+                  {group.category}
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">State</label>
-                    <select
-                      className="saksham-input text-xs"
-                      value={state}
-                      onChange={(e) => handleStateChange(e.target.value)}
-                    >
-                      {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">District</label>
-                    <select
-                      className="saksham-input text-xs"
-                      value={district}
-                      onChange={(e) => setDistrict(e.target.value)}
-                    >
-                      {(DISTRICTS_BY_STATE[state] || ['Bhopal']).map(d => (
-                        <option key={d} value={d}>{d}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Authorized User ID</label>
-                  <input
-                    type="text"
-                    required
-                    className="saksham-input text-xs font-mono"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                    placeholder="e.g. PWD-BPL-IA-001"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {group.roles.map((r) => {
+                    const isSelected = email === r.email;
+                    return (
+                      <button
+                        key={r.email}
+                        type="button"
+                        onClick={() => selectPreAuthAccount(r)}
+                        className={`text-left p-3 rounded-lg border transition-all flex flex-col justify-between ${
+                          isSelected
+                            ? 'border-[#1F497D] bg-[#EEF4FA] shadow-xs ring-1 ring-[#1F497D]'
+                            : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 bg-white'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-1.5">
+                            <div
+                              className="w-7 h-7 rounded-md flex items-center justify-center"
+                              style={{ backgroundColor: r.bg }}
+                            >
+                              <span className="material-symbols-outlined" style={{ fontSize: 16, color: r.color }}>
+                                {r.icon}
+                              </span>
+                            </div>
+                            {isSelected && (
+                              <span className="w-2 h-2 rounded-full bg-[#1F497D]" />
+                            )}
+                          </div>
+                          <div className="text-xs font-bold text-slate-900 leading-tight">
+                            {r.title}
+                          </div>
+                          <div className="text-[10px] text-slate-500 line-clamp-1 mt-0.5">
+                            {r.subtitle}
+                          </div>
+                        </div>
+                        <div className="text-[9px] font-medium text-slate-400 mt-2 border-t border-slate-100 pt-1.5">
+                          {r.tag}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            )}
+            ))}
+          </div>
 
-            {/* Sub-fields for DISTRICT AUTHORITY */}
-            {selectedRole === ROLES.DISTRICT_AUTHORITY && (
-              <div className="space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">State</label>
-                    <select
-                      className="saksham-input text-xs"
-                      value={state}
-                      onChange={(e) => handleStateChange(e.target.value)}
-                    >
-                      {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">District</label>
-                    <select
-                      className="saksham-input text-xs"
-                      value={district}
-                      onChange={(e) => setDistrict(e.target.value)}
-                    >
-                      {(DISTRICTS_BY_STATE[state] || ['Bhopal']).map(d => (
-                        <option key={d} value={d}>{d}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Authorized User ID / Email</label>
-                  <input
-                    type="text"
-                    required
-                    className="saksham-input text-xs font-mono"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                    placeholder="e.g. DA-BPL-001"
-                  />
-                </div>
+          {/* Right Column: Credentials Form */}
+          <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">
+            <div>
+              <div className="text-xs font-bold text-[#1F497D] uppercase tracking-wider">
+                Active Selection
               </div>
-            )}
+              <div className="text-base font-bold text-slate-900 mt-0.5">
+                {selectedRoleTitle}
+              </div>
+              <div className="text-[11px] text-slate-500">
+                Synthetic test account with fixed administrative permissions
+              </div>
+            </div>
 
-            {/* Sub-fields for VENDOR */}
-            {selectedRole === ROLES.VENDOR && (
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Select Vendor Organization</label>
-                  <select
-                    className="saksham-input text-xs font-medium"
-                    value={vendorId}
-                    onChange={(e) => {
-                      setVendorId(e.target.value);
-                      setUserId(`${e.target.value}-USER`);
-                    }}
-                  >
-                    {vendors.map(v => (
-                      <option key={v.id} value={v.id}>
-                        {v.id}: {v.legalName} ({v.riskLevel} Risk • {v.state})
-                      </option>
-                    ))}
-                  </select>
-                  <span className="text-[11px] text-slate-500 mt-1 block">
-                    Source: Authoritative synthetic mock dataset (Vendors.md)
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {errorMessage && (
+                <div className="p-3 rounded-lg bg-red-50 border border-red-200 flex items-start gap-2 text-xs text-red-700">
+                  <span className="material-symbols-outlined text-red-500 shrink-0 mt-0.5" style={{ fontSize: 16 }}>
+                    error
                   </span>
+                  <span>{errorMessage}</span>
                 </div>
+              )}
 
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Vendor User ID</label>
-                  <input
-                    type="text"
-                    required
-                    className="saksham-input text-xs font-mono"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Sub-fields for STATE NODAL AUTHORITY */}
-            {selectedRole === ROLES.STATE_NODAL_AUTHORITY && (
-              <div className="space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">State Administration</label>
-                    <select
-                      className="saksham-input text-xs"
-                      value={state}
-                      onChange={(e) => handleStateChange(e.target.value)}
-                    >
-                      {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">Department</label>
-                    <input
-                      type="text"
-                      className="saksham-input text-xs"
-                      value={stateDept}
-                      onChange={(e) => setStateDept(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Authorized Official User ID</label>
-                  <input
-                    type="text"
-                    required
-                    className="saksham-input text-xs font-mono"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Sub-fields for CENTRAL NODAL AGENCY */}
-            {selectedRole === ROLES.CENTRAL_NODAL_AGENCY && (
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Department / Division</label>
-                  <input
-                    type="text"
-                    className="saksham-input text-xs"
-                    value={centralDivision}
-                    onChange={(e) => setCentralDivision(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Central User ID</label>
-                  <input
-                    type="text"
-                    required
-                    className="saksham-input text-xs font-mono"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Sub-fields for MP */}
-            {selectedRole === ROLES.MP && (
-              <div className="space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">State</label>
-                    <select
-                      className="saksham-input text-xs"
-                      value={state}
-                      onChange={(e) => handleStateChange(e.target.value)}
-                    >
-                      {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-600 font-medium mb-1">Parliamentary Constituency</label>
-                    <select
-                      className="saksham-input text-xs font-medium"
-                      value={constituency}
-                      onChange={(e) => setConstituency(e.target.value)}
-                    >
-                      {(CONSTITUENCIES_BY_STATE[state] || ['Bhopal (PC-19)']).map(c => (
-                        <option key={c} value={c}>{c}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">MP Credential ID</label>
-                  <input
-                    type="text"
-                    required
-                    className="saksham-input text-xs font-mono"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Sub-fields for INVESTIGATOR */}
-            {selectedRole === ROLES.INVESTIGATOR && (
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Vigilance Cell / Inspection Division</label>
-                  <input
-                    type="text"
-                    className="saksham-input text-xs font-medium"
-                    value={vigilanceCell}
-                    onChange={(e) => setVigilanceCell(e.target.value)}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs text-slate-600 font-medium mb-1">Auditor Badge ID</label>
-                  <input
-                    type="text"
-                    required
-                    className="saksham-input text-xs font-mono"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Password & Captcha (Always displayed at bottom of step 2) */}
-            <div className="pt-2 border-t border-border-subtle grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs text-slate-600 font-medium mb-1">Passkey / PIN</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Official Email / ID
+                </label>
                 <input
-                  type="password"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="saksham-input text-xs"
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50 focus:bg-white focus:border-[#1F497D] focus:ring-1 focus:ring-[#1F497D] outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-slate-600 font-medium mb-1">Security Captcha</label>
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-white rounded-lg py-1.5 px-2.5 text-center font-mono font-bold tracking-widest text-slate-700 text-xs border border-border-subtle select-none">
-                    {CAPTCHAS[captchaIdx]}
-                  </div>
-                  <input
-                    type="text"
-                    maxLength={6}
-                    required
-                    value={captchaInput}
-                    onChange={(e) => setCaptchaInput(e.target.value)}
-                    className="w-20 saksham-input text-xs font-mono text-center"
-                  />
-                </div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50 focus:bg-white focus:border-[#1F497D] focus:ring-1 focus:ring-[#1F497D] outline-none transition-colors font-mono"
+                />
               </div>
+
+              {/* CAPTCHA Challenge */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Security Code <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex-1 bg-slate-100 border border-slate-300 rounded-lg py-2 text-center select-none">
+                    <span className="font-mono font-bold tracking-[0.3em] text-slate-800 text-sm">
+                      {activeCaptcha.display}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRefreshCaptcha}
+                    className="p-2 bg-white border border-slate-300 hover:border-slate-400 rounded-lg text-slate-600 hover:text-slate-900 transition-colors flex items-center justify-center shrink-0"
+                    title="Refresh Code"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 18 }}>sync</span>
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  value={captchaInput}
+                  onChange={(e) => setCaptchaInput(e.target.value)}
+                  placeholder="Enter characters shown above"
+                  maxLength={6}
+                  required
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50 focus:bg-white focus:border-[#1F497D] focus:ring-1 focus:ring-[#1F497D] outline-none font-mono tracking-widest text-center"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-2.5 px-4 bg-[#1F497D] hover:bg-[#16375D] disabled:opacity-60 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <span>Authenticating...</span>
+                ) : (
+                  <>
+                    <span>Sign In to {selectedRoleTitle}</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="pt-2 border-t border-slate-100 text-center">
+              <span className="text-[10px] text-slate-400">
+                Shared test password: <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-600">Demopass@2026</code>
+              </span>
             </div>
           </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2.5 px-4 bg-primary hover:bg-blue-700 text-white font-semibold rounded-xl text-xs shadow-sm transition-colors flex items-center justify-center gap-2"
-          >
-            {loading ? (
-              <>
-                <span className="material-symbols-outlined animate-spin" style={{ fontSize: 16 }}>autorenew</span>
-                <span>Authenticating Credentials...</span>
-              </>
-            ) : (
-              <>
-                <span>Sign In as {selectedRole.replace(/_/g, ' ')}</span>
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
-              </>
-            )}
-          </button>
-        </form>
-
-        <div className="mt-5 text-center text-[11px] text-slate-400">
-          Complies with General Financial Rules (GFR Rule 144) • NIC MoSPI Infrastructure
         </div>
-      </main>
+      </div>
+    </main>
+
+      {/* Footer */}
+      <footer className="py-3 px-6 text-center border-t border-slate-200 bg-white">
+        <p className="text-[11px] text-slate-400">
+          SAKSHAM AI Workflow Demonstration — Synthetic data only. Not an official government portal.
+        </p>
+      </footer>
     </div>
   );
 }

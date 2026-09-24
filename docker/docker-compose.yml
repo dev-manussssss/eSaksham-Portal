@@ -12,13 +12,8 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ../database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-
-  redis:
-    image: redis:7-alpine
-    container_name: saksham_redis
-    ports:
-      - "6379:6379"
+      - ../database/01_saksham_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+    restart: unless-stopped
 
   backend:
     build:
@@ -26,13 +21,18 @@ services:
       dockerfile: ../docker/Dockerfile.backend
     container_name: saksham_backend
     environment:
+      - PORT=3001
+      - NODE_ENV=production
       - DATABASE_URL=postgresql://saksham_admin:saksham_secure_pass@postgres:5432/saksham_db
-      - REDIS_URL=redis://redis:6379/0
+      - SUPABASE_URL=${SUPABASE_URL:-}
+      - SUPABASE_KEY=${SUPABASE_KEY:-}
+      - JWT_SECRET=${JWT_SECRET:-saksham_secure_dev_jwt_secret_2026}
+      - CORS_ORIGIN=http://localhost:3000,http://localhost:5173
     ports:
-      - "8000:8000"
+      - "3001:3001"
     depends_on:
       - postgres
-      - redis
+    restart: unless-stopped
 
   frontend:
     build:
@@ -43,6 +43,7 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    restart: unless-stopped
 
 volumes:
   pgdata:

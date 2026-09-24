@@ -1,4 +1,5 @@
 import { config } from '../config.js';
+import { validateFlag } from '../constants/taxonomy.js';
 
 /**
  * Universal Groq API caller with dual-key failover and JSON output enforcement.
@@ -158,10 +159,15 @@ Analyze anomalies and output ONLY valid JSON matching this schema:
   const res = await callGroqWithFailover(systemPrompt, prompt, 800);
 
   if (res.success && res.data) {
+    const rawFlags = Array.isArray(res.data.flags) ? res.data.flags : [];
+    const validatedFlags = rawFlags.map(f => validateFlag(f)).filter(Boolean);
     return {
       status: 'COMPLETED',
       model: res.model,
-      data: res.data,
+      data: {
+        ...res.data,
+        flags: validatedFlags,
+      },
     };
   }
 

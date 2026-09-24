@@ -5,8 +5,9 @@ import StatusBadge from '../components/StatusBadge';
 import { fetchProjects } from '../api/sakshamApi.js';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { getVendorById, projects as fallbackProjects } from '../data/index.js';
+import { MPLADS_SECTORS } from '../constants/sectors.js';
 
-const categories = ['All', 'Rural Roads', 'Drainage', 'IT Equipment', 'Water Supply', 'Solar Systems', 'Equipment', 'Bridges', 'Civil Works', 'Sanitation', 'Public Buildings', 'Furniture & Supplies'];
+const categories = ['All', ...MPLADS_SECTORS];
 const statusFilters = ['All', 'UNDER_IMPLEMENTATION', 'INSPECTION_REQUIRED', 'ON_HOLD', 'VERIFIED', 'COMPLETED', 'RECOMMENDED'];
 const riskFilters = ['All', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
 
@@ -133,7 +134,7 @@ export default function Projects() {
             onChange={e => setCategoryFilter(e.target.value)}
           >
             {categories.map(c => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c}>{c === 'All' ? 'All MPLADS Sectors' : c}</option>
             ))}
           </select>
           <select

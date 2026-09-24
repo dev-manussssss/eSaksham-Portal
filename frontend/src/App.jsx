@@ -1,29 +1,50 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './auth/AuthContext.jsx';
+import { AuthProvider, useAuth, getRoleLandingRoute } from './auth/AuthContext.jsx';
 import ProtectedRoute from './navigation/ProtectedRoute.jsx';
 import Layout from './components/Layout.jsx';
+
+// Public Pages
+import LandingPage from './pages/LandingPage.jsx';
 import Login from './pages/Login.jsx';
+
+// Role Dashboards
 import Dashboard from './pages/Dashboard.jsx';
+import DistrictDashboard from './pages/DistrictDashboard.jsx';
+import StateDashboard from './pages/StateDashboard.jsx';
+import NationalDashboard from './pages/NationalDashboard.jsx';
+import MPDashboard from './pages/MPDashboard.jsx';
+import VendorDashboard from './pages/VendorDashboard.jsx';
+
+// Vendor Pages
 import ManageVendors from './pages/ManageVendors.jsx';
 import AddEditVendor from './pages/AddEditVendor.jsx';
 import VendorRiskProfile from './pages/VendorRiskProfile.jsx';
+
+// Procurement & Tenders
+import ProcurementDashboard from './pages/ProcurementDashboard.jsx';
+import ManageTenders from './pages/ManageTenders.jsx';
+import TenderDetail from './pages/TenderDetail.jsx';
+
+
+// Projects & Works
 import Projects from './pages/Projects.jsx';
 import ProjectDetail from './pages/ProjectDetail.jsx';
 import WorkProgress from './pages/WorkProgress.jsx';
+
+// Dedicated Operational Pages (AUD-010: Zero Aliasing)
+import Inspections from './pages/Inspections.jsx';
+import FraudGraph from './pages/FraudGraph.jsx';
+import Alerts from './pages/Alerts.jsx';
+import AuditTrail from './pages/AuditTrail.jsx';
+
+// Financial & Reports
 import FundDisbursement from './pages/FundDisbursement.jsx';
-import DistrictDashboard from './pages/DistrictDashboard.jsx';
 import InvestigationDashboard from './pages/InvestigationDashboard.jsx';
-import ManageTenders from './pages/ManageTenders.jsx';
-import TenderDetail from './pages/TenderDetail.jsx';
-import MPDashboard from './pages/MPDashboard.jsx';
-import StateDashboard from './pages/StateDashboard.jsx';
-import NationalDashboard from './pages/NationalDashboard.jsx';
-import VendorDashboard from './pages/VendorDashboard.jsx';
 import Reports from './pages/Reports.jsx';
 
 function RoleDefaultRedirect() {
   const { session } = useAuth();
-  return <Navigate to={session?.landingRoute || '/dashboard'} replace />;
+  return <Navigate to={session?.landingRoute || getRoleLandingRoute(session?.role)} replace />;
 }
 
 function VendorMyProfileRedirect() {
@@ -36,7 +57,8 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public */}
+          {/* Public Portal Landing & Sign In */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
 
           {/* Protected Routes wrapped in Role-Aware Layout */}
@@ -47,8 +69,8 @@ export default function App() {
               </ProtectedRoute>
             }
           >
-            {/* Root redirects to current role's designated landing route */}
-            <Route path="/" element={<RoleDefaultRedirect />} />
+            {/* Authenticated default */}
+            <Route path="/app" element={<RoleDefaultRedirect />} />
 
             {/* Role Dashboards */}
             <Route path="/dashboard" element={<Dashboard />} />
@@ -67,34 +89,39 @@ export default function App() {
             <Route path="/vendors/:id" element={<VendorRiskProfile />} />
             <Route path="/vendor-risk" element={<Navigate to="/vendors" replace />} />
 
-            {/* Tenders */}
+            {/* Procurement / Tenders */}
+            <Route path="/procurement-dashboard" element={<ProcurementDashboard />} />
             <Route path="/tenders" element={<ManageTenders />} />
             <Route path="/tenders/:id" element={<TenderDetail />} />
+
 
             {/* Projects / Works */}
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/work-progress" element={<WorkProgress />} />
-            <Route path="/inspections" element={<WorkProgress />} />
+
+            {/* Dedicated Pages (AUD-010) */}
+            <Route path="/inspections" element={<Inspections />} />
+            <Route path="/fraud-graph" element={<FraudGraph />} />
+            <Route path="/fraud-network" element={<FraudGraph />} />
+            <Route path="/alerts" element={<Alerts />} />
+            <Route path="/risk-alerts" element={<Alerts />} />
+            <Route path="/audit-trail" element={<AuditTrail />} />
+            <Route path="/audit-logs" element={<AuditTrail />} />
 
             {/* Payments & Funds */}
             <Route path="/fund-disbursement" element={<FundDisbursement />} />
 
             {/* Investigations & Risk */}
             <Route path="/investigations" element={<InvestigationDashboard />} />
-            <Route path="/fraud-graph" element={<InvestigationDashboard />} />
-            <Route path="/fraud-network" element={<InvestigationDashboard />} />
-            <Route path="/risk-alerts" element={<InvestigationDashboard />} />
 
             {/* Statutory Reports */}
             <Route path="/reports" element={<Reports />} />
 
-            {/* Additional Statutory Aliases */}
+            {/* Additional Operational Aliases */}
             <Route path="/implementing-agencies" element={<Projects />} />
             <Route path="/districts" element={<DistrictDashboard />} />
-            <Route path="/documents" element={<ProjectDetail />} />
             <Route path="/compliance" element={<VendorDashboard />} />
-            <Route path="/notifications" element={<InvestigationDashboard />} />
 
             {/* Fallback */}
             <Route path="*" element={<RoleDefaultRedirect />} />

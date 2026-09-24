@@ -1,0 +1,12 @@
+{
+  "name": "saksham-portal",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "start": "./start.sh",
+    "dev": "./start.sh",
+    "seed": "npm --prefix backend run seed",
+    "test": "npm --prefix backend run test",
+    "build": "npm --prefix frontend run build"
+  }
+}

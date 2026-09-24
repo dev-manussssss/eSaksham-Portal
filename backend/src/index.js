@@ -21,6 +21,8 @@ const app = express();
 // 1. CORS Configuration (AUD-005: Restricted origin whitelist, no wildcard)
 const allowedOrigins = [
   process.env.FRONTEND_URL,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+  process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null,
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'http://localhost:3000',
@@ -28,8 +30,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow non-browser requests (curl, server-to-server, mobile apps) or matched origins
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow non-browser requests (curl, server-to-server, mobile apps), matched origins, or Vercel preview deployments
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      /^https:\/\/[a-zA-Z0-9_-]+\.vercel\.app$/.test(origin)
+    ) {
       callback(null, true);
     } else {
       callback(new Error(`CORS blocked for origin: ${origin}`));
@@ -41,9 +47,13 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(globalApiLimiter);
 
-// Ensure local uploads directory exists
-if (!fs.existsSync(config.uploadsDir)) {
-  fs.mkdirSync(config.uploadsDir, { recursive: true });
+// Ensure local uploads directory exists (safely catch read-only serverless environments)
+try {
+  if (!fs.existsSync(config.uploadsDir)) {
+    fs.mkdirSync(config.uploadsDir, { recursive: true });
+  }
+} catch (e) {
+  // Read-only filesystem in serverless environments (in-memory multer storage is used)
 }
 
 // 2. Factual System Health Check (AUD-003: No fake institutional claims)

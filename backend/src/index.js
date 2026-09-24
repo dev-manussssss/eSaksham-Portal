@@ -111,14 +111,16 @@ app.use((req, res) => {
   });
 });
 
-const PORT = config.port || 3001;
-app.listen(PORT, () => {
-  console.log(`========================================================`);
-  console.log(` SAKSHAM e-Governance AI Backend v2.0 Operational`);
-  console.log(` Listening on port: ${PORT}`);
-  console.log(` Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(` Health Check: http://localhost:${PORT}/api/health`);
-  console.log(`========================================================`);
-});
+if (!process.env.VERCEL) {
+  const PORT = config.port || 3001;
+  app.listen(PORT, () => {
+    console.log(`========================================================`);
+    console.log(` SAKSHAM e-Governance AI Backend v2.0 Operational`);
+    console.log(` Listening on port: ${PORT}`);
+    console.log(` Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(` Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`========================================================`);
+  });
+}
 
 export default app;

@@ -1,4 +1,5 @@
 import { supabase } from '../supabase.js';
+import { canPerformAction } from '../middleware/rbac.js';
 
 export async function getAlerts(req, res) {
   try {
@@ -25,16 +26,32 @@ export async function reviewAlert(req, res) {
     const { status, resolution_notes } = req.body;
     const user = req.user;
 
+    // RBAC: Only District Authority and Investigator can resolve/dismiss alerts
+    if (!canPerformAction(user.role, 'REQUEST_VERIFICATION')) {
+      return res.status(403).json({
+        success: false,
+        error: 'Only District Authority and Investigator officers are authorized to review alert decisions.',
+      });
+    }
+
+    const VALID_ALERT_STATUSES = ['ACTIVE', 'UNDER_REVIEW', 'RESOLVED', 'DISMISSED'];
+    const newStatus = status || 'RESOLVED';
+    if (!VALID_ALERT_STATUSES.includes(newStatus)) {
+      return res.status(400).json({
+        success: false,
+        error: `Invalid alert status '${newStatus}'. Must be one of: ${VALID_ALERT_STATUSES.join(', ')}`,
+      });
+    }
+
     const { data: alert, error } = await supabase
       .from('alerts')
-      .update({
-        status: status || 'RESOLVED',
-      })
+      .update({ status: newStatus })
       .eq('id', id)
       .select()
       .single();
 
     if (error) throw error;
+    if (!alert) return res.status(404).json({ success: false, error: 'Alert not found.' });
 
     // Audit event
     await supabase.from('audit_logs').insert({
@@ -44,7 +61,7 @@ export async function reviewAlert(req, res) {
       actor_id: user.id,
       role: user.role,
       action: 'ALERT_REVIEWED',
-      comment: resolution_notes || `Alert marked as ${status || 'RESOLVED'}`,
+      comment: resolution_notes || `Alert marked as ${newStatus} by ${user.role}`,
     });
 
     res.json({ success: true, alert });
@@ -53,3 +70,4 @@ export async function reviewAlert(req, res) {
     res.status(500).json({ success: false, error: err.message });
   }
 }
+

@@ -105,9 +105,36 @@ export async function submitBid(req, res) {
     const { financial_quote, technical_score } = req.body;
     const user = req.user;
 
-    const vendorId = user.vendorId || req.body.vendor_id;
+    // SECURITY: Only VENDOR role users may submit bids.
+    // vendorId MUST come from the server-verified session, NOT from req.body.
+    // This prevents any non-vendor actor from forging vendor identity.
+    if (user.role !== ROLES.VENDOR) {
+      return res.status(403).json({ success: false, error: 'Only registered vendors may submit bids.' });
+    }
+
+    const vendorId = user.vendorId;
     if (!vendorId) {
-      return res.status(400).json({ success: false, error: 'Vendor identifier required for bid submission.' });
+      return res.status(403).json({ success: false, error: 'Your account is not linked to a registered vendor profile.' });
+    }
+
+    // Input validation
+    if (!financial_quote || isNaN(Number(financial_quote)) || Number(financial_quote) <= 0) {
+      return res.status(400).json({ success: false, error: 'A valid positive financial quote is required for bid submission.' });
+    }
+
+    // Prevent duplicate bid submission by same vendor for same tender
+    const { data: existingBid } = await supabase
+      .from('bid_participants')
+      .select('bid_id, bids!inner(tender_id)')
+      .eq('vendor_id', vendorId)
+      .eq('bids.tender_id', id)
+      .maybeSingle();
+
+    if (existingBid) {
+      return res.status(409).json({
+        success: false,
+        error: 'Your organisation has already submitted a bid for this tender. Duplicate bids are not permitted under MPLADS procurement rules.',
+      });
     }
 
     const bidReference = `BID-${Date.now().toString().slice(-6)}`;

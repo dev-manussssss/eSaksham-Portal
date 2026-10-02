@@ -176,12 +176,60 @@ export async function createVendor(req, res) {
       return res.status(400).json({ success: false, error: 'Company Name, GSTIN, and PAN are required.' });
     }
 
-    const vendorId = `VND-${Date.now().toString().slice(-4)}`;
+    const cleanGstin = gstin.trim().toUpperCase();
+    const cleanPan = pan.trim().toUpperCase();
+
+    // GSTIN basic format validation: 15 characters alphanumeric
+    if (!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(cleanGstin)) {
+      return res.status(400).json({
+        success: false,
+        error: `Invalid GSTIN format '${cleanGstin}'. Please enter a valid 15-character GSTIN as issued by GST authorities.`,
+      });
+    }
+
+    // PAN basic format validation: 10 characters AAAAA9999A
+    if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(cleanPan)) {
+      return res.status(400).json({
+        success: false,
+        error: `Invalid PAN format '${cleanPan}'. Please enter a valid 10-character Permanent Account Number.`,
+      });
+    }
+
+    // Duplicate GSTIN check — must be unique across all vendors
+    const { data: gstinExists } = await supabase
+      .from('vendors')
+      .select('id, company_name')
+      .eq('gstin', cleanGstin)
+      .maybeSingle();
+
+    if (gstinExists) {
+      return res.status(409).json({
+        success: false,
+        error: `GSTIN '${cleanGstin}' is already registered under vendor '${gstinExists.company_name}' (${gstinExists.id}). Each GSTIN must be unique in the MPLADS vendor registry.`,
+      });
+    }
+
+    // Duplicate PAN check — must be unique across all vendors
+    const { data: panExists } = await supabase
+      .from('vendors')
+      .select('id, company_name')
+      .eq('pan', cleanPan)
+      .maybeSingle();
+
+    if (panExists) {
+      return res.status(409).json({
+        success: false,
+        error: `PAN '${cleanPan}' is already registered under vendor '${panExists.company_name}' (${panExists.id}). Each PAN must be unique in the MPLADS vendor registry.`,
+      });
+    }
+
+    // Collision-resistant vendor ID: timestamp slice + random 3 digits
+    const vendorId = `VND-${Date.now().toString().slice(-5)}${Math.floor(Math.random() * 900 + 100)}`;
     const newVendor = {
       id: vendorId,
       company_name: company_name.trim(),
-      gstin: gstin.trim().toUpperCase(),
-      pan: pan.trim().toUpperCase(),
+      gstin: cleanGstin,
+      pan: cleanPan,
       state: state || user.state || 'Madhya Pradesh',
       district: district || user.district || 'Bhopal',
       sector: sector || 'Civil Infrastructure',
@@ -201,7 +249,7 @@ export async function createVendor(req, res) {
       actor_id: user.id,
       role: user.role,
       action: 'VENDOR_CREATED',
-      comment: `Onboarded vendor '${company_name}' (${vendorId}) with GSTIN ${gstin}`,
+      comment: `Onboarded vendor '${company_name}' (${vendorId}) with GSTIN ${cleanGstin} by ${user.role} ${user.name || user.id}`,
     });
 
     res.status(201).json({ success: true, vendor: data });
@@ -210,6 +258,7 @@ export async function createVendor(req, res) {
     res.status(500).json({ success: false, error: err.message });
   }
 }
+
 
 export async function toggleSuspendVendor(req, res) {
   try {

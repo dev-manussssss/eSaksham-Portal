@@ -111,6 +111,10 @@ export async function uploadProjectDocument(projectId, file, category, session, 
 
   const res = await fetch(`/api/projects/${projectId}/documents`, {
     method: 'POST',
+    headers: {
+      // Do NOT set Content-Type for FormData — browser must set it with boundary
+      ...getAuthHeaders(session),
+    },
     body: formData,
   });
 
@@ -293,13 +297,14 @@ export async function deactivateVendor(vendorId, reason, session) {
     throw new Error('Offline Mode: Deactivating a vendor requires active connectivity.');
   }
 
-  const res = await fetch(`/api/vendors/${vendorId}/deactivate`, {
+  // Backend route is /api/vendors/:id/suspend (not /deactivate)
+  const res = await fetch(`/api/vendors/${vendorId}/suspend`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       ...getAuthHeaders(session),
     },
-    body: JSON.stringify({ reason }),
+    body: JSON.stringify({ is_active: false, reason }),
   });
 
   if (!res.ok) {

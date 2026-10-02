@@ -21,8 +21,11 @@ const upload = multer({
 router.get('/', authenticate, getProjects);
 router.get('/:id', authenticate, getProjectById);
 router.post('/recommend', authenticate, requirePermission('RECOMMEND_PROJECT'), recommendProject);
+// /:id/action and /:id/actions are both supported (frontend uses /actions)
+// RBAC for action_type is enforced inside executeAction via canPerformAction()
 router.post('/:id/action', authenticate, executeAction);
-router.post('/:id/documents', authenticate, documentAnalysisLimiter, upload.single('document'), uploadDocument);
+router.post('/:id/actions', authenticate, executeAction);
+router.post('/:id/documents', authenticate, requirePermission('UPLOAD_WORK_DOCUMENTS'), documentAnalysisLimiter, upload.single('document'), uploadDocument);
 router.post('/:id/inspections', authenticate, requirePermission('CONDUCT_INSPECTION'), recordInspection);
 
 export default router;

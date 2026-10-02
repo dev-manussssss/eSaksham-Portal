@@ -148,25 +148,33 @@ async function calcCollusionNetwork(vendorId) {
       .eq('awarded_vendor_id', vendorId);
 
     if (awardedTenders && awardedTenders.length > 0) {
-      let soleBidCount = 0;
-      for (const t of awardedTenders) {
-        const { count } = await supabase
-          .from('bids')
-          .select('*', { count: 'exact', head: true })
-          .eq('tender_id', t.id);
-        if (count === 1) soleBidCount++;
-      }
+      const awardedTenderIds = awardedTenders.map(t => t.id);
 
-      if (soleBidCount > 0) {
-        score += 15;
-        signals.push({
-          dimension: 'B',
-          signal_code: 'SOLE_BIDDER_WINS',
-          label: `Won ${soleBidCount} tender(s) where sole bid was received — statutory competition review advised`,
-          points: 15,
-          status: 'ACTIVE',
-          source_field: 'tenders.awarded_vendor_id vs bids.tender_id',
-        });
+      // Single query to get bid counts for all awarded tenders (fixes N+1 query pattern)
+      const { data: allBids } = await supabase
+        .from('bids')
+        .select('tender_id')
+        .in('tender_id', awardedTenderIds);
+
+      if (allBids) {
+        // Count bids per tender
+        const bidCountByTender = {};
+        for (const bid of allBids) {
+          bidCountByTender[bid.tender_id] = (bidCountByTender[bid.tender_id] || 0) + 1;
+        }
+        const soleBidCount = Object.values(bidCountByTender).filter(count => count === 1).length;
+
+        if (soleBidCount > 0) {
+          score += 15;
+          signals.push({
+            dimension: 'B',
+            signal_code: 'SOLE_BIDDER_WINS',
+            label: `Won ${soleBidCount} tender(s) where sole bid was received — statutory competition review advised`,
+            points: 15,
+            status: 'ACTIVE',
+            source_field: 'tenders.awarded_vendor_id vs bids.tender_id',
+          });
+        }
       }
     }
   } catch (err) {

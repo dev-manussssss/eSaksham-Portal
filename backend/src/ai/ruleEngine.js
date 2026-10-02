@@ -3,13 +3,15 @@
  * Enforces MPLADS statutory financial and quantity constraints before AI invocation.
  */
 
-export function runDeterministicChecks({ project, boqItems = [], measurements = [], bills = [], extractedDocument = {} }) {
+export function runDeterministicChecks({ project, boqItems = [], measurements = [], bills = [], extractedData = {}, extractedDocument = {} }) {
+  // Support both parameter names for backward compatibility
+  const docData = extractedData && Object.keys(extractedData).length > 0 ? extractedData : extractedDocument;
   const flags = [];
   let compositeImpact = 0;
 
   // 1. BOQ Item vs Extracted / Billed Quantity Check
-  if (extractedDocument.items && Array.isArray(extractedDocument.items)) {
-    for (const docItem of extractedDocument.items) {
+  if (docData.items && Array.isArray(docData.items)) {
+    for (const docItem of docData.items) {
       // Find matching BOQ item by item_no or description match
       const boqMatch = boqItems.find(b => 
         b.item_no === docItem.item_no || 

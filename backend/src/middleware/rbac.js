@@ -50,6 +50,10 @@ export const PERMISSIONS = {
 
   // Inspection Management
   CONDUCT_INSPECTION: [ROLES.DISTRICT_AUTHORITY, ROLES.IMPLEMENTING_AGENCY, ROLES.INVESTIGATOR],
+
+  // Investigation Management
+  OPEN_INVESTIGATION: [ROLES.DISTRICT_AUTHORITY, ROLES.INVESTIGATOR],
+  UPDATE_INVESTIGATION: [ROLES.DISTRICT_AUTHORITY, ROLES.INVESTIGATOR],
 };
 
 export function canPerformAction(role, action) {
@@ -57,6 +61,41 @@ export function canPerformAction(role, action) {
   const allowedRoles = PERMISSIONS[action];
   if (!allowedRoles) return false;
   return allowedRoles.includes(role);
+}
+
+export function filterProjectsForRole(projects, role, userMetadata = {}) {
+  if (!Array.isArray(projects)) return [];
+  if (role === ROLES.DISTRICT_AUTHORITY) {
+    return userMetadata.district
+      ? projects.filter(p => p.district?.toLowerCase() === userMetadata.district.toLowerCase())
+      : projects;
+  }
+  if (role === ROLES.MP) {
+    return userMetadata.constituency
+      ? projects.filter(p => p.constituency?.toLowerCase().includes(userMetadata.constituency.toLowerCase().split(' ')[0]))
+      : projects;
+  }
+  if (role === ROLES.VENDOR) {
+    return userMetadata.vendorId
+      ? projects.filter(p => p.vendor_id === userMetadata.vendorId)
+      : [];
+  }
+  if (role === ROLES.IMPLEMENTING_AGENCY) {
+    return userMetadata.district
+      ? projects.filter(p => p.district?.toLowerCase() === userMetadata.district.toLowerCase())
+      : projects;
+  }
+  return projects;
+}
+
+export function filterVendorsForRole(vendors, role, userMetadata = {}) {
+  if (!Array.isArray(vendors)) return [];
+  if (role === ROLES.VENDOR) {
+    return userMetadata.vendorId
+      ? vendors.filter(v => v.id === userMetadata.vendorId)
+      : [];
+  }
+  return vendors;
 }
 
 /**

@@ -1,6 +1,6 @@
 import { supabase } from '../supabase.js';
 import { ROLES } from '../middleware/rbac.js';
-import { getVendorRiskScore } from '../vendorRiskEngine.js';
+import { getVendorRiskScore, calculateVendorRiskScore } from '../vendorRiskEngine.js';
 
 export async function getVendors(req, res) {
   try {
@@ -16,6 +16,13 @@ export async function getVendors(req, res) {
       if (!includeDeactivated) {
         query = query.eq('is_active', true);
       }
+    }
+
+    if (req.query.limit) {
+      const limit = Math.min(parseInt(req.query.limit, 10) || 50, 100);
+      const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+      const offset = (page - 1) * limit;
+      query = query.range(offset, offset + limit - 1);
     }
 
     const { data: vendors, error } = await query.order('longitudinal_risk_score', { ascending: false });
@@ -136,12 +143,29 @@ export async function setBlacklistStatus(req, res) {
       return res.status(400).json({ success: false, error: 'is_blacklisted must be boolean.' });
     }
 
+    const { error: updateErr } = await supabase
+      .from('vendors')
+      .update({ is_blacklisted })
+      .eq('id', id);
+
+    if (updateErr) throw updateErr;
+
+    // Dynamically recalculate multi-factor risk score using vendorRiskEngine
+    let calculated = null;
+    try {
+      calculated = await calculateVendorRiskScore(id);
+    } catch (calcErr) {
+      console.warn(`Vendor risk recalculation fallback for ${id}:`, calcErr.message);
+    }
+
+    const risk_level = calculated ? calculated.severity : (is_blacklisted ? 'CRITICAL' : 'LOW');
+    const longitudinal_risk_score = calculated ? calculated.composite_score : (is_blacklisted ? 100 : 25);
+
     const { data: vendor, error } = await supabase
       .from('vendors')
       .update({
-        is_blacklisted,
-        risk_level: is_blacklisted ? 'CRITICAL' : 'LOW',
-        longitudinal_risk_score: is_blacklisted ? 95 : 30,
+        risk_level,
+        longitudinal_risk_score,
       })
       .eq('id', id)
       .select()

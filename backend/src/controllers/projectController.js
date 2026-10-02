@@ -18,12 +18,23 @@ export async function getProjects(req, res) {
       query = query.eq('vendor_id', user.vendorId);
     } else if (user.role === ROLES.DISTRICT_AUTHORITY && user.district && user.district !== 'All Districts') {
       query = query.eq('district', user.district);
+    } else if (user.role === ROLES.MP && user.constituency) {
+      query = query.ilike('constituency', `%${user.constituency}%`);
+    } else if (user.role === ROLES.IMPLEMENTING_AGENCY && user.district) {
+      query = query.eq('district', user.district);
     }
 
     if (status) query = query.eq('status', status);
     if (sector) query = query.eq('sector', sector);
     if (district) query = query.eq('district', district);
     if (search) query = query.or(`title.ilike.%${search}%,project_code.ilike.%${search}%,mp_name.ilike.%${search}%`);
+
+    if (req.query.limit) {
+      const limit = Math.min(parseInt(req.query.limit, 10) || 50, 100);
+      const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+      const offset = (page - 1) * limit;
+      query = query.range(offset, offset + limit - 1);
+    }
 
     const { data, error } = await query;
     if (error) throw error;
@@ -169,13 +180,30 @@ export async function executeAction(req, res) {
     const { action_type, decision, notes, target_status } = req.body;
     const user = req.user;
 
-    // RBAC check
+    // Validate action_type is a known permission key (not null, not SQL injection, not gibberish)
+    if (!action_type || typeof action_type !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'action_type is required and must be a string.',
+      });
+    }
+
+    // Import PERMISSIONS to validate known action keys
     if (!canPerformAction(user.role, action_type)) {
+      // Distinguish between "unknown action" and "wrong role"
+      const { PERMISSIONS } = await import('../middleware/rbac.js');
+      if (!PERMISSIONS[action_type]) {
+        return res.status(400).json({
+          success: false,
+          error: `Unknown action type '${action_type}'. Must be a recognized MPLADS workflow action.`,
+        });
+      }
       return res.status(403).json({
         success: false,
         error: `Role '${user.role}' is not authorized to perform action '${action_type}'.`,
       });
     }
+
 
     const { data: project, error: fetchErr } = await supabase
       .from('projects')

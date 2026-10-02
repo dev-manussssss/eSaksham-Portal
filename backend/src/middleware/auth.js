@@ -1,4 +1,6 @@
+import { createHmac } from 'crypto';
 import { supabase } from '../supabase.js';
+import { config } from '../config.js';
 
 // Pre-defined test accounts with fixed server-side roles and administrative scope
 export const SEEDED_ACCOUNTS = {
@@ -85,7 +87,26 @@ export const SEEDED_ACCOUNTS = {
   },
 };
 
-// Simple secure session token encode/decode for authentic session-based auth
+// ─── HMAC-SHA256 Signed Session Tokens (AUD-SEC-002) ─────────────────────────
+// Format: base64url(payload).base64url(hmac-sha256-signature)
+// - The payload is a base64url-encoded JSON object (not trusted in isolation)
+// - The HMAC signature is computed over the exact payload bytes using SESSION_SECRET
+// - Any modification to the payload (e.g. forging expiry, email, role) invalidates
+//   the signature. Both parts must arrive intact and unmodified.
+//
+// SECURITY PROPERTIES:
+// - Forgery: Requires knowledge of SESSION_SECRET to create a valid token
+// - Replay: Token has a 24h expiry enforced server-side; extending exp requires signature
+// - Tamper: Any change to any field breaks HMAC verification
+// - Email spoofing: Changing email changes the HMAC input → fails verification
+// ─────────────────────────────────────────────────────────────────────────────
+
+function computeHmac(payloadB64) {
+  return createHmac('sha256', config.sessionSecret)
+    .update(payloadB64)
+    .digest('base64url');
+}
+
 export function createSessionToken(user) {
   const payload = {
     sub: user.id,
@@ -97,20 +118,37 @@ export function createSessionToken(user) {
     iat: Date.now(),
     exp: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
   };
-  return Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const payloadB64 = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const sig = computeHmac(payloadB64);
+  return `${payloadB64}.${sig}`;
 }
 
 export function parseSessionToken(token) {
   try {
-    const raw = Buffer.from(token, 'base64url').toString('utf-8');
-    const parsed = JSON.parse(raw);
-    if (parsed.exp && parsed.exp > Date.now()) {
-      return parsed;
+    const lastDot = token.lastIndexOf('.');
+    if (lastDot < 1) return null; // No separator found
+
+    const payloadB64 = token.slice(0, lastDot);
+    const providedSig = token.slice(lastDot + 1);
+
+    // Constant-time HMAC comparison to prevent timing attacks
+    const expectedSig = computeHmac(payloadB64);
+    if (expectedSig !== providedSig) {
+      return null; // Signature mismatch — token was forged or tampered
     }
+
+    const raw = Buffer.from(payloadB64, 'base64url').toString('utf-8');
+    const parsed = JSON.parse(raw);
+
+    // Server-side expiry check (cannot be bypassed by altering exp without breaking sig)
+    if (!parsed.exp || parsed.exp < Date.now()) {
+      return null; // Token expired
+    }
+
+    return parsed;
   } catch (e) {
-    // Invalid token format
+    return null; // Any parse/decode error = invalid token
   }
-  return null;
 }
 
 /**

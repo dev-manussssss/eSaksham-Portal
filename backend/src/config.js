@@ -14,4 +14,7 @@ export const config = {
   groqKey2: process.env.GROQ_API_KEY_2 || '',
   groqModel: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
   uploadsDir: path.resolve(__dirname, '../uploads'),
+  // HMAC-SHA256 secret for session token signing (AUD-SEC-002)
+  // Must be set in .env for production. Insecure default is for local dev start-up only.
+  sessionSecret: process.env.SESSION_SECRET || 'saksham-dev-only-insecure-secret-replace-in-prod',
 };
